@@ -1,0 +1,165 @@
+<template>
+    <div>
+
+        <!-- Logged Out -->
+        <div class="flex-container" v-if="isLoggedOut">
+          <!-- Logo -->
+          <div class="flex-child">
+            <router-link to="/">
+              <img class="logo" src="../../assets/UniSOSlogo.png">
+            </router-link>
+          </div>
+          <!-- Page Links -->
+          <div class="flex-child">
+            <div class="auth-wrapper">
+              <router-link class="auth" to="/login">Login</router-link>
+              <router-link class="auth" to="/register">Register</router-link>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logged In -->
+        <div class="flex-container" v-if="isLoggedIn">
+          <div class="flex-child">
+            <!-- Logo -->
+            <router-link to="/">
+              <img class="logo" src="../../assets/UniSOSlogo.png">
+            </router-link>
+          </div>
+          <div class="flex-child">
+            <!-- Page Links -->
+            <div class="nav-wrapper">
+              <router-link class="nav" to="/home"><img src = "../../assets/Recommendations.png"></router-link>
+              <router-link class="nav" to="/listings"><img src = "../../assets/Listings.png"></router-link>
+              <router-link class="nav" to="/upload"><img src = "../../assets/Upload.png"></router-link>
+              <router-link class="nav" to="/mynotes"><img src = "../../assets/Notes.png"></router-link>
+            </div>
+          </div>
+          <div class="flex-child">
+            <!-- Log Out -->
+            <div class="auth-wrapper">
+              <router-link class="auth" to="/myprofile">Profile</router-link>
+              <button class="btn" v-on:click="logout">Logout</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin -->
+        <div class="flex-container" v-if="isAdmin">
+          <div class="flex-child">
+            <!-- Logo -->
+            <router-link to="/">
+                <img class="logo" src="../../assets/UniSOSlogo.png">
+            </router-link>
+          </div>
+          <div class="flex-child">
+            <!-- Page Links -->
+            <div class="nav-wrapper">
+              <router-link class="nav" to="/listings"><img src = "../../assets/Listings.png"></router-link>
+            </div>
+          </div>
+          <div class="flex-child">
+            <!-- Log Out -->
+            <div class="auth-wrapper">
+              <router-link class="auth" to="/admin">Requests</router-link>
+              <button class="btn" v-on:click="logout">Logout</button>
+            </div>
+          </div>
+        </div>
+        
+    </div>
+</template>
+
+<script>
+import { auth } from '../../firebase';
+
+export default {
+  data() {
+    return {
+      isAdmin: false,
+      isLoggedIn: false,
+      isLoggedOut: false,
+      currentEmail: false
+    };
+  },
+  created() {
+    if (auth.currentUser && auth.currentUser.email == "admin@unisos.com") {
+      this.isAdmin = true;
+      this.currentUser = auth.currentUser.uid;
+    } else if (auth.currentUser && auth.currentUser.emailVerified) {
+      this.isLoggedIn = true;
+      this.currentUser = auth.currentUser.uid;
+    } else {
+      this.isLoggedOut = true;
+    }
+  },
+  methods: {
+    logout: function() {
+      auth
+        .signOut()
+        .then(() => {
+          alert(`You are logged out of ${this.currentUser}`);
+          this.$router.go({ path: this.$router.path });
+        });
+    }
+  }
+};
+</script>
+
+<style scoped>
+@font-face {
+    font-family: 'FredokaOne';
+    src: url('/fonts/fredokaone-regular-webfont.woff2') format('woff2'),
+         url('/fonts/fredokaone-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+.flex-container {
+  display: flex;
+  margin: auto;
+}
+.flex-child {
+  flex: 1;
+  margin : auto;
+}  
+.logo {
+    height: 50px;
+    width: auto;
+}
+.nav-wrapper {
+  display: flex;
+}
+.nav {
+  flex: 1;
+  text-align: center;
+}
+.nav:hover, .nav:active {
+  background: rgb(192, 226, 231);
+}
+.auth-wrapper {
+  float: right;
+}
+.auth {
+  font-family: 'FredokaOne';
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  color: #2BD7E2;
+}
+.auth:hover, .auth:active {
+  color: #000000;
+}
+.btn {
+  font-family: 'FredokaOne';
+  border-radius: 0.5em;
+  padding: 10px 20px;
+  transition-duration: 0.4s;
+  background-color: #2BD7E2;
+  color: white;
+}
+.btn:hover {
+  background-color: black; /* Green */
+  color: white;
+}
+
+</style>
