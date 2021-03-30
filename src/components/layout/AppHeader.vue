@@ -1,25 +1,27 @@
 <template>
     <div>
 
-        <!-- Logged Out -->
-        <div class="flex-container" v-if="isLoggedOut">
-          <!-- Logo -->
-          <div class="flex-child">
-            <router-link to="/">
-              <img class="logo" src="../../assets/UniSOSlogo.png">
-            </router-link>
-          </div>
-          <!-- Page Links -->
-          <div class="flex-child">
-            <div class="auth-wrapper">
-              <router-link class="auth" to="/login">Login</router-link>
-              <router-link class="auth" to="/register">Register</router-link>
-            </div>
+      <!-- Logged Out -->
+      <div class="flex-container" v-if="isLoggedOut">
+        <!-- Logo -->
+        <div class="flex-child">
+          <router-link to="/">
+            <img class="logo" src="../../assets/UniSOSlogo.png">
+          </router-link>
+        </div>
+        <!-- Page Links -->
+        <div class="flex-child">
+          <div class="auth-wrapper">
+            <router-link class="auth" to="/login">Login</router-link>
+            <router-link class="auth" to="/register">Register</router-link>
           </div>
         </div>
+      </div>
 
-        <!-- Logged In -->
-        <div class="flex-container" v-if="isLoggedIn">
+      <!-- Logged In -->
+      <div v-if="isLoggedIn">
+
+        <div class="flex-container">
           <div class="flex-child">
             <!-- Logo -->
             <router-link to="/">
@@ -27,6 +29,16 @@
             </router-link>
           </div>
           <div class="flex-child">
+            <!-- Log Out -->
+            <div class="auth-wrapper">
+              <router-link class="auth" to="/myprofile">Profile</router-link>
+              <button class="btn" v-on:click="logout">Logout</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex-container">
+          <div class="flex-child gradient">
             <!-- Page Links -->
             <div class="nav-wrapper">
               <router-link class="nav" to="/home"><img src = "../../assets/Recommendations.png"></router-link>
@@ -35,29 +47,18 @@
               <router-link class="nav" to="/mynotes"><img src = "../../assets/Notes.png"></router-link>
             </div>
           </div>
-          <div class="flex-child">
-            <!-- Log Out -->
-            <div class="auth-wrapper">
-              <router-link class="chat" to="/chat"><img src = "../../assets/chaticon.png"></router-link>
-              <router-link class="auth" to="/myprofile">Profile</router-link>
-              <button class="btn" v-on:click="logout">Logout</button>
-            </div>
-          </div>
         </div>
+      </div>
 
-        <!-- Admin -->
-        <div class="flex-container" v-if="isAdmin">
+      <!-- Admin -->
+      <div v-if="isAdmin">
+
+        <div class="flex-container">
           <div class="flex-child">
             <!-- Logo -->
             <router-link to="/">
-                <img class="logo" src="../../assets/UniSOSlogo.png">
+              <img class="logo" src="../../assets/UniSOSlogo.png">
             </router-link>
-          </div>
-          <div class="flex-child">
-            <!-- Page Links -->
-            <div class="nav-wrapper">
-              <router-link class="nav" to="/listings"><img src = "../../assets/Listings.png"></router-link>
-            </div>
           </div>
           <div class="flex-child">
             <!-- Log Out -->
@@ -67,7 +68,18 @@
             </div>
           </div>
         </div>
-        
+
+        <div class="flex-container">
+          <div class="flex-child gradient">
+            <!-- Page Links -->
+            <div class="nav-wrapper">
+              <router-link class="nav" to="/listings"><img src = "../../assets/Listings.png"></router-link>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
     </div>
 </template>
 
@@ -115,6 +127,9 @@ export default {
     font-weight: normal;
     font-style: normal;
 }
+.gradient {
+  background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #47E4E4;
+}
 .flex-container {
   display: flex;
   margin: auto;
@@ -129,6 +144,8 @@ export default {
 }
 .nav-wrapper {
   display: flex;
+  width: 70%;
+  margin: auto;
 }
 .nav {
   flex: 1;
@@ -161,9 +178,5 @@ export default {
 .btn:hover {
   background-color: black; /* Green */
   color: white;
-}
-.chat {
-  width: auto;
-  height: 40%;
 }
 </style>

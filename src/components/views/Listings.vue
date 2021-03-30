@@ -20,6 +20,7 @@
             </div>
         </div>
         <h1>Listings</h1>
+        <router-link class="chat" to="/chat"><img src = "../../assets/chaticon.png"></router-link>
       </div>
     
   
@@ -53,5 +54,9 @@ h2 {
 
 h3 {
     margin:0%
+}
+.chat {
+  width: auto;
+  height: 40%;
 }
 </style>
