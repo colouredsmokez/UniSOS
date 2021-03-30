@@ -33,6 +33,7 @@
                     </li>
             </ul>
         <h1>Listings</h1>
+        <router-link class="chat" to="/chat"><img src = "../../assets/chaticon.png"></router-link>
       </div>
     </div>
     
@@ -76,5 +77,9 @@ h3 {
 
 #filter {
     width:15%;
+}
+.chat {
+  width: auto;
+  height: 40%;
 }
 </style>
