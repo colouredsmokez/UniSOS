@@ -38,6 +38,7 @@
           <div class="flex-child">
             <!-- Log Out -->
             <div class="auth-wrapper">
+              <router-link class="chat" to="/chat"><img src = "../../assets/chaticon.png"></router-link>
               <router-link class="auth" to="/myprofile">Profile</router-link>
               <button class="btn" v-on:click="logout">Logout</button>
             </div>
@@ -161,5 +162,8 @@ export default {
   background-color: black; /* Green */
   color: white;
 }
-
+.chat {
+  width: auto;
+  height: 40%;
+}
 </style>

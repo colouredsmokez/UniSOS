@@ -17,6 +17,7 @@ import Home from './components/views/Home.vue'
 import Listings from './components/views/Listings.vue'
 import Upload from './components/views/Upload.vue'
 import MyNotes from './components/views/MyNotes.vue'
+import PrivateChat from './components/PrivateChat.vue'
 
 Vue.use(Router);
 
@@ -134,6 +135,18 @@ let router = new Router({
             components: {
                 header: AppHeader,
                 default: MyNotes,
+                footer: AppFooter
+            },
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/chat',
+            name: "chat",
+            components: {
+                header: AppHeader,
+                default: PrivateChat,
                 footer: AppFooter
             },
             meta: {
