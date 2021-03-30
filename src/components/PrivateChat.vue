@@ -158,7 +158,7 @@ export default {
         }
     },
     created() {
-        this.fetchMessages
+        this.fetchMessages();
     }
 }
 </script>
