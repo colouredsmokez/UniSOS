@@ -131,7 +131,7 @@
 </template>
 
 <script>
-import db from "../firebase.js"
+import { db } from "../firebase.js"
 export default {
     name: 'PrivateChat',
     data() {
