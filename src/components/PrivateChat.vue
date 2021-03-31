@@ -7,21 +7,21 @@
                         <div class="recent_heading">
                             <h4>Recent</h4>
                         </div>
-                        <div class="srch_bar">
+                        <!-- <div class="srch_bar">
                             <div class="stylish-input-group">
                                 <input type="text" class="search-bar"  placeholder="Search" >
                                 <span class="input-group-addon">
                                 <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
                                 </span>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="inbox_chat">
                         <div class="chat_list active_chat">
                             <div class="chat_people">
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                 <div class="chat_ib">
-                                    <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
+                                    <h5>Sunil Testing <span class="chat_date">Dec 25</span></h5>
                                     <p>Test, which is a new approach to have all solutions astrology under one roof.</p>
                                 </div>
                              </div>
@@ -76,51 +76,19 @@
                 </div>
                 <div class="mesgs">
                     <div class="msg_history">
-                        <div class="incoming_msg">
-                            <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                        <div v-for="message in messages" v-bind:key="message" class="incoming_msg">
                             <div class="received_msg">
                                 <div class="received_withd_msg">
-                                    <p>Test which is a new approach to have all solutions</p>
-                                    <span class="time_date"> 11:01 AM    |    June 9</span>
+                                    <p> {{message.message}} </p>
+                                    <span class="time_date"> 2.39am | June 9</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="outgoing_msg">
-                            <div class="sent_msg">
-                                <p>Test which is a new approach to have all solutions</p>
-                                <span class="time_date"> 11:01 AM    |    June 9</span> 
-                            </div>
-                        </div>
-                        <div class="incoming_msg">
-                            <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                            <div class="received_msg">
-                                <div class="received_withd_msg">
-                                    <p>Test, which is a new approach to have</p>
-                                    <span class="time_date"> 11:01 AM    |    Yesterday</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="outgoing_msg">
-                            <div class="sent_msg">
-                                <p>Apollo University, Delhi, India Test</p>
-                                <span class="time_date"> 11:01 AM    |    Today</span> 
-                            </div>
-                        </div>
-                        <div class="incoming_msg">
-                            <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                            <div class="received_msg">
-                                <div class="received_withd_msg">
-                                    <p>We work directly with our designers and suppliers,
-                                        and sell direct to you, which means quality, exclusive
-                                        products, at a price anyone can afford.</p>
-                                    <span class="time_date"> 11:01 AM    |    Today</span>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                     <div class="type_msg">
                         <div class="input_msg_write">
-                            <input @keyup.enter = "saveMessage" v-model="message" type="text" class="write_msg" placeholder="Type a message" />
+                            <input @keyup.enter="saveMessage" v-model="message" type="text" class="write_msg" placeholder="Type a message" />
                             <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
                         </div>
                     </div>
@@ -137,21 +105,22 @@ export default {
     data() {
         return {
             message:null,
-            messages: []
+            messages: [],
         }
     },
     methods: {
         saveMessage() {
             db.collection('chat').add({
                 message: this.message,
+                createdAt: new Date()
             })
             this.message = null;
         },
         fetchMessages() {
-            db.collection('chat').get().then((querySnapshot) => {
+            db.collection('chat').orderBy('createdAt').onSnapshot((querySnapshot) => {
                 let allMessages = [];
-                querySnapshot.foreach(doc => {
-                    allMessages.push(doc.data)
+                querySnapshot.forEach(doc => {
+                    allMessages.push(doc.data())
                 })
                 this.messages = allMessages;
             })
@@ -164,13 +133,18 @@ export default {
 </script>
 
 <style scoped>
-    .container{max-width:1170px; margin:auto;}
+    .container{
+        max-width:1170px;
+        margin:auto;
+        font-family: Arial;
+        padding-top: 20px;
+    }
     img{ max-width:100%;}
     .inbox_people {
         background: #f8f8f8 none repeat scroll 0 0;
         float: left;
         overflow: hidden;
-        width: 40%;
+        width: 35%;
         border-right:1px solid #c4c4c4;
     }
     .inbox_msg {
@@ -182,11 +156,11 @@ export default {
 
 
     .recent_heading {float: left; width:40%;}
-    .srch_bar {
+    /* .srch_bar {
         display: inline-block;
         text-align: right;
         width: 60%;
-    }
+    } */
     .headind_srch{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}
 
     .recent_heading h4 {
@@ -211,16 +185,16 @@ export default {
     }
     .srch_bar .input-group-addon { margin: 0 0 0 -27px;}
 
-    .chat_ib h5{ font-size:15px; color:#464646; margin:0 0 8px 0;}
+    .chat_ib h5{ font-size:16px; color:#464646; margin:0 0 8px 0;}
     .chat_ib h5 span{ font-size:13px; float:right;}
-    .chat_ib p{ font-size:14px; color:#989898; margin:auto}
+    .chat_ib p{ font-size:16px; color:#989898; margin:auto}
     .chat_img {
         float: left;
-        width: 11%;
+        width: 10%;
     }
     .chat_ib {
-        float: left;
-        padding: 0 0 0 15px;
+        float: right;
+        padding: left;
         width: 88%;
     }
     .chat_people{ overflow:hidden; clear:both;}
@@ -247,9 +221,9 @@ export default {
         background: #ebebeb none repeat scroll 0 0;
         border-radius: 3px;
         color: #646464;
-        font-size: 14px;
+        font-size: 16px;
         margin: 0;
-        padding: 5px 10px 5px 12px;
+        padding: 10px;
         width: 100%;
     }
     .time_date {
