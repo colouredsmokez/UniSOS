@@ -19,22 +19,26 @@
             <div v-show="type == 'notes'">
                 <h1>type is chosen</h1>
             </div>
-        </div>
-        <div id = "display">
-            <ul>
-                <li v-for="item in listing" v-bind:key="item.name" v-on:click="item.show = !item.show">
-                    <h1>{{item.typeOfList}}</h1>
-                    <h2>{{item.name}}</h2>
-                    <h2>{{item.module}}</h2>
-                    <p>{{item.addInfo}}</p>
-                    <router-link class="chat" to="/chat"><img src = "../../assets/chaticon.png"></router-link>
-
-                    <img v-bind:src="item.image" v-show="item.show"/>
-                </li>
-            </ul>
-        <h1>Listings</h1>
         
-      </div>
+            <div id = "display">
+                <ul>
+                    <li v-for="item in listing" v-bind:key="item.name" v-on:click="item.show = !item.show">
+                        <div id="1stpart">
+                            <h1 id="type">{{item.typeOfList}}</h1>
+                            <h2 id= "tutor">{{item.name}}</h2>
+                        </div>
+                        <div id="2ndpart">
+                            <h2 id= "module">{{item.module}}</h2>
+                            <p id = "addInfo">{{item.addInfo}}</p>
+                        </div>
+                        <img v-bind:src="item.image" v-show="item.show"/>
+                        <hr>
+                        <router-link class="chat" to="/chat"><img src = "../../assets/chaticon.png"></router-link>
+                    </li>
+                </ul>
+            <h1>Listings</h1>
+            </div>
+        </div>
     </div>
     
   
@@ -61,10 +65,14 @@ export default {
 #listing-page {
     background:  #47E4E4;
     margin-top: 0%;
+    overflow: auto;
 }
 
 #filter {
-    margin-left: 1.5%
+    position:sticky;
+    margin-left: 1.5%;
+    width:15%;
+    float:left;
 }
 
 h2 {
@@ -75,8 +83,11 @@ h3 {
     margin:0%
 }
 
-#filter {
-    width:15%;
+#display {
+    width:80%;
+    float: left;
+    background-color: whitesmoke;
+    border-radius: 25px;
 }
 .chat {
   width: auto;
