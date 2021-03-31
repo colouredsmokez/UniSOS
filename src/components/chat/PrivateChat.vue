@@ -17,7 +17,7 @@
                         </div> -->
                     </div>
                     <div class="inbox_chat">
-                        <div class="chat_list active_chat">
+                        <div class="chat_list active_chat" @click="clickChat($event)">
                             <div class="chat_people">
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                 <div class="chat_ib">
@@ -26,7 +26,7 @@
                                 </div>
                              </div>
                         </div>
-                        <div class="chat_list">
+                        <div class="chat_list" @click="clickChat($event)">
                             <div class="chat_people">
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                 <div class="chat_ib">
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="chat_list">
+                        <div class="chat_list" @click="clickChat($event)">
                             <div class="chat_people">
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png"> </div>
                                 <div class="chat_ib">
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="chat_list">
+                        <div class="chat_list" @click="clickChat($event)">
                             <div class="chat_people">
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                 <div class="chat_ib">
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="chat_list">
+                        <div class="chat_list" @click="clickChat($event)">
                             <div class="chat_people">
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                 <div class="chat_ib">
@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="chat_list">
+                        <div class="chat_list" @click="clickChat($event)">
                             <div class="chat_people">
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                 <div class="chat_ib">
@@ -89,7 +89,7 @@
                     </div>
                     <div class="type_msg">
                         <div class="input_msg_write">
-                            <input @keyup.enter="saveMessage" v-model="message" type="text" class="write_msg" placeholder="Type a message" />
+                            <input @keyup.enter="saveMessage()" v-model="message" type="text" class="write_msg" placeholder="Type a message" />
                             <button class="msg_send_btn" type="submit"> <SendIcon /> </button>
                         </div>
                     </div>
@@ -145,6 +145,29 @@ export default {
             var h = addZero(d.getHours());
             var m = addZero(d.getMinutes());
             return String(date) + " " + months[mth] + ", " + String(h) + ":" + String(m);
+        }, 
+        clickChat: function(event) {
+            console.log("clicked");
+            // console.log(event.target.tagName);
+
+            // make the rest inactive
+            var elements = document.getElementsByClassName("chat_list");
+            for (var i = 0, len = elements.length; i < len; i++) {
+                elements[i].className = "chat_list";
+            }
+
+            if (event.target.tagName == "DIV") {
+                event.target.className = "chat_list active_chat";
+            }
+
+            // console.log(event.target.parentElement.parentElement.parentElement);
+            if (event.target.tagName == "H5") {
+                event.target.parentElement.parentElement.parentElement.className = "chat_list active_chat";
+            } 
+
+            // refresh code 
+            this.messages = []
+            //this.fetchMessages();
         }
     },
     created() {

@@ -23,17 +23,17 @@
         <div id = "display">
             <ul>
                 <li v-for="item in listing" v-bind:key="item.name" v-on:click="item.show = !item.show">
-            <h1>{{item.typeOfList}}</h1>
-            <h2>{{item.name}}</h2>
-            <h2>{{item.module}}</h2>
-            <p>{{item.addInfo}}</p>
+                    <h1>{{item.typeOfList}}</h1>
+                    <h2>{{item.name}}</h2>
+                    <h2>{{item.module}}</h2>
+                    <p>{{item.addInfo}}</p>
+                    <router-link class="chat" to="/chat"><img src = "../../assets/chaticon.png"></router-link>
 
-
-            <img v-bind:src="item.image" v-show="item.show"/>
-                    </li>
+                    <img v-bind:src="item.image" v-show="item.show"/>
+                </li>
             </ul>
         <h1>Listings</h1>
-        <router-link class="chat" to="/chat"><img src = "../../assets/chaticon.png"></router-link>
+        
       </div>
     </div>
     
