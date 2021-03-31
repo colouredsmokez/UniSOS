@@ -37,6 +37,7 @@
                             <!-- <img v-bind:src="item.image" v-show="item.show"/> -->
                         </section>
                         <hr>
+                        <router-link class="chat" to="/chat"><img src = "../../assets/chaticon.png"></router-link>
                     </li>
                 </ul>
             </div>
