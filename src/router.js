@@ -17,7 +17,7 @@ import Home from './components/views/Home.vue'
 import Listings from './components/views/Listings.vue'
 import Upload from './components/views/Upload.vue'
 import MyNotes from './components/views/MyNotes.vue'
-import PrivateChat from './components/PrivateChat.vue'
+import PrivateChat from './components/chat/PrivateChat.vue'
 
 Vue.use(Router);
 

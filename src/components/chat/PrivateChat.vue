@@ -17,7 +17,7 @@
                         </div> -->
                     </div>
                     <div class="inbox_chat">
-                        <div class="chat_list active_chat">
+                        <div class="chat_list active_chat" @click="clickChat($event)">
                             <div class="chat_people">
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                 <div class="chat_ib">
@@ -26,7 +26,7 @@
                                 </div>
                              </div>
                         </div>
-                        <div class="chat_list">
+                        <div class="chat_list" @click="clickChat($event)">
                             <div class="chat_people">
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                 <div class="chat_ib">
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="chat_list">
+                        <div class="chat_list" @click="clickChat($event)">
                             <div class="chat_people">
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png"> </div>
                                 <div class="chat_ib">
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="chat_list">
+                        <div class="chat_list" @click="clickChat($event)">
                             <div class="chat_people">
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                 <div class="chat_ib">
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="chat_list">
+                        <div class="chat_list" @click="clickChat($event)">
                             <div class="chat_people">
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                 <div class="chat_ib">
@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="chat_list">
+                        <div class="chat_list" @click="clickChat($event)">
                             <div class="chat_people">
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                 <div class="chat_ib">
@@ -79,8 +79,9 @@
                         <div v-for="message in messages" v-bind:key="message" class="incoming_msg">
                             <div class="received_msg">
                                 <div class="received_withd_msg">
+                                    <span class="time_date_b"> {{message.author}} </span>
+                                    <span class="time_date"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
                                     <p> {{message.message}} </p>
-                                    <span class="time_date"> 2.39am | June 9</span>
                                 </div>
                             </div>
                         </div>
@@ -88,8 +89,8 @@
                     </div>
                     <div class="type_msg">
                         <div class="input_msg_write">
-                            <input @keyup.enter="saveMessage" v-model="message" type="text" class="write_msg" placeholder="Type a message" />
-                            <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                            <input @keyup.enter="saveMessage()" v-model="message" type="text" class="write_msg" placeholder="Type a message" />
+                            <button class="msg_send_btn" type="submit"> <SendIcon /> </button>
                         </div>
                     </div>
                 </div>
@@ -99,22 +100,28 @@
 </template>
 
 <script>
-import { db } from "../firebase.js"
+import { db } from "../../firebase.js"
+import { auth } from '../../firebase';
+// import SendIcon from './SendIcon.vue'
+
 export default {
     name: 'PrivateChat',
     data() {
         return {
             message:null,
             messages: [],
+            authUser:null,
         }
     },
     methods: {
         saveMessage() {
             db.collection('chat').add({
                 message: this.message,
+                author: this.authUser.name,
                 createdAt: new Date()
             })
             this.message = null;
+            console.log(this.author)
         },
         fetchMessages() {
             db.collection('chat').orderBy('createdAt').onSnapshot((querySnapshot) => {
@@ -124,9 +131,49 @@ export default {
                 })
                 this.messages = allMessages;
             })
+        },
+        timeSent(d) {
+            function addZero(i) {
+                if (i < 10) {
+                    i = "0" + i;
+                }
+                return i;
+            }
+            var date = d.getDate();
+            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var mth = d.getMonth();
+            var h = addZero(d.getHours());
+            var m = addZero(d.getMinutes());
+            return String(date) + " " + months[mth] + ", " + String(h) + ":" + String(m);
+        }, 
+        clickChat: function(event) {
+            console.log("clicked");
+            // console.log(event.target.tagName);
+
+            // make the rest inactive
+            var elements = document.getElementsByClassName("chat_list");
+            for (var i = 0, len = elements.length; i < len; i++) {
+                elements[i].className = "chat_list";
+            }
+
+            if (event.target.tagName == "DIV") {
+                event.target.className = "chat_list active_chat";
+            }
+
+            // console.log(event.target.parentElement.parentElement.parentElement);
+            if (event.target.tagName == "H5") {
+                event.target.parentElement.parentElement.parentElement.className = "chat_list active_chat";
+            } 
+
+            // refresh code 
+            this.messages = []
+            //this.fetchMessages();
         }
     },
     created() {
+        db.collection('users').doc(auth.currentUser.uid).get().then(snapshot => {
+            this.authUser = snapshot.data();
+        });
         this.fetchMessages();
     }
 }
@@ -226,13 +273,18 @@ export default {
         padding: 10px;
         width: 100%;
     }
+    .time_date_b {
+        color:#05728f;
+        font-size: 13px;
+        margin: 8px 0 0;
+        font-weight: bold;
+    }
     .time_date {
         color: #747474;
-        display: block;
-        font-size: 12px;
+        font-size: 10px;
         margin: 8px 0 0;
     }
-    .received_withd_msg { width: 57%;}
+    .received_withd_msg { width: 57%; padding:5px;}
     .mesgs {
         float: left;
         padding: 30px 15px 0 25px;
