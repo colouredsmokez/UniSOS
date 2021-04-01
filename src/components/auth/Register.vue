@@ -35,7 +35,7 @@
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
             title="Must contain at least one number and one uppercase and lowercase letter; at least 8 or more characters"
           >
-          <br><br>
+          <br><br><br>
           <!-- Password Check
           <small>password strength:
             <span>strong</span>
@@ -55,7 +55,7 @@
               <input class="input-file" type="file" v-on:change="previewImage" accept="image/*" required>
             </div>
           </div>
-          <br><br>
+          <br><br><br>
           <!-- Privacy Policy
           <input type="checkbox" required>
           <span>I agree with the
@@ -141,12 +141,14 @@ export default {
 .flex-container {
   display: flex;
   margin: auto;
+  height: 80vh;
 }
 .flex-child-banner {
   flex: 2;
   background-image: url('../../assets/Banner.png');
   background-position: center;
   background-size: cover;
+  height:107%;
 }
 .flex-child-form { 
   flex: 3;
@@ -156,6 +158,7 @@ export default {
   font-family: 'FredokaOne';
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   width: 80%;
+  height:100%;
 }
 .input-text {
   width:75%;
