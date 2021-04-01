@@ -30,16 +30,15 @@
                 <!-- University Credentials-->                  
                 <h3>Upload a picture of your matriculation card:</h3>
                 <input class="input-file" type="file" v-on:change="previewImage" accept="image/*" required>
-
                 <br><br><br>
 
-                <!-- Privacy Policy -->
+                <!-- Privacy Policy
                 <input type="checkbox" required>
                     <span>I agree with the
                         <a href="#">UniSOS Policy</a>
                     </span>
-
                 <br><br><br>
+                -->
 
                 <!-- Submit Button -->
                 <button class="btn" v-on:click="register" type="primary">Create account</button>
