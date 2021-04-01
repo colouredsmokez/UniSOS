@@ -49,11 +49,18 @@ import { auth } from "../../firebase";
             auth.createUserWithEmailAndPassword(data.email, data.password).then(
               userCredential => {
                 var user = userCredential.user;
+                user.sendEmailVerification();
                 db.collection('users').doc(auth.currentUser.uid).set(data).then(
                   () => {
-                    user.sendEmailVerification();
-                    alert(`Account created for ${user.email}`);
-                    db.collection('requests').doc(doc_id).delete().then(() => {location.reload()});
+                    db.collection('requests').doc(doc_id).delete().then(
+                      () => {
+                        alert(`Account created for ${user.email}`);
+                        location.reload();
+                      },
+                      err => {
+                        alert(err.message);
+                      }
+                    );
                   },
                   err => {
                     alert(err.message);
