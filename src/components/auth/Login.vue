@@ -30,36 +30,26 @@ export default {
   },
   methods: {
     login: function(e) {
-      if (this.email == "admin@unisos.com" && this.password == "unisos") {
-        auth.signInWithEmailAndPassword(this.email, this.password).then(
-          userCredential => {
-            console.log(userCredential);
+      auth.signInWithEmailAndPassword(this.email, this.password).then(
+        userCredential => {
+          var user = userCredential.user;
+          if (this.email == "admin@unisos.com" && this.password == "unisos") {
             alert(`You are logged in as an Administrator`);
             this.$router.push("/admin");
             this.$router.go( this.$router.path );
-          },
-          err => {
-            alert(err.message);
+          } else if (user.emailVerified) {
+            alert(`You are logged in as ${user.email}`);
+            this.$router.push('/myprofile');
+            this.$router.go( this.$router.path );
+          } else {
+            alert(`${user.email} is not verified`);
           }
-        );
-      } else {
-        auth.signInWithEmailAndPassword(this.email, this.password).then(
-          userCredential => {
-            var user = userCredential.user;
-            if (user.emailVerified) {
-              alert(`You are logged in as ${user.email}`);
-              this.$router.push('/myprofile');
-              this.$router.go( this.$router.path );
-            } else {
-              alert(`${user.email} is not verified`);
-            }
-          },
-          err => {
-            alert(err.message);
-          }
-        );
-        e.preventDefault();
-      }
+        },
+        err => {
+          alert(err.message);
+        }
+      );
+      e.preventDefault();
     }
   }
 };
