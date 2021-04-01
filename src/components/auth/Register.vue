@@ -4,7 +4,7 @@
       <div class="flex-child-form">
         <h1>Create a free account</h1>
         <form>
-          <!-- Name addon-left-icon="ni ni-circle-08" -->
+          <!-- Name -->
           <input 
             class="input-text" 
             type="text" 
@@ -16,7 +16,7 @@
 
           >
           <br><br>
-          <!-- Email addon-left-icon="ni ni-email-83"-->
+          <!-- Email -->
           <input 
             class="input-text" 
             type="email" 
@@ -25,7 +25,7 @@
             required
           >
           <br><br>
-          <!-- Password addon-left-icon="ni ni-lock-circle-open"-->
+          <!-- Password -->
           <input 
             class="input-text" 
             type="password" 
@@ -101,6 +101,7 @@ export default {
           console.log(error.message);
         },
         () => {
+          this.uploadValue=100;
           storageRef.snapshot.ref.getDownloadURL().then(
             (url) => {
               var data = {
@@ -110,7 +111,6 @@ export default {
                 university: this.university,
                 credentials: url
               };
-
               db.collection('requests').add(data).then(() => {
                 alert(`Approval may take up to 2 working days.`);
                 this.$router.push("/");

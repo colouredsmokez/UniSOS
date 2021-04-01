@@ -6,7 +6,7 @@
         <!-- Logo -->
         <div class="flex-child">
           <router-link to="/">
-            <img class="logo" src="../../assets/UniSOSlogo.png">
+            <img class="logo" src="../../assets/UniSOSlogo.png" alt="img">
           </router-link>
         </div>
         <!-- Page Links -->
@@ -31,7 +31,7 @@
           <div class="flex-child">
             <!-- Log Out -->
             <div class="auth-wrapper">
-              <router-link class="auth" to="/myprofile">Profile</router-link>
+              <router-link class="auth" to="/myprofile"><img class="img" :src="profilepic">{{ name }}</router-link>
               <button class="btn" v-on:click="logout">Logout</button>
             </div>
           </div>
@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import { db } from '../../firebase';
 import { auth } from '../../firebase';
 
 export default {
@@ -92,16 +93,16 @@ export default {
       isAdmin: false,
       isLoggedIn: false,
       isLoggedOut: false,
-      currentEmail: false
+      name: "",
+      profilepic: null,
     };
   },
   created() {
     if (auth.currentUser && auth.currentUser.email == "admin@unisos.com") {
       this.isAdmin = true;
-      this.currentUser = auth.currentUser.uid;
     } else if (auth.currentUser && auth.currentUser.emailVerified) {
       this.isLoggedIn = true;
-      this.currentUser = auth.currentUser.uid;
+      this.fetchInfo();
     } else {
       this.isLoggedOut = true;
     }
@@ -114,7 +115,19 @@ export default {
           alert(`You are logged out of ${this.currentUser}`);
           this.$router.go({ path: this.$router.path });
         });
-    }
+    },
+    fetchInfo: function() {
+      db.collection('users').doc(auth.currentUser.uid).get().then(
+        snapshot => {
+          var data = snapshot.data();
+            this.name = data.name;
+            this.profilepic = data.profilepic;
+        },
+        err => {
+          alert(err.message)
+        }
+      );
+    },
   }
 };
 </script>
@@ -163,9 +176,16 @@ export default {
   text-align: center;
   text-decoration: none;
   color: #2BD7E2;
+  vertical-align: middle;
 }
 .auth:hover, .auth:active {
   color: #000000;
+}
+.img {
+  border-radius: 50em;
+  height: 50px;
+  vertical-align: middle;
+  padding: 10px;
 }
 .btn {
   font-family: 'FredokaOne';
@@ -174,6 +194,7 @@ export default {
   transition-duration: 0.4s;
   background-color: #2BD7E2;
   color: white;
+  vertical-align: middle;
 }
 .btn:hover {
   background-color: black; /* Green */
