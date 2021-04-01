@@ -7,13 +7,9 @@
                 <p>Additional supplementary help for University Students.</p>
             </div>
             <!-- Button 1 -->
-            <button class="btn">
-                Help Juniors
-            </button>
+            <button class="btn"> Help Juniors </button>
             <!-- Button 2 -->
-            <button class="btn">
-                Find Seniors
-            </button>
+            <button class="btn"> Find Seniors </button>
         </div>
     </div>
 </template>
@@ -34,6 +30,8 @@
     padding: 20px;
     text-align: center;
     font-family: 'FredokaOne';
+    background-image: url('../assets/Background.png');
+    background-size: cover;
 }
 .btn {
   font-family: 'FredokaOne';
