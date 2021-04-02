@@ -1,7 +1,7 @@
 <template>
    <div>
       <div>
-        <h1>Reccomends</h1>
+        <h1>Recommends</h1>
       </div>
     </div>
   

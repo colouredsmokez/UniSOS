@@ -11,7 +11,7 @@
                         <img height="300" width="auto" :src="user[1].credentials" />
                         <br><br>
                         <button class="btn" v-bind:id="user[0]" v-on:click="reject($event)"> Reject </button>
-                        <button class="btn" v-bind:id="user[0]" v-on:click="approve($event)"> Approve </button>
+                        <button class="btn" v-bind:id="user[0]" v-on:click="approve($event)"> Approve </button><br>
                     </div>
                 </li>
             </ul>

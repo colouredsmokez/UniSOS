@@ -12,7 +12,7 @@
             v-model="name" 
             minlength="1"
             maxlength="50"
-            pattern="[a-zA-Z\s]+"
+            pattern="([a-zA-Z]+\s)*[a-zA-Z]+"
             title="Should be no more than 50 characters and contain only letters (either case) and space"
             required
           >
@@ -93,28 +93,28 @@ export default {
     };
   },
   methods: {
-    register: function(e) {
-      var nameFormat = /^[A-Za-z]+$/;
+    register: function() {
+      var nameFormat = /^([a-zA-Z]+\s)*[a-zA-Z]+$/;
       var emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
       var pwFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/;
       if (!this.name) {
         alert("Name is empty");
-      } else if (this.name.value.length > 50) {
+      } else if (this.name.length > 50) {
         alert("Name is too long");
-      } else if (!this.name.value.match(nameFormat)) {
-        alert("Name is invalid");
+      } else if (!this.name.match(nameFormat)) {
+        alert(this.name + " is invalid");
       } else if (!this.email) {
         alert("Email is empty");
-      } else if (!this.email.value.match(emailFormat)) {
+      } else if (!this.email.match(emailFormat)) {
         alert("Email is invalid");
       } else if (!this.password) {
         alert("Password is empty");
-      } else if (!this.password.value.match(pwFormat)) {
-        alert("Password should be 8 to 20 characters and contain at least one numeric digit, one uppercase and one lowercase letter")
+      } else if (!this.password.match(pwFormat)) {
+        alert("Password should be 8 to 20 characters and contain at least one numeric digit, one uppercase and one lowercase letter");
       } else if (!this.university) {
-        alert("Please select a university")
+        alert("Please select a university");
       } else if (!this.imageData) {
-        alert("Please upload a snapshot of your matriculation card")
+        alert("Please upload a snapshot of your matriculation card");
       } else {
         var storageRef = store.ref(`${this.email}/${this.imageData.name}`).put(this.imageData);
         storageRef.on(
@@ -148,7 +148,6 @@ export default {
           }
         );
       }
-      e.preventDefault();
     },
     previewImage: function(event) {
       this.uploadValue=0;

@@ -165,7 +165,7 @@ export default {
   text-align: center;
 }
 .nav:hover, .nav:active, .nav-wrapper .router-link-active{
-  border-bottom: thick solid black;
+  border-bottom: thick solid #25abb4;
 
 }
 .auth-wrapper {
@@ -185,6 +185,7 @@ export default {
 .img {
   border-radius: 50em;
   height: 50px;
+  width: 50px;
   vertical-align: middle;
   padding: 10px;
 }

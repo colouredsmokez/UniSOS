@@ -16,6 +16,10 @@
                 <div>{{ university }}</div>
             </div>
         </div>
+
+            <!-- Bio -->
+            <div></div>
+
             <!-- Tutor Info -->
             <div class="list">
                 <hr>
@@ -152,7 +156,7 @@ export default {
 .header {
     overflow: hidden;
     position: relative;
-    background: #003033;
+    background: black;
     font-family: 'FredokaOne';
     text-align: center;
     padding: 20px;
@@ -162,6 +166,7 @@ export default {
     left: 0;
     top: 0;
     width: 100%;
+    height: 100%;
     opacity: 0.6;
 }
 .header-content {
@@ -171,6 +176,7 @@ export default {
 .header-content-pic {
     border-radius: 50em;
     height: 200px;
+    width: 200px;
 }
 .list {
     margin: auto;
