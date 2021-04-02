@@ -6,7 +6,7 @@
         <!-- Logo -->
         <div class="flex-child">
           <router-link to="/">
-            <img class="logo" src="../../assets/UniSOSlogo.png" alt="img">
+            <img class="logo" src="../../assets/UniSOSlogo.png" alt="unisos logo">
           </router-link>
         </div>
         <!-- Page Links -->
@@ -25,13 +25,13 @@
           <div class="flex-child">
             <!-- Logo -->
             <router-link to="/">
-              <img class="logo" src="../../assets/UniSOSlogo.png">
+              <img class="logo" src="../../assets/UniSOSlogo.png" alt="unisos logo">
             </router-link>
           </div>
           <div class="flex-child">
             <!-- Log Out -->
             <div class="auth-wrapper">
-              <router-link class="auth" to="/myprofile"><img class="img" :src="profilepic">{{ name }}</router-link>
+              <router-link class="auth" to="/myprofile"><img class="img" :src="profilepic" alt="profile pic">{{ name }}</router-link>
               <button class="btn" v-on:click="logout">Logout</button>
             </div>
           </div>
@@ -41,10 +41,10 @@
           <div class="flex-child gradient">
             <!-- Page Links -->
             <div class="nav-wrapper">
-              <router-link class="nav" to="/home"><img src = "../../assets/Recommendations.png"></router-link>
-              <router-link class="nav" to="/listings"><img src = "../../assets/Listings.png"></router-link>
-              <router-link class="nav" to="/upload"><img src = "../../assets/Upload.png"></router-link>
-              <router-link class="nav" to="/mynotes"><img src = "../../assets/Notes.png"></router-link>
+              <router-link class="nav" to="/home"><img src = "../../assets/Recommendations.png" alt="home"></router-link>
+              <router-link class="nav" to="/listings"><img src = "../../assets/Listings.png" alt="listings"></router-link>
+              <router-link class="nav" to="/upload"><img src = "../../assets/Upload.png" alt="upload"></router-link>
+              <router-link class="nav" to="/mynotes"><img src = "../../assets/Notes.png" alt="my notes"></router-link>
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@
           <div class="flex-child">
             <!-- Logo -->
             <router-link to="/">
-              <img class="logo" src="../../assets/UniSOSlogo.png">
+              <img class="logo" src="../../assets/UniSOSlogo.png" alt="unisos logo">
             </router-link>
           </div>
           <div class="flex-child">
@@ -73,7 +73,7 @@
           <div class="flex-child gradient">
             <!-- Page Links -->
             <div class="nav-wrapper">
-              <router-link class="nav" to="/listings"><img src = "../../assets/Listings.png"></router-link>
+              <router-link class="nav" to="/listings"><img src = "../../assets/Listings.png" alt="listings"></router-link>
             </div>
           </div>
         </div>
@@ -164,8 +164,9 @@ export default {
   flex: 1;
   text-align: center;
 }
-.nav:hover, .nav:active {
-  background: rgb(192, 226, 231);
+.nav:hover, .nav:active, .nav-wrapper .router-link-active{
+  border-bottom: thick solid black;
+
 }
 .auth-wrapper {
   float: right;

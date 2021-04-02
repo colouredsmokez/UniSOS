@@ -2,10 +2,10 @@
     <div class="profile">
         <!--Banner-->
         <div class="header">
-            <img class="header-bg" src='../../assets/ProfileBanner.png'>
+            <img class="header-bg" src='../../assets/ProfileBanner.png' alt="profile banner">
             <div class="header-content">
                 <!-- Profile Pic -->
-                <img class="header-content-pic" :src="profilepic">
+                <img class="header-content-pic" :src="profilepic" alt="profile pic">
                 <div>
                     <input type="file" v-on:change="previewImage" accept="image/*">
                     <button v-on:click="upload">Upload</button>
@@ -64,7 +64,7 @@ export default {
       profilepic: null,
       reviews: [],
       notes: [],
-      classes: []      
+      classes: []
     };
   },
   methods: {

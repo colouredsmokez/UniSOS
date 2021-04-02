@@ -10,10 +10,11 @@
             type="text" 
             placeholder="Name" 
             v-model="name" 
+            minlength="1"
+            maxlength="50"
+            pattern="[a-zA-Z\s]+"
+            title="Should be no more than 50 characters and contain only letters (either case) and space"
             required
-            pattern=[A-Za-z_]{1,15}
-            title="Only letters (either case) and space; no more than 15 characters"
-
           >
           <br><br>
           <!-- Email -->
@@ -21,19 +22,21 @@
             class="input-text" 
             type="email" 
             placeholder="Email" 
-            v-model="email" 
+            v-model="email"
             required
           >
           <br><br>
           <!-- Password -->
           <input 
             class="input-text" 
-            type="password" 
-            placeholder="Password" 
-            v-model="password" 
+            type="password"
+            placeholder="Password"
+            v-model="password"
+            minlength="8"
+            maxlength="20"
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}" 
+            title="Should be 8 to 20 characters and contain at least one numeric digit, one uppercase and one lowercase letter"
             required 
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
-            title="Must contain at least one number and one uppercase and lowercase letter; at least 8 or more characters"
           >
           <br><br><br>
           <!-- Password Check
@@ -80,46 +83,71 @@ export default {
   name: 'register',
   data: function() {
     return {
-      name: '',
-      email: '',
-      password: '',
+      name: null,
+      email: null,
+      password: null,
       //passwordStrength: 'weak',
-      university: '',
+      university: null,
       imageData: null,
       uploadValue: 0
     };
   },
   methods: {
     register: function(e) {
-      var storageRef = store.ref(`${this.email}/${this.imageData.name}`).put(this.imageData);
-      storageRef.on(
-        `state_changed`,
-        snapshot => {
-          this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-        },
-        error => {
-          console.log(error.message);
-        },
-        () => {
-          this.uploadValue=100;
-          storageRef.snapshot.ref.getDownloadURL().then(
-            (url) => {
-              var data = {
-                name: this.name,
-                email: this.email,
-                password: this. password,
-                university: this.university,
-                credentials: url
-              };
-              db.collection('requests').add(data).then(() => {
-                alert(`Approval may take up to 2 working days.`);
-                this.$router.push("/");
-                this.$router.go( this.$router.path );
-              });
-            }
-          );
-        }
-      );
+      var nameFormat = /^[A-Za-z]+$/;
+      var emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      var pwFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/;
+      if (!this.name) {
+        alert("Name is empty");
+      } else if (this.name.value.length > 50) {
+        alert("Name is too long");
+      } else if (!this.name.value.match(nameFormat)) {
+        alert("Name is invalid");
+      } else if (!this.email) {
+        alert("Email is empty");
+      } else if (!this.email.value.match(emailFormat)) {
+        alert("Email is invalid");
+      } else if (!this.password) {
+        alert("Password is empty");
+      } else if (!this.password.value.match(pwFormat)) {
+        alert("Password should be 8 to 20 characters and contain at least one numeric digit, one uppercase and one lowercase letter")
+      } else if (!this.university) {
+        alert("Please select a university")
+      } else if (!this.imageData) {
+        alert("Please upload a snapshot of your matriculation card")
+      } else {
+        var storageRef = store.ref(`${this.email}/${this.imageData.name}`).put(this.imageData);
+        storageRef.on(
+          `state_changed`,
+          snapshot => {
+            this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+          },
+          error => {
+            console.log(error.message);
+          },
+          () => {
+            this.uploadValue=100;
+            storageRef.snapshot.ref.getDownloadURL().then(
+              (url) => {
+                var data = {
+                  name: this.name,
+                  email: this.email,
+                  password: this.password,
+                  university: this.university,
+                  credentials: url
+                };
+                db.collection('requests').add(data).then(
+                  () => {
+                    alert(`Approval may take up to 2 working days.`);
+                    this.$router.push("/");
+                    this.$router.go( this.$router.path );
+                  }
+                );
+              }
+            );
+          }
+        );
+      }
       e.preventDefault();
     },
     previewImage: function(event) {
