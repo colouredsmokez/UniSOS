@@ -6,10 +6,6 @@
             <div class="header-content">
                 <!-- Profile Pic -->
                 <img class="header-content-pic" :src="profilepic" alt="profile pic">
-                <div>
-                    <input type="file" v-on:change="previewImage" accept="image/*">
-                    <button v-on:click="upload">Upload</button>
-                </div>
                 <!-- User Info -->
                 <h3>{{ name }}</h3>
                 <div>{{ email }}</div>
@@ -18,7 +14,7 @@
         </div>
 
             <!-- Bio -->
-            <div>{{ bio }}</div>
+            <div></div>
 
             <!-- Tutor Info -->
             <div class="list">
@@ -54,13 +50,11 @@
 
 <script>
 import { db } from '../../firebase';
-import { auth } from '../../firebase';
-import { store } from '../../firebase';
 
 export default {
 data() {
     return {
-        uid: auth.currentUser.uid,
+        uid: this.$route.params.uid,
         name: '',
         email: '',
         university: '',
@@ -68,8 +62,8 @@ data() {
         imageData: null,
         bio: '',
         reviews: [],
-        classes: [],
-        notes: []
+        tutoring: [],
+        selling: []
     };
 },
 methods: {
@@ -90,36 +84,6 @@ methods: {
                 alert(err.message)
             }
         );
-    },
-    upload: function(e) {
-        var storageRef = store.ref(`${this.email}/${this.imageData.name}`).put(this.imageData);
-        storageRef.on(
-            `state_changed`,
-            snapshot => {
-                console.log(snapshot);
-                //this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-            },
-            error => {
-                console.log(error.message);
-            },
-            () => {
-                storageRef.snapshot.ref.getDownloadURL().then(
-                    (url) => {
-                        this.profilepic = url;
-                        db.collection('users').doc(this.uid).update({profilepic:url}).then(
-                            () => {
-                                alert(`Profile picture changed.`);
-                                this.$router.go( this.$router.path );
-                            }
-                        );
-                    }
-                );
-            }
-        );
-        e.preventDefault();
-    },
-    previewImage: function(event) {
-      this.imageData = event.target.files[0];
     }
   },
   created() {

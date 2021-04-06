@@ -4,7 +4,10 @@
       <div class="flex-child-form">
         <h1>Create a free account</h1>
         <form>
-          <!-- Name -->
+          <!-- Name
+          pattern="([a-zA-Z]+\s)*[a-zA-Z]+"
+          title="Should be no more than 50 characters and contain only letters (either case) and space"
+          -->
           <input 
             class="input-text" 
             type="text" 
@@ -12,8 +15,6 @@
             v-model="name" 
             minlength="1"
             maxlength="50"
-            pattern="([a-zA-Z]+\s)*[a-zA-Z]+"
-            title="Should be no more than 50 characters and contain only letters (either case) and space"
             required
           >
           <br><br>
@@ -26,7 +27,10 @@
             required
           >
           <br><br>
-          <!-- Password -->
+          <!-- Password 
+          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}" 
+          title="Should be 8 to 20 characters and contain at least one numeric digit, one uppercase and one lowercase letter"
+          -->
           <input 
             class="input-text" 
             type="password"
@@ -34,8 +38,6 @@
             v-model="password"
             minlength="8"
             maxlength="20"
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}" 
-            title="Should be 8 to 20 characters and contain at least one numeric digit, one uppercase and one lowercase letter"
             required 
           >
           <br><br><br>
@@ -134,7 +136,14 @@ export default {
                   email: this.email,
                   password: this.password,
                   university: this.university,
-                  credentials: url
+                  credentials: url,
+                  profilepic: null,
+                  bio: null,
+                  reviews: [],
+                  modules: [],
+                  tutoring: [],
+                  selling: [],
+                  bought: []
                 };
                 db.collection('requests').add(data).then(
                   () => {
