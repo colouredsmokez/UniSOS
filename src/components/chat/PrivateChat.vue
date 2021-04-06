@@ -79,7 +79,8 @@
                         <div v-for="message in messages" v-bind:key="message" class="incoming_msg">
                             <div class="received_msg">
                                 <div class="received_withd_msg">
-                                    <span class="time_date_b"> {{message.author}} </span>
+                                    <span v-if="message.author === 'this.authUser.name'" class="time_date_b"> You </span>
+                                    <span v-else class="time_date_b"> {{message.author}} </span>
                                     <span class="time_date"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
                                     <p> {{message.message}} </p>
                                 </div>
@@ -90,7 +91,7 @@
                     <div class="type_msg">
                         <div class="input_msg_write">
                             <input @keyup.enter="saveMessage()" v-model="message" type="text" class="write_msg" placeholder="Type a message" />
-                            <button class="msg_send_btn" type="submit"> <SendIcon /> </button>
+                            <button class="msg_send_btn" type="submit"> <i class="fa fa-paper-plane" aria-hidden="true"></i> </button>
                         </div>
                     </div>
                 </div>
@@ -102,7 +103,6 @@
 <script>
 import { db } from "../../firebase.js"
 import { auth } from '../../firebase';
-// import SendIcon from './SendIcon.vue'
 
 export default {
     name: 'PrivateChat',
@@ -115,6 +115,8 @@ export default {
     },
     methods: {
         saveMessage() {
+            // DocumentReference ref = db.collection('chat').doc();
+            // String myId = ref.id;
             db.collection('chat').add({
                 message: this.message,
                 author: this.authUser.name,
@@ -249,6 +251,7 @@ export default {
         border-bottom: 1px solid #c4c4c4;
         margin: 0;
         padding: 18px 16px 10px;
+        cursor: pointer;
     }
     .inbox_chat { height: 550px; overflow-y: scroll;}
 
@@ -266,8 +269,8 @@ export default {
     }
     .received_withd_msg p {
         background: #ebebeb none repeat scroll 0 0;
-        border-radius: 3px;
         color: #646464;
+        border-radius: 3px;
         font-size: 16px;
         margin: 0;
         padding: 10px;
@@ -320,12 +323,12 @@ export default {
         border-radius: 50%;
         color: #fff;
         cursor: pointer;
-        font-size: 17px;
-        height: 33px;
+        font-size: 15px;
+        height: 35px;
         position: absolute;
         right: 0;
         top: 11px;
-        width: 33px;
+        width: 35px;
     }
     .messaging { padding: 0 0 50px 0;}
     .msg_history {

@@ -163,6 +163,7 @@ export default {
 .nav {
   flex: 1;
   text-align: center;
+  color: #5ABAC0;
 }
 .nav:hover, .nav:active, .nav-wrapper .router-link-active{
   border-bottom: thick solid #25abb4;
