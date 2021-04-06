@@ -25,34 +25,40 @@
                     </div>
                 </div>
                 <div id="details">
-                    <input id="module-name" type="text" placeholder="Module" v-model="module">
-                    <label for="grade">Grade:</label>
-                    <select id="grade" v-model="grade">
-                        <option value="A+" selected>A+</option>
-                        <option value="A">A</option>
-                        <option value="A-" >A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B">B</option>
-                        <option value="B-">B-</option>
-                        <option value="C+">C+</option>
-                        <option value="C">C</option>
-                        <option value="D+">D+</option>
-                        <option value="D">D</option>
-                        <option value="F">F</option>
-                    </select>
-                    <label for="took-in">Took in: </label>
-                    <select id="took-in" v-model="took_in">
-                        <option value="AY20/21 S2" selected>AY20/21 S2</option>
-                        <option value="AY20/21 S1">AY20/21 S1</option>
-                        <option value="AY19/20 S2">AY19/20 S2</option>
-                        <option value="AY19/20 S1">AY19/20 S1</option>
-                        <option value="AY18/19 S2">AY18/19 S2</option>
-                        <option value="AY18/19 S1">AY18/19 S1</option>
-                        <option value="AY17/18 S2">AY17/18 S2</option>
-                        <option value="AY17/18 S1">AY17/18 S1</option>
-                        <option value="AY16/17 S2">AY20/21 S2</option>
-                        <option value="AY16/17 S1">AY20/21 S1</option> 
-                    </select>
+                    <a class="details-outer">
+                        <input id="module-name" type="text" placeholder="Module" v-model="module" class="details">
+                    </a>
+                    <a class="details-outer">
+                        <label for="grade">Grade:</label>
+                        <select id="grade" v-model="grade" class="details">
+                            <option value="A+" selected>A+</option>
+                            <option value="A">A</option>
+                            <option value="A-" >A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B">B</option>
+                            <option value="B-">B-</option>
+                            <option value="C+">C+</option>
+                            <option value="C">C</option>
+                            <option value="D+">D+</option>
+                            <option value="D">D</option>
+                            <option value="F">F</option>
+                        </select>
+                    </a>
+                    <a class="details-outer">
+                        <label for="took-in">Took in: </label>
+                        <select id="took-in" v-model="took_in" class="details">
+                            <option value="AY20/21 S2" selected>AY20/21 S2</option>
+                            <option value="AY20/21 S1">AY20/21 S1</option>
+                            <option value="AY19/20 S2">AY19/20 S2</option>
+                            <option value="AY19/20 S1">AY19/20 S1</option>
+                            <option value="AY18/19 S2">AY18/19 S2</option>
+                            <option value="AY18/19 S1">AY18/19 S1</option>
+                            <option value="AY17/18 S2">AY17/18 S2</option>
+                            <option value="AY17/18 S1">AY17/18 S1</option>
+                            <option value="AY16/17 S2">AY20/21 S2</option>
+                            <option value="AY16/17 S1">AY20/21 S1</option> 
+                        </select>
+                    </a>
                     <br>
                     <textarea name="addInfo" rows="10" cols ="80" placeholder="Additional Information" v-model="addInfo"></textarea>
                     <div v-show="type=='Notes'">
@@ -208,5 +214,14 @@ img.preview {
 
 #upload-notes{
     margin-left:7%;
+}
+
+.details{
+    border-radius: 20px;
+    font-size: 20px;
+}
+.details-outer{
+    margin:10px;
+    font-size: 20px;
 }
 </style>
