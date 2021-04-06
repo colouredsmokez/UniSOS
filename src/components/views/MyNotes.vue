@@ -124,7 +124,7 @@ position: absolute;
 width: 1440px;
 height: 900px;
 left: 0px;
-top: 130px;
+top: 150px;
 
 background: #47E4E4;
 }
