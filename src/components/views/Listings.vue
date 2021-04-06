@@ -23,11 +23,11 @@
 
             <div id = "display">
                 <ul>
-                    <li v-for="item in listingFiltered" v-bind:key="item.name" v-on:click="item.show = !item.show">
+                    <li v-for="item in listingFiltered" v-bind:key="item.id" v-on:click="item.show = !item.show">
                         <section>
                             <div id="firstpart">
                                 <h1 id="type">{{item.typeOfList}}</h1>
-                                <button v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
+                                <button v-bind:id="`P-${item.userId}`" v-on:click="toProfile($event)">{{item.name}}</button>
                                 <p>{{item.rating}}</p>
                             </div>
                             <div id="secondpart">
@@ -36,7 +36,9 @@
                                 <p id="grade">Final grade: {{item.grade}}</p>
                                 <p id = "addInfo">{{item.addInfo}}</p>
                             </div>
-                            <button v-bind:id="item.userId" v-on:click="toChat($event)"><img src = "../../assets/chaticon.png" alt="chat"></button>
+                            <div>
+                                <button v-bind:id="`C-${item.userId}`" v-on:click="toChat($event)"><img src = "../../assets/chaticon.png" alt="chat"></button>
+                            </div>
                             <!-- <img v-bind:src="item.image" v-show="item.show"/> -->
                             <hr>
                         </section>
@@ -54,35 +56,37 @@ export default {
     data() {
         return{
             type:'',
-            rating:"",
+            rating:'',
             listing:[],
             listingFiltered:[]
         }
     },
-    methods:{
+    methods: {
         fetchItems:function() {
             db.collection('listing').get().then((querySnapShot)=> {
                 querySnapShot.forEach(doc=>{
-                    this.listing.push(doc.data())
-                })
-            })
+                    this.listing.push(doc.data());
+                });
+            });
             this.listingFiltered = this.listing;
         },
         filter:function() {
             this.listingFiltered = []
             for (var list of this.listing) {
-                if ((this.type == list.typeOfList|| this.type == '')&&(this.rating == list.rating|| this.rating == '')) {
-                    this.listingFiltered.push(list)
+                if ((this.type == list.typeOfList || this.type == '') && (this.rating == list.rating || this.rating == '')) {
+                    this.listingFiltered.push(list);
                 }
             }
         },
-        toChat: function(event) {
-            let uid = event.target.getAttribute("id");
-            this.$router.push({ name:'chat', params:{uid:uid} });
-        },
         toProfile: function(event) {
             let uid = event.target.getAttribute("id");
+            alert(uid);
             this.$router.push({ name:'profile', params:{uid:uid} });
+        },
+        toChat: function(event) {
+            let uid = event.target.getAttribute("id");
+            alert(uid);
+            this.$router.push({ name:'chat', params:{uid:uid} });
         },
     },
     created() {

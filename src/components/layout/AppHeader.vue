@@ -112,7 +112,7 @@ export default {
       auth
         .signOut()
         .then(() => {
-          alert(`You are logged out of ${this.currentUser}`);
+          alert(`You are logged out of ${this.name}`);
           this.$router.go({ path: this.$router.path });
         });
     },

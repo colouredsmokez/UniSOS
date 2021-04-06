@@ -146,7 +146,7 @@ let router = new Router({
             }
         },
         {
-            path: '/chat',
+            path: '/chat/:uid',
             name: "chat",
             props: true,
             components: {

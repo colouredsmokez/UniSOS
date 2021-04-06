@@ -101,27 +101,26 @@
 </template>
 
 <script>
-import { db } from "../../firebase.js"
+import { db } from "../../firebase"
 import { auth } from '../../firebase';
 
 export default {
-    name: 'PrivateChat',
     data() {
         return {
             message:null,
             messages: [],
             authUser:null,
-            otherUser: this.$route.params.uid
+            uid: this.$route.params.uid.slice(2)
         }
     },
     methods: {
         saveMessage() {
-            db.collection('chat').doc(auth.currentUser.uid).collection(this.otherUser).add({
+            db.collection('chat').doc(auth.currentUser.uid).collection(this.uid).add({
                 message: this.message,
                 author: this.authUser.name,
                 createdAt: new Date()
             }).then(() => {
-                db.collection('chat').doc(this.otherUser).collection(auth.currentUser.uid).add({
+                db.collection('chat').doc(this.uid).collection(auth.currentUser.uid).add({
                     message: this.message,
                     author: this.authUser.name,
                     createdAt: new Date()
@@ -132,8 +131,8 @@ export default {
             })
         },
         fetchMessages() {
-            alert(this.otherUser);
-            db.collection('chat').doc(auth.currentUser.uid).collection(this.otherUser).orderBy('createdAt').onSnapshot((querySnapshot) => {
+            alert(this.uid);
+            db.collection('chat').doc(auth.currentUser.uid).collection(this.uid).orderBy('createdAt').onSnapshot((querySnapshot) => {
                 let allMessages = [];
                 querySnapshot.forEach(doc => {
                     allMessages.push(doc.data())
