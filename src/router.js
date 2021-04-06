@@ -109,6 +109,7 @@ let router = new Router({
         {
             path: '/listings',
             name: "listings",
+            props: true,
             components: {
                 header: AppHeader,
                 default: Listings,
@@ -159,6 +160,7 @@ let router = new Router({
         {
             path: '/chat',
             name: "chat",
+            props: true,
             components: {
                 header: AppHeader,
                 default: PrivateChat,

@@ -111,22 +111,29 @@ export default {
             message:null,
             messages: [],
             authUser:null,
+            otherUser: this.$route.params.uid
         }
     },
     methods: {
         saveMessage() {
-            // DocumentReference ref = db.collection('chat').doc();
-            // String myId = ref.id;
-            db.collection('chat').add({
+            db.collection('chat').doc(auth.currentUser.uid).collection(this.otherUser).add({
                 message: this.message,
                 author: this.authUser.name,
                 createdAt: new Date()
+            }).then(() => {
+                db.collection('chat').doc(this.otherUser).collection(auth.currentUser.uid).add({
+                    message: this.message,
+                    author: this.authUser.name,
+                    createdAt: new Date()
+                }).then(() => {
+                    this.message = null;
+                    console.log(this.author)
+                })
             })
-            this.message = null;
-            console.log(this.author)
         },
         fetchMessages() {
-            db.collection('chat').orderBy('createdAt').onSnapshot((querySnapshot) => {
+            alert(this.otherUser);
+            db.collection('chat').doc(auth.currentUser.uid).collection(this.otherUser).orderBy('createdAt').onSnapshot((querySnapshot) => {
                 let allMessages = [];
                 querySnapshot.forEach(doc => {
                     allMessages.push(doc.data())
