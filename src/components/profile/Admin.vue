@@ -11,7 +11,7 @@
                         <img height="300" width="auto" :src="user[1].credentials" />
                         <br><br>
                         <button class="btn" v-bind:id="user[0]" v-on:click="reject($event)"> Reject </button>
-                        <button class="btn" v-bind:id="user[0]" v-on:click="approve($event)"> Approve </button>
+                        <button class="btn" v-bind:id="user[0]" v-on:click="approve($event)"> Approve </button><br>
                     </div>
                 </li>
             </ul>
@@ -49,11 +49,18 @@ import { auth } from "../../firebase";
             auth.createUserWithEmailAndPassword(data.email, data.password).then(
               userCredential => {
                 var user = userCredential.user;
+                user.sendEmailVerification();
                 db.collection('users').doc(auth.currentUser.uid).set(data).then(
                   () => {
-                    user.sendEmailVerification();
-                    alert(`Account created for ${user.email}`);
-                    db.collection('requests').doc(doc_id).delete().then(() => {location.reload()});
+                    db.collection('requests').doc(doc_id).delete().then(
+                      () => {
+                        alert(`Account created for ${user.email}`);
+                        location.reload();
+                      },
+                      err => {
+                        alert(err.message);
+                      }
+                    );
                   },
                   err => {
                     alert(err.message);

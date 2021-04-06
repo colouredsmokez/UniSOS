@@ -21,3 +21,5 @@ export {
     auth,
     store
 }
+
+export default db;

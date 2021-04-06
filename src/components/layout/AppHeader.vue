@@ -6,7 +6,7 @@
         <!-- Logo -->
         <div class="flex-child">
           <router-link to="/">
-            <img class="logo" src="../../assets/UniSOSlogo.png">
+            <img class="logo" src="../../assets/UniSOSlogo.png" alt="unisos logo">
           </router-link>
         </div>
         <!-- Page Links -->
@@ -25,13 +25,13 @@
           <div class="flex-child">
             <!-- Logo -->
             <router-link to="/">
-              <img class="logo" src="../../assets/UniSOSlogo.png">
+              <img class="logo" src="../../assets/UniSOSlogo.png" alt="unisos logo">
             </router-link>
           </div>
           <div class="flex-child">
             <!-- Log Out -->
             <div class="auth-wrapper">
-              <router-link class="auth" to="/myprofile">Profile</router-link>
+              <router-link class="auth" to="/myprofile"><img class="img" :src="profilepic" alt="profile pic">{{ name }}</router-link>
               <button class="btn" v-on:click="logout">Logout</button>
             </div>
           </div>
@@ -41,10 +41,10 @@
           <div class="flex-child gradient">
             <!-- Page Links -->
             <div class="nav-wrapper">
-              <router-link class="nav" to="/home"><img src = "../../assets/Recommendations.png"></router-link>
-              <router-link class="nav" to="/listings"><img src = "../../assets/Listings.png"></router-link>
-              <router-link class="nav" to="/upload"><img src = "../../assets/Upload.png"></router-link>
-              <router-link class="nav" to="/mynotes"><img src = "../../assets/Notes.png"></router-link>
+              <router-link class="nav" to="/home"><img src = "../../assets/Recommendations.png" alt="home"></router-link>
+              <router-link class="nav" to="/listings"><img src = "../../assets/Listings.png" alt="listings"></router-link>
+              <router-link class="nav" to="/upload"><img src = "../../assets/Upload.png" alt="upload"></router-link>
+              <router-link class="nav" to="/mynotes"><img src = "../../assets/Notes.png" alt="my notes"></router-link>
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@
           <div class="flex-child">
             <!-- Logo -->
             <router-link to="/">
-              <img class="logo" src="../../assets/UniSOSlogo.png">
+              <img class="logo" src="../../assets/UniSOSlogo.png" alt="unisos logo">
             </router-link>
           </div>
           <div class="flex-child">
@@ -73,7 +73,7 @@
           <div class="flex-child gradient">
             <!-- Page Links -->
             <div class="nav-wrapper">
-              <router-link class="nav" to="/listings"><img src = "../../assets/Listings.png"></router-link>
+              <router-link class="nav" to="/listings"><img src = "../../assets/Listings.png" alt="listings"></router-link>
             </div>
           </div>
         </div>
@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import { db } from '../../firebase';
 import { auth } from '../../firebase';
 
 export default {
@@ -92,16 +93,16 @@ export default {
       isAdmin: false,
       isLoggedIn: false,
       isLoggedOut: false,
-      currentEmail: false
+      name: "",
+      profilepic: null,
     };
   },
   created() {
     if (auth.currentUser && auth.currentUser.email == "admin@unisos.com") {
       this.isAdmin = true;
-      this.currentUser = auth.currentUser.uid;
     } else if (auth.currentUser && auth.currentUser.emailVerified) {
       this.isLoggedIn = true;
-      this.currentUser = auth.currentUser.uid;
+      this.fetchInfo();
     } else {
       this.isLoggedOut = true;
     }
@@ -114,7 +115,19 @@ export default {
           alert(`You are logged out of ${this.currentUser}`);
           this.$router.go({ path: this.$router.path });
         });
-    }
+    },
+    fetchInfo: function() {
+      db.collection('users').doc(auth.currentUser.uid).get().then(
+        snapshot => {
+          var data = snapshot.data();
+            this.name = data.name;
+            this.profilepic = data.profilepic;
+        },
+        err => {
+          alert(err.message)
+        }
+      );
+    },
   }
 };
 </script>
@@ -151,8 +164,9 @@ export default {
   flex: 1;
   text-align: center;
 }
-.nav:hover, .nav:active {
-  background: rgb(192, 226, 231);
+.nav:hover, .nav:active, .nav-wrapper .router-link-active{
+  border-bottom: thick solid #25abb4;
+
 }
 .auth-wrapper {
   float: right;
@@ -163,9 +177,17 @@ export default {
   text-align: center;
   text-decoration: none;
   color: #2BD7E2;
+  vertical-align: middle;
 }
 .auth:hover, .auth:active {
   color: #000000;
+}
+.img {
+  border-radius: 50em;
+  height: 50px;
+  width: 50px;
+  vertical-align: middle;
+  padding: 10px;
 }
 .btn {
   font-family: 'FredokaOne';
@@ -174,6 +196,7 @@ export default {
   transition-duration: 0.4s;
   background-color: #2BD7E2;
   color: white;
+  vertical-align: middle;
 }
 .btn:hover {
   background-color: black; /* Green */

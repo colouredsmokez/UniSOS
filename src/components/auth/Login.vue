@@ -1,20 +1,19 @@
 <template>
-    <div>
-        <div class="form">
-
-            <h1>Sign in with credentials</h1>
-                    
-            <form>
-                <input class="input-text" type="text" placeholder="Email" v-model="email" required>
-                <br><br>
-                <input class="input-text" type="password" placeholder="Password" v-model="password" required>
-                <br><br>
-                <button class="btn" v-on:click="login">Sign In</button>
-                <br>
-                <a href="#"><small>Forgot password?</small></a>
-            </form>
-
-        </div>
+    <div class="flex-container">
+      <div class="flex-child-banner"></div>
+      <div class="flex-child-form">
+        <h1>Sign in with credentials</h1>
+        <br><br><br><br>      
+        <form>
+          <input class="input-text" type="text" placeholder="Email" v-model="email" required>
+          <br><br>
+          <input class="input-text" type="password" placeholder="Password" v-model="password" required>
+          <br><br><br><br><br><br><br><br><br><br><br><br>
+          <button class="btn" v-on:click="login">Sign In</button>
+          <br>
+          <a href="#"><small>Forgot password?</small></a>
+        </form>
+      </div>
     </div>
 </template>
 
@@ -30,36 +29,26 @@ export default {
   },
   methods: {
     login: function(e) {
-      if (this.email == "admin@unisos.com" && this.password == "unisos") {
-        auth.signInWithEmailAndPassword(this.email, this.password).then(
-          userCredential => {
-            console.log(userCredential);
+      auth.signInWithEmailAndPassword(this.email, this.password).then(
+        userCredential => {
+          var user = userCredential.user;
+          if (this.email == "admin@unisos.com" && this.password == "unisos") {
             alert(`You are logged in as an Administrator`);
             this.$router.push("/admin");
             this.$router.go( this.$router.path );
-          },
-          err => {
-            alert(err.message);
+          } else if (user.emailVerified) {
+            alert(`You are logged in as ${user.email}`);
+            this.$router.push('/myprofile');
+            this.$router.go( this.$router.path );
+          } else {
+            alert(`${user.email} is not verified`);
           }
-        );
-      } else {
-        auth.signInWithEmailAndPassword(this.email, this.password).then(
-          userCredential => {
-            var user = userCredential.user;
-            if (user.emailVerified) {
-              alert(`You are logged in as ${user.email}`);
-              this.$router.push('/myprofile');
-              this.$router.go( this.$router.path );
-            } else {
-              alert(`${user.email} is not verified`);
-            }
-          },
-          err => {
-            alert(err.message);
-          }
-        );
-        e.preventDefault();
-      }
+        },
+        err => {
+          alert(err.message);
+        }
+      );
+      e.preventDefault();
     }
   }
 };
@@ -72,13 +61,27 @@ export default {
     font-weight: normal;
     font-style: normal;
 }
-.form {
-    margin: auto;
-    padding: 20px;
-    text-align: center;
-    font-family: 'FredokaOne';
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    width: 50%;
+.flex-container {
+  display: flex;
+  margin: auto;
+  height: 80vh;
+}
+.flex-child-banner {
+  flex: 2;
+  background-image: url('../../assets/Banner.png');
+  background-position: center;
+  background-size: cover;
+  height: 107%;
+}
+.flex-child-form { 
+  flex: 3;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+  font-family: 'FredokaOne';
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  width: 80%;
+  height: 100%;
 }
 .input-text {
   width:75%;
