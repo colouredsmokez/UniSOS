@@ -26,7 +26,7 @@
       <p id=purchasetxt>Purchase Date</p><br><br>
       <div id="purchase">
         <input type="radio" id="recent" name="purchasedate" value="recent" v-model= "purchasedate"/>
-        <label for="recent">Most Recent</label> <br><br>
+        <label for="recent">Most Recent</label> <br><br> 
 
         <input type="radio" id="old" name="purchasedate" value="old" v-model= "purchasedate"/>
         <label for="old">Oldest</label> <br><br>
@@ -47,8 +47,17 @@
       </div> 
     
     <p id="mynotestxt">My Notes</p>
-    <div id="lastviewed">
-      
+    <div class="lastviewed">
+      <p id="lastviewedtxt">Last Viewed</p>
+      <ul id="noteslist">
+        <li id="notes" v-for="item in notes" v-bind:key="item.id">
+          <div>
+          <!--<img width= 110px height= 75px :src= "item.imageURL" v-on:click="route($event)" v-bind:id="item.id"/><br>-->
+          <router-link to="/localview" exact><img width= 110px height= 75px :src= "item.imageURL"/></router-link><br>
+          <h3>{{item.title}}</h3>
+          </div>
+        </li>
+      </ul>
 
     </div>
     </div> 
@@ -57,28 +66,40 @@
 
 <script>
 
-import db from "../../firebase.js"
+import { db } from "../../firebase.js"
 
 
 export default {
   name: 'App',
   components: {
   },
+  methods: {
+    fetchItems: function() {
+      db.collection('notes').get().then(snapshot => {
+        let item = {}
+        snapshot.docs.forEach(doc => {          
+          item = doc.data()
+          //alert(item.imageURL)
+          this.notes.push(item)
+        }); 
+      }) 
+    },
+    route: function(event) {
+          let doc_id = event.target.getAttribute("id");
+          //console.log(doc_id);
+          this.$router.push({ name: "mynotes", params: { id: doc_id } })
+          
+        }
+  },
   data() {
     return {
       modlevel:"",
       purchasedate:"",
-      imageurl:""
+      notes:[]
     }
   },
-  mounted() {
-    db.collection('notes').get().then(snapshot => {
-            snapshot.docs.forEach(doc => {
-              let item = doc.data()
-              this.imageurl.push(item.imageURL)
-              alert("test")
-            });
-    })
+  created() {
+    this.fetchItems();
   } 
 }
 </script>
@@ -94,30 +115,6 @@ img {
   left: 22px;
   top: 31px;
 }
-/** #upload {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  left: 770px;
-  top: 143px;
-  color: #5ABAC0;
-} 
-#mynotes {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  left: 870px;
-  top: 143px;
-  color: #000000;
-} 
-#profile {
-  position: absolute;
-  width: 150px;
-  height: 75px;
-  left: 1199px;
-  top: 31px;
-
-} **/
 #content {
   background: #47E4E4;
   margin-top: 0%;
@@ -262,7 +259,7 @@ background: #47E4E4;
   left: 475px;
   top: 250px;
 
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: 'Fredoka One';
   font-style: normal;
   font-weight: bold;
   font-size: 50px;
@@ -271,6 +268,57 @@ background: #47E4E4;
   align-items: center;
   letter-spacing: -0.015em;
 }
+.lastviewed {
+  position: absolute;
+  width: 869.39px;
+  height: 254px;
+  left: 476px;
+  top: 380px;
+}
+#lastviewedtxt {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 25px;
+  line-height: 30px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.015em;
+}
+/**ul#noteslist li {
+  display:inline;
+}
+ul {
+  width: 100%;
+  max-width: 70%;
+  margin: 0px;
+  padding: 0 5px;
+  box-sizing: border-box;
+}**/
+#noteslist {
+  width: 100%;
+  margin: 0px;
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 0;
+  background-color: #2BD7E2;
+}
+#notes {
+  margin-top: 100px;
+  text-align: center;
+  flex-basis: 200px;
+  min-width: 50%;
+  max-width: 50%;
+
+}
+/** .noteslist {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 0;
+  background-color: #2BD7E2;
+}**/
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -278,5 +326,17 @@ background: #47E4E4;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+/**li {
+  flex-grow: 1;
+  flex-basis: 150px;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #222;
+  margin: 10px;
+}**/
+img {
+  width: 220px;
+  height: 150px;
 }
 </style>
