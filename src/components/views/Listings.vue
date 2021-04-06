@@ -27,7 +27,7 @@
                         <section>
                             <div id="firstpart">
                                 <h1 id="type">{{item.typeOfList}}</h1>
-                                <button v-bind:id="`P-${item.userId}`" v-on:click="toProfile($event)">{{item.name}}</button>
+                                <button v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
                                 <p>{{item.rating}}</p>
                             </div>
                             <div id="secondpart">
@@ -36,9 +36,7 @@
                                 <p id="grade">Final grade: {{item.grade}}</p>
                                 <p id = "addInfo">{{item.addInfo}}</p>
                             </div>
-                            <div>
-                                <button v-bind:id="`C-${item.userId}`" v-on:click="toChat($event)"><img src = "../../assets/chaticon.png" alt="chat"></button>
-                            </div>
+                            <button v-bind:id="item.userId" v-on:click="toChat($event)">Chat</button>
                             <!-- <img v-bind:src="item.image" v-show="item.show"/> -->
                             <hr>
                         </section>
@@ -81,12 +79,12 @@ export default {
         toProfile: function(event) {
             let uid = event.target.getAttribute("id");
             alert(uid);
-            this.$router.push({ name:'profile', params:{uid:uid} });
+            this.$router.push({ name:'profile', params:{ uid:uid } });
         },
         toChat: function(event) {
             let uid = event.target.getAttribute("id");
             alert(uid);
-            this.$router.push({ name:'chat', params:{uid:uid} });
+            this.$router.push({ name:'chat', params:{ uid:uid } });
         },
     },
     created() {

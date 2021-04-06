@@ -54,7 +54,7 @@ import { db } from '../../firebase';
 export default {
 data() {
     return {
-        uid: this.$route.params.uid.slice(2),
+        uid: this.$route.params.uid,
         name: '',
         email: '',
         university: '',
