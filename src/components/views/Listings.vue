@@ -31,9 +31,12 @@
                             </div>
                             <div id="secondpart">
                                 <h2 id= "module">{{item.module}}</h2>
+                                <p id="took in">Took in: {{item.took_in}}</p>
+                                <p id="grade">Final grade: {{item.grade}}</p>
                                 <p id = "addInfo">{{item.addInfo}}</p>
                             </div>
-                            <router-link class="chat" to="/chat"><img src = "../../assets/chaticon.png"></router-link>
+                            <!--<router-link class="chat" to="/chat"><img src = "../../assets/chaticon.png"></router-link>-->
+                            <button v-bind:id="item.userId" v-on:click="route($event)"> Chat </button>
                             <!-- <img v-bind:src="item.image" v-show="item.show"/> -->
                         </section>
                         <hr>
@@ -47,7 +50,7 @@
   
 </template>
 <script>
-import db from '../../firebase.js'
+import { db } from '../../firebase'
 
 export default {
     data() {
@@ -61,33 +64,30 @@ export default {
     methods:{
         fetchItems:function(){
             db.collection('listing').get().then((querySnapShot)=> {
-                    querySnapShot.forEach(doc=>{
-                    
+                querySnapShot.forEach(doc=>{
                     this.listing.push(doc.data())
                 })
             })
-        
             this.listingFiltered = this.listing;
-        }
-        ,
+        },
         filter:function() {
             this.listingFiltered = []
             for (var list of this.listing) {
-                
                 if ((this.type == list.typeOfList|| this.type == '')&&(this.rating == list.rating|| this.rating == '')) {
                     this.listingFiltered.push(list)
                 }
             }
-            
+        },
+        route: function(event) {
+            let uid = event.target.getAttribute("id");
+            alert(uid);
+            this.$router.push({ name:'chat', params:{uid:uid} });
         }
     },
     created() {
         this.fetchItems();
     }
-    
-
 }
-
 </script>
 
 
