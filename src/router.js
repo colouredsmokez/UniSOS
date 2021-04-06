@@ -18,6 +18,7 @@ import Listings from './components/views/Listings.vue'
 import Upload from './components/views/Upload.vue'
 import MyNotes from './components/views/MyNotes.vue'
 import PrivateChat from './components/chat/PrivateChat.vue'
+import LocalView from './components/views/LocalView'
 
 Vue.use(Router);
 
@@ -132,9 +133,23 @@ let router = new Router({
         {
             path: '/mynotes',
             name: "mynotes",
+            props: true,
             components: {
                 header: AppHeader,
                 default: MyNotes,
+                footer: AppFooter
+            },
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/localview',
+            name: "localview",
+            props: true,
+            components: {
+                header: AppHeader,
+                default: LocalView,
                 footer: AppFooter
             },
             meta: {
