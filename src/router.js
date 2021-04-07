@@ -11,12 +11,13 @@ import Register from "./components/auth/Register.vue";
 
 import Admin from "./components/profile/Admin.vue"
 import MyProfile from "./components/profile/MyProfile.vue";
-import Profile from "./components/profile/UserProfile.vue";
+import Profile from "./components/profile/Profile.vue";
 
 import Home from './components/views/Home.vue'
 import Listings from './components/views/Listings.vue'
 import Upload from './components/views/Upload.vue'
 import MyNotes from './components/views/MyNotes.vue'
+
 import PrivateChat from './components/chat/PrivateChat.vue'
 import LocalView from './components/views/LocalView'
 
@@ -84,6 +85,7 @@ let router = new Router({
         {
             path: "/profile/:uid",
             name: "profile",
+            props: true,
             components: {
                 header: AppHeader,
                 default: Profile,
@@ -96,7 +98,6 @@ let router = new Router({
         {
             path: '/home',
             name: "home",
-            props: true,
             components: {
                 header: AppHeader,
                 default: Home,
@@ -145,12 +146,12 @@ let router = new Router({
             }
         },
         {
-            path: '/localview',
-            name: "localview",
+            path: '/chat/:uid',
+            name: "chat",
             props: true,
             components: {
                 header: AppHeader,
-                default: LocalView,
+                default: PrivateChat,
                 footer: AppFooter
             },
             meta: {
@@ -158,12 +159,12 @@ let router = new Router({
             }
         },
         {
-            path: '/chat',
-            name: "chat",
+            path: '/localview',
+            name: "localview",
             props: true,
             components: {
                 header: AppHeader,
-                default: PrivateChat,
+                default: LocalView,
                 footer: AppFooter
             },
             meta: {

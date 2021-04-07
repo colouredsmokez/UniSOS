@@ -112,7 +112,7 @@ export default {
       auth
         .signOut()
         .then(() => {
-          alert(`You are logged out of ${this.currentUser}`);
+          alert(`You are logged out of ${this.name}`);
           this.$router.go({ path: this.$router.path });
         });
     },
@@ -163,6 +163,7 @@ export default {
 .nav {
   flex: 1;
   text-align: center;
+  color: #5ABAC0;
 }
 .nav:hover, .nav:active, .nav-wrapper .router-link-active{
   border-bottom: thick solid #25abb4;
