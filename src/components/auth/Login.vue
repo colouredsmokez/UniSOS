@@ -5,11 +5,12 @@
         <h1>Sign in with credentials</h1>
         <br><br><br><br>      
         <form>
-          <i class="fa fa-envelope" aria-hidden="true"></i>
+          <i class="fa fa-envelope icon" aria-hidden="true"></i>
           <input class="input-text" type="text" placeholder="Email" v-model="email" required>
           <br><br>
-          <input class="input-text" type="password" placeholder="Password" v-model="password" required>
-          <br><br><br><br><br><br><br><br><br><br><br><br>
+          <a class="icon-clickable" @click='showPassword'><i class="fa fa-lock" aria-hidden="true"></i></a>
+          <input class="input-text" :type='type' placeholder="Password" v-model="password" required><br>
+          <br><br><br><br><br><br><br><br><br><br><br>
           <button class="btn" v-on:click="login">Sign In</button>
           <br>
           <a href="#"><small>Forgot password?</small></a>
@@ -25,7 +26,8 @@ export default {
   data: function() {
     return {
       email: '',
-      password: ''
+      password: '',
+      type: 'password',
     };
   },
   methods: {
@@ -50,6 +52,13 @@ export default {
         }
       );
       e.preventDefault();
+    },
+    showPassword() {
+      if(this.type === 'password') {
+        this.type = 'text';
+      } else {
+        this.type = 'password';
+      }
     }
   }
 };
@@ -88,13 +97,23 @@ export default {
   width:75%;
   font-size: 20px;
   font-family: 'FredokaOne';
-  padding: 15px;
+  padding: 15px 15px 15px 55px;
 }
-i {
+.icon {
+  padding: 19px;
+  text-align: left;
   position: absolute;
-  left: 15px;
-  top: 40px;
-  color: gray;
+  font-size: 20px;
+}
+.icon-clickable {
+  padding: 19px;
+  text-align: left;
+  position: absolute;
+  font-size: 20px;
+  cursor: pointer;
+}
+.icon-clickable:hover, .icon-clickable:active {
+  color:#2BD7E2;
 }
 .btn {
   font-family: 'FredokaOne';
@@ -104,6 +123,7 @@ i {
   transition-duration: 0.4s;
   background-color: #2BD7E2;
   color: white;
+  cursor: pointer;
 }
 .btn:hover {
   background-color: black; /* Green */

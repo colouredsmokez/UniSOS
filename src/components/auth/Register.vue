@@ -4,10 +4,8 @@
       <div class="flex-child-form">
         <h1>Create a free account</h1>
         <form>
-          <!-- Name
-          pattern="([a-zA-Z]+\s)*[a-zA-Z]+"
-          title="Should be no more than 50 characters and contain only letters (either case) and space"
-          -->
+          <!-- Name -->
+          <i class="fa fa-user icon" aria-hidden="true"></i>
           <input 
             class="input-text" 
             type="text" 
@@ -19,6 +17,7 @@
           >
           <br><br>
           <!-- Email -->
+          <i class="fa fa-envelope icon" aria-hidden="true"></i>
           <input 
             class="input-text" 
             type="email" 
@@ -27,13 +26,11 @@
             required
           >
           <br><br>
-          <!-- Password 
-          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}" 
-          title="Should be 8 to 20 characters and contain at least one numeric digit, one uppercase and one lowercase letter"
-          -->
+          <!-- Password -->
+          <a class="icon-clickable" @click='showPassword'><i class="fa fa-lock" aria-hidden="true"></i></a>
           <input 
             class="input-text" 
-            type="password"
+            :type="type"
             placeholder="Password"
             v-model="password"
             minlength="8"
@@ -41,12 +38,6 @@
             required 
           >
           <br><br><br>
-          <!-- Password Check
-          <small>password strength:
-            <span>strong</span>
-          </small>
-          <br><br>
-          -->
           <!-- University Credentials-->  
           <div class="uni-wrapper">
             <div class="uni-selection">
@@ -88,7 +79,7 @@ export default {
       name: null,
       email: null,
       password: null,
-      //passwordStrength: 'weak',
+      type: 'password',
       university: null,
       imageData: null,
       uploadValue: 0
@@ -161,6 +152,13 @@ export default {
     previewImage: function(event) {
       this.uploadValue=0;
       this.imageData = event.target.files[0];
+    },
+    showPassword() {
+      if(this.type === 'password') {
+        this.type = 'text';
+      } else {
+        this.type = 'password';
+      }
     }
   }
 };
@@ -200,7 +198,23 @@ export default {
   width:75%;
   font-size: 20px;
   font-family: 'FredokaOne';
-  padding: 15px;
+  padding: 15px 15px 15px 55px;
+}
+.icon {
+  padding: 19px;
+  text-align: left;
+  position: absolute;
+  font-size: 20px;
+}
+.icon-clickable {
+  padding: 19px;
+  text-align: left;
+  position: absolute;
+  font-size: 20px;
+  cursor: pointer;
+}
+.icon-clickable:hover, .icon-clickable:active {
+  color:#2BD7E2;
 }
 .uni-wrapper {
   display: flex;
@@ -215,6 +229,7 @@ export default {
   font-size: 20px;
   font-family: 'FredokaOne';
   padding: 10px;
+  cursor:pointer;
 }
 .selection-item {
   font-size: 20px;
@@ -233,6 +248,7 @@ export default {
   font-size: 20px;
   padding: 10px;
   transition-duration: 0.4s;
+  cursor: pointer;
 }
 .btn {
   font-family: 'FredokaOne';
@@ -242,6 +258,8 @@ export default {
   transition-duration: 0.4s;
   background-color: #2BD7E2;
   color: white;
+  cursor: pointer;
+
 }
 .btn:hover {
   background-color: black;

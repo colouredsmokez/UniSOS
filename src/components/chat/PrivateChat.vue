@@ -1,46 +1,51 @@
 <template>
     <div class="background">
-    <div class="flex-container">
-        <div class="flex-child-bio">
-            <p>User Info</p>
-        </div>  
-        <div class="flex-child-chat">
-            <div class="chat">
-                <div class="chat-view">
+        <div class="flex-container">
+            <div class="flex-child-bio">
+                <br>
+                <div v-if="otherData.profilepic">
+                    <div class="image-cropper">
+                        <img :src="otherData.profilepic" alt="profilepic" class="profile-pic">
+                    </div>
+                </div>
+                <div v-else>
+                    <div class="image-cropper">
+                        <img src="../../assets/defaultpfp.jpg" alt="profilepic" class="profile-pic">
+                    </div>
+                </div>
+                <h1>{{otherData.name}}</h1>
+            </div>  
+            <div class="flex-child-chat">
+                <div class="chat-msg">
+                    <br>
                     <div v-for="message in messages" v-bind:key="message.id">
-                        <div v-if="message.author == thisData.name">
-                            <div class="msg" style="float:right">
-                                <span class="msg-user"> You </span>
-                                <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
-                                <div class="msg-bubble">
-                                    <p class="msg-content"> {{message.message}} </p>
-                                </div>
-                            </div>
+                        <div v-if="message.author == thisData.name" class="msg" style="float:right">
+                            <span class="msg-user"> You </span>
+                            <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
+                            <div class="msg-bubble">{{message.message}}</div>
                         </div>
-                        <div v-if="message.author == otherData.name">
-                            <div class="msg" style="float:left">
-                                <span class="msg-user"> {{message.author}} </span>
-                                <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
-                                <div class="msg-bubble">
-                                    <p class="msg-content"> {{message.message}} </p>
-                                </div>
-                            </div>
+                        <div v-if="message.author == otherData.name" class="msg" style="float:left">
+                            <span class="msg-user"> {{message.author}} </span>
+                            <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
+                            <div class="msg-bubble">{{message.message}}</div>
                         </div>
                         <div style="clear:both"></div>
                     </div>
+                    <br>
                 </div>
-            </div>
-            <div class="input">
-                <div class="input-upload">
-                    <button class="input-upload-btn"></button>
-                </div>
-                <textarea class="input-text" @keyup.enter="saveMessage()" v-model="message" type="text" placeholder="Type a message"/>
-                <div class="input-enter">
-                    <button class="input-enter-btn" v-on:click="saveMessage()"> <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                <div class="chat-input">
+                    <div class="input-upload">
+                        <button class="input-upload-btn"></button>
+                    </div>
+                    <div class="input-text">
+                        <textarea class="input-text-field" @keyup.enter="saveMessage()" v-model="message" type="text" placeholder="Type a message"/>
+                    </div>
+                    <div class="input-enter">
+                        <button class="input-enter-btn" v-on:click="saveMessage()"> <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </template>
 
@@ -113,37 +118,47 @@ export default {
 <style scoped>
     .background {
         background: #47E4E4;
-        margin: auto;
-        padding: 30px;
-
+        font-family: sans-serif;
+        height: 80vh;
     }
     .flex-container {
         display: flex;
-        font-family: sans-serif;
-        background: white;
-        border-radius: 30px 0px 0px 30px;
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        height: 70vh;
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        height: 100%;
     }
     .flex-child-bio {
+        margin: 30px 0px 30px 30px;
+        border-radius: 25px 0px 0px 25px;
+        background: whitesmoke;
         flex: 2;
-        padding: 30px;
-        border-right: #47E4E4 solid thick;
+        text-align: center;
     }
+    .image-cropper {
+        width: 200px;
+        height: 200px;
+        overflow: hidden;
+        border-radius: 50%;
+        margin: auto;
+    }
+    .profile-pic {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+    }   
     .flex-child-chat {
+        margin: 30px 30px 30px 0px;
+        background: whitesmoke;
         flex: 3;
     }
-    .chat {
-        height: 60vh;
-        padding: 0px 0px 0px 20px;
-    }
-    .chat-view {
-        padding: 20px 20px 0px 0px;
-        height: 95%;
+    .chat-msg {
+        background-image: url("../../assets/ChatBG.png");
+        background-size: cover;
+        height: 85%;
         overflow-y: auto;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
     }
     .msg {
-        padding: 10px;
+        margin: 10px 30px;
     }
     .msg-user {
         color:#05728f;
@@ -155,43 +170,60 @@ export default {
         font-size: 10px;
     }
     .msg-bubble {
-        background: #ebebeb;
-        padding: 10px;
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        background: lightgray;
+        box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
         border-radius: 5px;
-        max-width: 500px;
         word-wrap: break-word;
-    }
-    .msg-content {
-        margin:0px;
         font-size: 16px;
+        max-width: 400px;
+        padding: 10px;
     }
-    .input {
-        height:10vh;
+    .chat-input {
+        background: #5ABAC0;
+        height:15%;
         display: flex;
-        text-align: center;
-        align-items: center;
     }
     .input-upload {
+        margin: 15px;
         flex: 1;
     }
     .input-upload-btn {
-        height: 50px;
-        width: 50px;
+        height:100%;
+        width:100%;
         cursor: pointer;
+        background: none;
+        border: none;
     }
     .input-text {
-        flex: 8;
-        height:50%;
-        color: #4c4c4c;
+        margin: 15px 0px 15px 0px;
+        flex: 18;
+    }
+    .input-text-field {
+        height:100%;
+        width:100%;
         font-size: 15px;
+        border-radius: 20px;
+        border: none;
+        padding: 10px 20px;
+        box-sizing: border-box;
+        font-family: sans-serif;
+        background: whitesmoke;
     }
     .input-enter {
+        margin: 15px;
         flex: 1;
     }
     .input-enter-btn {
-        height: 50px;
-        width: 50px;
+        height:100%;
+        width:100%;
         cursor: pointer;
+        background: none;
+        border: none;
+        font-size: 25px;
+        text-align: left;
+        color: white;
+    }
+    .input-enter-btn:hover {
+        color: black;
     }
 </style>

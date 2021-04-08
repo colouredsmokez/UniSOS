@@ -145,7 +145,6 @@ export default {
 }
 .flex-child {
   flex: 1;
-  padding: 10px;
 }
 .align-right {
   text-align:right;
