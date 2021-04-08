@@ -2,7 +2,7 @@
     <div class="profile">
         <!--Banner-->
         <div class="header">
-            <img class="header-bg" src='../../assets/ProfileBanner.png' alt="profile banner">
+            <img class="header-bg" src='../../assets/ProfileBanner2.png' alt="profile banner">
             <div class="header-content">
                 <!-- Profile Pic -->
                 <div class="image-cropper">
