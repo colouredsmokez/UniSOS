@@ -38,9 +38,11 @@
                   <div class="dropdown">
                     <button class="dropbtn"> {{ name }} </button>
                     <div class="dropdown-content">
-                      <router-link class="profile" to="/myprofile"> Profile </router-link>
-                      <router-link class="edit" to="/editprofile"> Edit Profile </router-link>
-                      <router-link class="chat" to="/chat/:uid"> Chats </router-link>
+                      <ul>
+                        <li> <router-link class="profile" to="/myprofile"> Profile </router-link> </li>
+                        <li> <router-link class="edit" to="/editprofile"> Edit Profile </router-link> </li>
+                        <li> <router-link class="chat" to= "name:'chat', params:{ uid:uid }"> Chats </router-link> </li>
+                      </ul>
                     </div>
                   </div> 
                    
@@ -101,6 +103,7 @@ export default {
       isLoggedOut: false,
       name: "",
       profilepic: null,
+      uid: null,
     };
   },
   created() {
@@ -128,6 +131,7 @@ export default {
           var data = snapshot.data();
             this.name = data.name;
             this.profilepic = data.profilepic;
+            this.uid = data.uid
         },
         err => {
           alert(err.message)
@@ -230,22 +234,34 @@ export default {
   font-size: 16px; 
   text-decoration: none;
   border: none;
-  color: #2BD7E2;;
+  color: #2BD7E2;
   gap: 10px;
   display: flex;
   align-items: center;
   background: none;
 }
 /* Dropdown content (hidden by default) */
-.dropdown-content {
-  font-family: inherit;
+.dropdown-content  {
+  font-family: 'FredokaOne';
+  text-align: center;
   display: none;
   position: absolute;
   background-color: #f9f9f9;
   min-width: 160px;
   z-index: 1;
 }
-
+a {
+  text-decoration: none;
+  color: #2BD7E2;;
+}
+a:hover {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.63),
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
 /* Links inside the dropdown */
 .chat .profile .edit {
   float: none;
@@ -264,5 +280,10 @@ export default {
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: block;
+  color: rgba(0, 0, 0, 0.63);
+  
+}
+.dropbtn:hover {
+  color: rgba(0, 0, 0, 0.63);
 }
 </style>
