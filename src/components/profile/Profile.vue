@@ -9,14 +9,18 @@
                     <img class="profile-pic" :src="profilepic" alt="profile pic">
                 </div>
                 <!-- User Info -->
-                <h3>{{ name }}</h3>
+                <h2>{{ name }}</h2>
                 <div>{{ email }}</div>
                 <div>{{ university }}</div>
             </div>
         </div>
-
+        <br>
+        <div class="body">   
             <!-- Bio -->
-            <div></div>
+            <div id="bio">
+                <p> Bio </p>
+                <span> {{ bio }} </span>
+            </div>
 
             <!-- Tutor Info -->
             <div class="list">
@@ -48,6 +52,7 @@
                 <hr>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
@@ -60,7 +65,7 @@ data() {
         name: '',
         email: '',
         university: '',
-        profilepic: '../../assets/NoProfilePic.jpg',
+        profilepic: "https://firebasestorage.googleapis.com/v0/b/unisos-bcf1f.appspot.com/o/defaultpfp.jpg?alt=media&token=5fd8c012-3d56-4771-be88-fa4ae98d3d32",
         imageData: null,
         bio: '',
         reviews: [],
@@ -137,10 +142,29 @@ methods: {
     height: 100%;
     width: 100%;
 }
+.body{
+    flex: 9;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: whitesmoke;
+    border-radius: 25px;
+    box-shadow: 0 0 10px #000000;
+    display:flex;
+    padding: 20px;
+}
+#bio p {
+    font-family: 'FredokaOne';
+    font-size: 24px;
+    text-align: center;
+}
+#bio {
+    float: left;
+    width: 45%;
+}
 .list {
     margin: auto;
     padding: 20px;
     text-align: center;
+    width: 65%
 }
 .list-item {
     list-style-type: none;

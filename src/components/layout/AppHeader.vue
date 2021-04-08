@@ -168,7 +168,7 @@ export default {
   gap: 10px;
 }
 .profile:hover, .profile:active {
-  color: #000000;
+  color: rgba(0, 0, 0, 0.63);
 }
 .flex-child-auto {
   flex: auto;
@@ -187,17 +187,19 @@ export default {
 }
 .logout {
   font-family: 'FredokaOne';
+  font-size: 13px;
   border-radius: 0.5em;
   padding: 10px 20px;
   transition-duration: 0.4s;
-  background-color: #25abb4;
+  background-color:  #47E4E4;
+  box-shadow: 0 0 4px #000000;
   color: white;
   vertical-align: middle;
   border: none;
   cursor:pointer;
 }
 .logout:hover {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.63);
   color: white;
 }
 .nav-wrapper {

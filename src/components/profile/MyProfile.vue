@@ -13,19 +13,26 @@
                     <button id="btn" v-on:click="upload">Upload</button>
                 </div>
                 <!-- User Info -->
-                <h3>{{ name }}</h3>
+                <h2>{{ name }}</h2>
                 <div>{{ email }}</div>
                 <div>{{ university }}</div>
             </div>
         </div>
-
+        <br>
+        <div class="body">
             <!-- Bio -->
-            <div>{{ bio }}</div>
+            <div id="bio">
+                <p> Bio <button id="btn"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button> </p>
+                <span> {{ bio }} </span>
+            </div>
 
             <!-- Tutor Info -->
             <div class="list">
                 <hr>
-                <h3>Modules</h3>
+                <h3>
+                    Modules
+                    <button id="btn"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button> 
+                </h3> 
                 <ul>
                     <li class="list-item" v-for="c in classes" v-bind:key="c">
                         <div>
@@ -40,7 +47,9 @@
             <!-- Notes Info -->
             <div class="list">
                 <hr>
-                <h3>Notes</h3>
+                <h3>
+                    Notes 
+                    <button id="btn"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button></h3>
                 <ul>
                     <li class="list-item" v-for="n in notes" v-bind:key="n">
                         <div>
@@ -52,6 +61,7 @@
                 <hr>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
@@ -66,7 +76,7 @@ data() {
         name: '',
         email: '',
         university: '',
-        profilepic: '../../assets/NoProfilePic.jpg',
+        profilepic: "https://firebasestorage.googleapis.com/v0/b/unisos-bcf1f.appspot.com/o/defaultpfp.jpg?alt=media&token=5fd8c012-3d56-4771-be88-fa4ae98d3d32",
         imageData: null,
         bio: '',
         reviews: [],
@@ -138,9 +148,16 @@ methods: {
     font-weight: normal;
     font-style: normal;
 }
-.profile {
-    margin: auto;
+.body{
+    flex: 9;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: whitesmoke;
+    border-radius: 25px;
+    box-shadow: 0 0 10px #000000;
+    display:flex;
+    padding: 20px;
 }
+
 .header {
     overflow: hidden;
     position: relative;
@@ -177,6 +194,9 @@ methods: {
     margin: auto;
     padding: 20px;
     text-align: center;
+    float: right;
+    width: 65%;
+    
 }
 .list-item {
     list-style-type: none;
@@ -185,5 +205,14 @@ methods: {
 }
 #btn {
     cursor: pointer;
+}
+#bio p {
+    font-family: 'FredokaOne';
+    font-size: 24px;
+    text-align: center;
+}
+#bio {
+    float: left;
+    width: 45%;
 }
 </style>
