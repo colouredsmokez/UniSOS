@@ -16,10 +16,10 @@
                     <div id="upload">
                         <div v-show="type=='Tutor'" class="">
                         </div>
-                        <div v-show="type=='Notes'" class="">
-                            <label for="upload">Upload Notes</label><br>
-                            <input type="file" id="upload" @change="previewImage" accept="image/*" >
-                            <div v-if="imageData!=null">
+                        <div v-show="type=='Notes'" class="upload">
+                            Upload Notes
+                            <input type="file" id="upload-file" @change="previewImage" accept="image/*">
+                            <div v-if="imageData!=null" class="image-cropper">
                                 <img class="preview" :src="picture">
                             </div>
                         </div>
@@ -200,7 +200,6 @@ export default {
     font-weight: normal;
     font-style: normal;
 }
-/*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
 
 #uploadpage {
     background:  #47E4E4;
@@ -233,23 +232,41 @@ export default {
     height: 85%;
 }
 #upload{
-    flex: 2;
-    padding: 10px;
+    flex: 3;
+    padding: 0px 20px 40px 40px;
     height: 85%;
 }
+#upload-file {
+    padding: 20px 0px;
+    font-family: 'FredokaOne';
+    font-size: 15px;
+    width: 200px;
+}
+#upload-file::-webkit-file-upload-button {
+  font-family: 'FredokaOne';
+  font-size: 15px;
+  padding: 5px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+.image-cropper {
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+}
 .preview {
-    max-width: 100%;
-    width: auto;
-    height: auto;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
 }
 #details {
     height: 100%;
-    flex: 3;
+    flex: 7;
 }
 #firstpart {
     display: flex;
     height: 20%;
-    padding:20px 40px;;
+    padding:20px 40px 20px 20px;
     gap: 20px;
     align-items: center;
 }
@@ -286,7 +303,7 @@ export default {
 #secondpart {
     display: flex;
     height: 40%;
-    padding: 0px 40px;
+    padding: 0px 40px 0px 20px;
 }
 #addInfo {
     width: 100%;
@@ -298,7 +315,7 @@ export default {
 #thirdpart {
     display: flex;
     height: 20%;
-    padding: 20px 40px;
+    padding: 20px 40px 20px 20px;
     gap: 20px;
     align-items: center;
 }
