@@ -5,7 +5,9 @@
             <img class="header-bg" src='../../assets/ProfileBanner.png' alt="profile banner">
             <div class="header-content">
                 <!-- Profile Pic -->
-                <img class="header-content-pic" :src="profilepic" alt="profile pic">
+                <div class="image-cropper">
+                    <img class="profile-pic" :src="profilepic" alt="profile pic">
+                </div>
                 <!-- User Info -->
                 <h3>{{ name }}</h3>
                 <div>{{ email }}</div>
@@ -123,10 +125,17 @@ methods: {
     position: relative;
     color: white;
 }
-.header-content-pic {
-    border-radius: 50em;
-    height: 200px;
+.image-cropper {
     width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin: auto;
+}
+.profile-pic {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
 }
 .list {
     margin: auto;
