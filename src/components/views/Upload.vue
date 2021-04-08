@@ -1,82 +1,86 @@
 <template>
    <div>  
-        <div id = "upload-page">
-            
-                <h1> 
-                    <span id="head">Create Listing</span>
+        <div id="uploadpage">
+            <div id="main">
+                
+                <div id="header">
+                    Create Listing
                     <select id="type" v-model="type">
                         <option value="Tutor" selected>Tutor</option>
                         <option value="Notes">Notes</option>
                     </select>
-                </h1>
-            <div class = "display">
-                <div id="upload">
-                    <div v-show="type=='Tutor'" id='upload-tutor'></div>
-                    <div v-show="type=='Notes'" id="upload-notes">
-                        <label for="upload">Upload Notes</label><br>
-                        <input type="file" id="upload" @change="previewImage" accept="image/*" >
-                        <div v-if="imageData!=null">
-                            <img class="preview" :src="picture">
-                            <br>
-                            
-                            
+                </div>
+
+                <div id="display">
+
+                    <div id="upload">
+                        <div v-show="type=='Tutor'" class="">
                         </div>
-                        
+                        <div v-show="type=='Notes'" class="">
+                            <label for="upload">Upload Notes</label><br>
+                            <input type="file" id="upload" @change="previewImage" accept="image/*" >
+                            <div v-if="imageData!=null">
+                                <img class="preview" :src="picture">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="details">
+                        <div id="firstpart">
+                            <div id="module">
+                                <input id="module-search" type="text" placeholder="Module" v-model="module">
+                            </div>
+                            <div id="grade">
+                                Grade:
+                                <select id="grade-select" v-model="grade">
+                                    <option value="A+" selected>A+</option>
+                                    <option value="A">A</option>
+                                    <option value="A-" >A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B">B</option>
+                                    <option value="B-">B-</option>
+                                    <option value="C+">C+</option>
+                                    <option value="C">C</option>
+                                    <option value="D+">D+</option>
+                                    <option value="D">D</option>
+                                    <option value="F">F</option>
+                                </select>
+                            </div>
+                            <div id="took_in">
+                                Took in:
+                                <select id="took_in-select" v-model="took_in">
+                                    <option value="AY20/21 S2" selected>AY20/21 S2</option>
+                                    <option value="AY20/21 S1">AY20/21 S1</option>
+                                    <option value="AY19/20 S2">AY19/20 S2</option>
+                                    <option value="AY19/20 S1">AY19/20 S1</option>
+                                    <option value="AY18/19 S2">AY18/19 S2</option>
+                                    <option value="AY18/19 S1">AY18/19 S1</option>
+                                    <option value="AY17/18 S2">AY17/18 S2</option>
+                                    <option value="AY17/18 S1">AY17/18 S1</option>
+                                    <option value="AY16/17 S2">AY20/21 S2</option>
+                                    <option value="AY16/17 S1">AY20/21 S1</option> 
+                                </select>
+                            </div>
+                        </div>
+                        <div id="secondpart">
+                            <textarea id="addInfo" placeholder="Additional Information" v-model="addInfo"></textarea>
+                        </div>
+                        <div id="thirdpart">
+                            <div id="price">
+                                <div v-show="type=='Notes'">
+                                    Price(SGD) 
+                                    <input id="price-input" type="number" v-model="price">
+                                </div>
+                            </div>
+                            <div id="post">
+                                <button id="post-btn" type="Submit" v-on:click="submit()">Post</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div id="details">
-                    <a class="details-outer">
-                        <br><br>
-                        <input id="module-name" type="text" placeholder="Module" v-model="module" class="details">
-                    </a>
-                    <a class="details-outer">
-                        <label for="grade">Grade:</label>
-                        <select id="grade" v-model="grade" class="details">
-                            <option value="A+" selected>A+</option>
-                            <option value="A">A</option>
-                            <option value="A-" >A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B">B</option>
-                            <option value="B-">B-</option>
-                            <option value="C+">C+</option>
-                            <option value="C">C</option>
-                            <option value="D+">D+</option>
-                            <option value="D">D</option>
-                            <option value="F">F</option>
-                        </select>
-                    </a>
-                    <a class="details-outer">
-                        <label for="took-in">Took in: </label>
-                        <select id="took-in" v-model="took_in" class="details">
-                            <option value="AY20/21 S2" selected>AY20/21 S2</option>
-                            <option value="AY20/21 S1">AY20/21 S1</option>
-                            <option value="AY19/20 S2">AY19/20 S2</option>
-                            <option value="AY19/20 S1">AY19/20 S1</option>
-                            <option value="AY18/19 S2">AY18/19 S2</option>
-                            <option value="AY18/19 S1">AY18/19 S1</option>
-                            <option value="AY17/18 S2">AY17/18 S2</option>
-                            <option value="AY17/18 S1">AY17/18 S1</option>
-                            <option value="AY16/17 S2">AY20/21 S2</option>
-                            <option value="AY16/17 S1">AY20/21 S1</option> 
-                        </select>
-                    </a>
-                    <br><br><br>
-                    <textarea name="addInfo" rows="10" cols ="80" placeholder="Additional Information" v-model="addInfo"></textarea>
-                    <div v-show="type=='Notes'">
-                        <label for="price">Price(SGD)</label>
-                        <input type="number" id="price" v-model="price">
-                    </div>
-                    <br><br>
-                    <input type="Submit" value="Post" v-on:click="submit()">
-                </div>
-                    
-                
             </div>
         </div>
-        
     </div>
-    
-  
 </template>
 <script>
 import database from "../../firebase.js"
@@ -196,81 +200,136 @@ export default {
     font-weight: normal;
     font-style: normal;
 }
-#upload-page {
+/*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+
+#uploadpage {
     background:  #47E4E4;
-    margin-top: 0%;
-    overflow: auto;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    height: 70vh;
+    border: #47E4E4 solid thin;
+    padding: 30px;
+    font-family: "FredokaOne";
+    font-size:20px;
 }
-.display {
-    background-position: center;
-    background-color: whitesmoke;
+#main {
+    background: whitesmoke;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     border-radius: 25px;
-    overflow: auto;
-    margin: auto;
+    height: 100%;
+}
+#header {
+    padding: 20px;
+    text-align: center;
+    font-size: 40px;
+    border-bottom: black solid;
+}
+#type {
+    padding: 5px 10px;
+    font-size: 20px;
+    vertical-align: middle;
+    font-family: "FredokaOne";
+}
+#display {
     display: flex;
-    background-position: center;
-    background-size: cover;
-    height: 90%;
-    margin-left: 30px;
-    margin-right: 30px;
-    margin-bottom: 30px;
+    height: 85%;
+}
+#upload{
+    flex: 2;
+    padding: 10px;
+    height: 85%;
+}
+.preview {
+    max-width: 100%;
+    width: auto;
+    height: auto;
 }
 #details {
-    float:left;
-    flex: 1;
+    height: 100%;
+    flex: 3;
 }
-
-#upload{
-    float: left;
-    flex: 1;
+#firstpart {
+    display: flex;
+    height: 20%;
+    padding:20px 40px;;
+    gap: 20px;
+    align-items: center;
 }
-
-h1 {
+#module {
+    flex: 5;
     text-align: center;
-    border: transparent;
 }
-#head {
-    font-family: 'FredokaOne';
-}
-#module-name{
+#module-search {
     text-transform: uppercase;
-}
-img.preview {
-    width: 700px;
-    margin:10px;
-    border: 2px solid black;    
-}
-
-#upload-tutor {
-    border:1px solid gray;
-    width:500px;
-    height:500px;
-    position:relative;
-    align-self:center;
-    margin:7%;
-}
-
-#upload-tutor:after{
-    content:"";
-    position:absolute;
-    align-self:center;
-    border-top:1px solid black;
-    width:707.1px;
-    transform: rotate(45deg);
-    transform-origin: 0% 0%;
-}
-
-#upload-notes{
-    margin-left:7%;
-}
-
-.details{
-    border-radius: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 25px;
+    padding: 5px;
     font-size: 20px;
 }
-.details-outer{
-    margin:10px;
+#grade {
+    flex: 2;
+    text-align: center;
+}
+#grade-select {
+    padding: 5px;
+    border-radius: 25px;
     font-size: 20px;
+}
+#took_in {
+    flex: 3;
+    text-align: center;
+}
+#took_in-select {
+    padding: 5px;
+    border-radius: 25px;
+    font-size: 20px;
+}
+#secondpart {
+    display: flex;
+    height: 40%;
+    padding: 0px 40px;
+}
+#addInfo {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+#thirdpart {
+    display: flex;
+    height: 20%;
+    padding: 20px 40px;
+    gap: 20px;
+    align-items: center;
+}
+#price {
+    flex: 3;
+}
+#price-input {
+    border-radius: 25px;
+    padding: 5px;
+    box-sizing: border-box;
+    width: 25%;
+    font-size: 20px;
+
+}
+#post {
+    flex: 1;
+    text-align: right;
+}
+#post-btn {
+    padding: 15px 20px;
+    border-radius: 10px;
+    background:  #47E4E4;
+    border: none;
+    font-size: 20px;
+    font-family: "FredokaOne";
+    color: white;
+    box-shadow: 0 0 4px #000000;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+#post-btn:hover {
+    background: black;
 }
 </style>
