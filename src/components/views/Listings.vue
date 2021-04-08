@@ -1,49 +1,53 @@
 <template>
     <div>
-        <div id= "listing-page">
-            <br>
+        <div id="listing-page">
             <div id="filter">
-                <h2> Filter</h2><br>
+                <h1><i class="fa fa-filter" aria-hidden="true"></i> Filter</h1>
+                <br>
                 <h3>Type</h3>
-                <input type="radio" v-on:change="filter()" v-model="type" value="Notes">Notes
-                <br>
-                <input type="radio" v-on:change="filter()" v-model="type" value="Tutor">Tutor
-                <br><br><br>
+                <input type="radio" v-on:change="filter()" v-model="type" value="Notes">Notes<br>
+                <input type="radio" v-on:change="filter()" v-model="type" value="Tutor">Tutor<br>
+                <br><br>
                 <h3>Rating</h3>
-                <input type="radio" v-on:change="filter()" v-model="rating" value="***">***
-                <br>
-                <input type="radio" v-on:change="filter()" v-model="rating" value="**">**
-                <br>
-                <input type="radio" v-on:change="filter()" v-model="rating" value="*">*
+                <input type="radio" v-on:change="filter()" v-model="rating" value="***">***<br>
+                <input type="radio" v-on:change="filter()" v-model="rating" value="**">**<br>
+                <input type="radio" v-on:change="filter()" v-model="rating" value="*">*<br>
             </div>
 
             <div v-show="type == 'notes'">
                 <h1>type is chosen</h1>
             </div>
 
-            <div id = "display">
+            <div id="display">
                 <ul>
-                    <li v-for="item in listingFiltered" v-bind:key="item.id" v-on:click="item.show = !item.show">
-                        <section>
-                            <div id="firstpart">
-                                <h1 id="type">{{item.typeOfList}}</h1>
-                                <!-- INSERT PFP 
-                                <img class="img" :src="item.pfp"><br>-->
-                                <img v-if="item.pfp" :src="item.pfp" class="img">
-                                <img v-else src="../../assets/defaultpfp.jpg" class="img">
-                                <br><button v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
-                                <p>{{item.rating}}</p>
+                    <li id="listing" v-for="item in listingFiltered" v-bind:key="item.id" v-on:click="item.show = !item.show">
+                        <div id="firstpart">
+                            <h1>{{item.typeOfList}}</h1>
+                            <div v-if="item.pfp">
+                                <div class="image-cropper">
+                                    <img :src="item.pfp" alt="profilepic" class="profile-pic">
+                                </div>
                             </div>
-                            <div id="secondpart">
-                                <h2 id= "module">{{item.module}}</h2>
-                                <p id="took in">Took in: {{item.took_in}}</p>
-                                <p id="grade">Final grade: {{item.grade}}</p>
-                                <p id = "addInfo">{{item.addInfo}}</p>
+                            <div v-else>
+                                <div class="image-cropper">
+                                    <img src="../../assets/defaultpfp.jpg" alt="profilepic" class="profile-pic">
+                                </div>
                             </div>
-                            <button v-bind:id="item.userId" v-on:click="toChat($event)">Chat</button>
-                            <!-- <img v-bind:src="item.image" v-show="item.show"/> -->
-                            <hr>
-                        </section>
+                            <br>
+                            <button class="profile-button" v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
+                            <p>{{item.rating}}</p>
+                        </div>
+                        <div id="secondpart">
+                            <h2>{{item.module}}</h2>
+                            <p>Took in: {{item.took_in}}</p>
+                            <p>Final grade: {{item.grade}}</p>
+                            <p>{{item.addInfo}}</p>
+                        </div>
+                        <div id="thirdpart">
+                            <div v-if="item.userId != currentUser">
+                                <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)"><i class="fa fa-comment" aria-hidden="true"></i> Chat</button>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -53,15 +57,16 @@
 
 <script>
 import { db } from '../../firebase'
+import { auth } from '../../firebase'
 
 export default {
     data() {
         return{
+            currentUser: auth.currentUser.uid,
             type:'',
             rating:'',
             listing:[],
-            listingFiltered:[],
-            profilepics: {},
+            listingFiltered:[]
         }
     },
     methods: {
@@ -91,19 +96,9 @@ export default {
             alert(uid);
             this.$router.push({ name:'chat', params:{ uid:uid } });
         },
-        /*fetchPFP: function() {
-            db.collection('users').get().then(snapshot => {
-                snapshot.docs.forEach(doc => {
-                    var user = doc.data()
-                    //alert(user.profilepic)
-                    this.profilepics[doc.id] = user.profilepic
-                })
-            })
-        }*/
     },
     created() {
         this.fetchItems();
-        //this.fetchPFP();
     }
 }
 </script>
@@ -117,69 +112,48 @@ export default {
     font-weight: normal;
     font-style: normal;
 }
-
 #listing-page {
     background:  #47E4E4;
-    margin-top: 0%;
-    overflow: auto;
+    display: flex;
+    padding: 20px 30px 20px 30px;
+    gap: 30px;
 }
-
-.img {
-  border-radius: 50em;
-  height: 90px;
-  width: 90px;
-  vertical-align: middle;
-  padding: 10px;
-}
-
-ul {
-    list-style-type: none;
-}
-
 #filter {
-    position:sticky;
-    margin-left: 1.5%;
-    width:15%;
-    float:left;
+    flex: 1;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-
-h2 {
-    margin:0%
-}
-
-h3 {
-    margin:0%
-}
-
 #display {
-    margin-bottom: 30px;
-    height: 90%;
-    width:80%;
-    float: left;
+    flex: 9;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    padding: 0px 40px 20px 0px;
     background-color: whitesmoke;
     border-radius: 25px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    box-shadow: inset 0 0 10px #000000;
+    
 }
-#display button {
-    border-radius: 8px;
-    border: none;
-    padding: 5px;
-    background-color:darkgrey;
-    color: white;
-    font-family: 'FredokaOne';
-}
-
-.chat {
-  width: auto;
-  height: 40%;
+#listing {
+    display: flex;
+    align-items: center;
+    border-bottom: black solid;
+    list-style-type: none;
 }
 #firstpart{
-    width:20%;
-    float: left;
+    flex: 2;
     font-family: 'FredokaOne';
+    padding: 0px 30px;
 }
-#firstpart button {
+.image-cropper {
+  height: 90px;
+  width: 90px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.profile-pic {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+.profile-button {
     font-family: 'FredokaOne';
     border-radius: 8px;
     cursor: pointer;
@@ -188,29 +162,31 @@ h3 {
     border: none;
     padding: 5px;
     background-color: #25abb4;
+    cursor: pointer;
+    text-align: center;
+}
+.profile-button:hover {
+    background-color: black;
 }
 #secondpart{
-    width:40%;
-    float:left;
+    flex: 6;
 }
-
-section:after {
-  content: "";
-  display: table;
-  clear: both;
+#thirdpart{
+    flex: 2;
+    text-align: center;
 }
-
-hr {
-  border: 0;
-  clear:both;
-  display:block;
-  width: 96%;               
-  background-color:black;
-  height: 1px;
+.chat-button {
+    border-radius: 8px;
+    border: none;
+    padding: 10px 20px;
+    background-color:darkgrey;
+    color: white;
+    font-family: 'FredokaOne';
+    cursor: pointer;
+    transition-duration: 0.4s;
+    font-size: 20px;
 }
-
-.chat{
-    float: right;
-    margin-right: 120px;
+.chat-button:hover {
+    background-color: black;
 }
 </style>
