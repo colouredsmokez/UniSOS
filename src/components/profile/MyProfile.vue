@@ -2,13 +2,13 @@
     <div class="profile">
         <!--Banner-->
         <div class="header">
-            <img class="header-bg" src='../../assets/ProfileBanner.png' alt="profile banner">
+            <img class="header-bg" src='../../assets/ProfileBanner2.png' alt="profile banner">
             <div class="header-content">
                 <!-- Profile Pic -->
                 <img class="header-content-pic" :src="profilepic" alt="profile pic">
                 <div>
-                    <input type="file" v-on:change="previewImage" accept="image/*">
-                    <button v-on:click="upload">Upload</button>
+                    <input id="btn" type="file" v-on:change="previewImage" accept="image/*">
+                    <button id="btn" v-on:click="upload">Upload</button>
                 </div>
                 <!-- User Info -->
                 <h3>{{ name }}</h3>
@@ -64,7 +64,7 @@ data() {
         name: '',
         email: '',
         university: '',
-        profilepic: null,
+        profilepic: '../../assets/NoProfilePic.jpg',
         imageData: null,
         bio: '',
         reviews: [],
@@ -173,5 +173,8 @@ methods: {
     list-style-type: none;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     padding: 20px;
+}
+#btn {
+    cursor: pointer;
 }
 </style>

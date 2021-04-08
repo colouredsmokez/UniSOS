@@ -58,7 +58,7 @@ data() {
         name: '',
         email: '',
         university: '',
-        profilepic: null,
+        profilepic: '../../assets/NoProfilePic.jpg',
         imageData: null,
         bio: '',
         reviews: [],

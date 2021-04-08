@@ -95,6 +95,14 @@ export default {
 
 
 <style scoped>
+@font-face {
+    font-family: 'FredokaOne';
+    src: url('/fonts/fredokaone-regular-webfont.woff2') format('woff2'),
+         url('/fonts/fredokaone-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 #listing-page {
     background:  #47E4E4;
     margin-top: 0%;
@@ -126,6 +134,15 @@ h3 {
     background-color: whitesmoke;
     border-radius: 25px;
 }
+#display button {
+    border-radius: 8px;
+    border: none;
+    padding: 5px;
+    background-color:darkgrey;
+    color: white;
+    font-family: 'FredokaOne';
+}
+
 .chat {
   width: auto;
   height: 40%;
@@ -133,8 +150,18 @@ h3 {
 #firstpart{
     width:20%;
     float: left;
+    font-family: 'FredokaOne';
 }
-
+#firstpart button {
+    font-family: 'FredokaOne';
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    border: none;
+    padding: 5px;
+    background-color: #25abb4;
+}
 #secondpart{
     width:40%;
     float:left;

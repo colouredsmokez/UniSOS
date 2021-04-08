@@ -195,9 +195,10 @@ export default {
   border-radius: 0.5em;
   padding: 10px 20px;
   transition-duration: 0.4s;
-  background-color: #2BD7E2;
+  background-color: #25abb4;
   color: white;
   vertical-align: middle;
+  border: none;
 }
 .btn:hover {
   background-color: black; /* Green */
