@@ -22,7 +22,13 @@
         <div class="body">
             <!-- Bio -->
             <div id="bio">
-                <p> Bio <button id="btn"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button> </p>
+                <p> 
+                    Bio 
+                    <button id="btn"> 
+                        Edit
+                        <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i>  -->
+                    </button> 
+                </p>
                 <span> {{ bio }} </span>
             </div>
 
@@ -31,7 +37,10 @@
                 <hr>
                 <h3>
                     Modules
-                    <button id="btn"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button> 
+                    <button id="btn"> 
+                        Edit
+                        <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i>  -->
+                    </button>
                 </h3> 
                 <ul>
                     <li class="list-item" v-for="c in classes" v-bind:key="c">
@@ -47,9 +56,10 @@
             <!-- Notes Info -->
             <div class="list">
                 <hr>
-                <h3>
-                    Notes 
-                    <button id="btn"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button></h3>
+                <h3> Notes
+                    <button id="btn"> Edit </button>
+                </h3>
+                    <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i>  -->
                 <ul>
                     <li class="list-item" v-for="n in notes" v-bind:key="n">
                         <div>
@@ -205,6 +215,7 @@ methods: {
 }
 #btn {
     cursor: pointer;
+    font-size: 10px;
 }
 #bio p {
     font-family: 'FredokaOne';

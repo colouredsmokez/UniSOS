@@ -32,10 +32,20 @@
           <!-- Log Out -->
           <div class="flex-child align-right">
             <div class="inline-block">
-              <router-link class="profile" to="/myprofile">
+              
                 <div class="flex-child-auto"><div class="image-cropper"><img class="profile-pic" :src="profilepic" alt="ProfilePic"></div></div>
-                <div class="flex-child-auto"> {{ name }} </div>
-              </router-link>
+                <div class="flex-child-auto">
+                  <div class="dropdown">
+                    <button class="dropbtn"> {{ name }} </button>
+                    <div class="dropdown-content">
+                      <router-link class="profile" to="/profile/uid"> Profile </router-link>
+                      <router-link class="edit" to="/editprofile"> Edit Profile </router-link>
+                      <router-link class="chat" to="/chat/uid"> Chats </router-link>
+                    </div>
+                  </div> 
+                   
+                </div>
+              
             </div>
             <div class="inline-block">
               <button class="logout" v-on:click="logout">Logout</button>
@@ -91,6 +101,7 @@ export default {
       isLoggedOut: false,
       name: "",
       profilepic: null,
+      uid: ""
     };
   },
   created() {
@@ -118,6 +129,7 @@ export default {
           var data = snapshot.data();
             this.name = data.name;
             this.profilepic = data.profilepic;
+            this.uid = data.uid
         },
         err => {
           alert(err.message)
@@ -158,17 +170,7 @@ export default {
   height: 50px;
   width: auto;
 }
-.profile {
-  font-family: 'FredokaOne';
-  text-decoration: none;
-  color: #2BD7E2;
-  align-items: center;
-  display: flex;
-  gap: 10px;
-}
-.profile:hover, .profile:active {
-  color: rgba(0, 0, 0, 0.63);
-}
+
 .flex-child-auto {
   flex: auto;
 }
@@ -213,6 +215,56 @@ export default {
 }
 .nav:hover, .nav:active, .nav-wrapper .router-link-active{
   border-bottom: thick solid #25abb4;
+}
 
+/* .profile:hover, .profile:active {
+  color: rgba(0, 0, 0, 0.63);
+} */
+
+/* The dropdown container */
+.dropdown {
+  overflow: hidden;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+  font-family: 'FredokaOne';
+  font-size: 16px; 
+  text-decoration: none;
+  border: none;
+  color: #2BD7E2;;
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  background: none;
+}
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  font-family: inherit;
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.chat .profile .edit {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content router-link:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 </style>

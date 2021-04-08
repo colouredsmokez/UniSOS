@@ -10,6 +10,7 @@ import Login from "./components/auth/Login.vue";
 import Register from "./components/auth/Register.vue";
 
 import Admin from "./components/profile/Admin.vue"
+import EditProfile from "./components/profile/EditProfile.vue"
 import MyProfile from "./components/profile/MyProfile.vue";
 import Profile from "./components/profile/Profile.vue";
 
@@ -170,7 +171,20 @@ let router = new Router({
             meta: {
                 requiresAuth: true
             }
-        }
+        },
+        {
+            path: '/editprofile',
+            name: "editprofile",
+            props: true,
+            components: {
+                header: AppHeader,
+                default: EditProfile,
+                footer: AppFooter
+            },
+            meta: {
+                requiresAuth: true
+            }
+        },
     ],
     scrollBehavior: to => {
         if (to.hash) {
