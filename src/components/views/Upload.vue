@@ -2,12 +2,12 @@
    <div>  
         <div id = "upload-page">
             
-                <h1>Create Listing
-                
-                <select id="type" v-model="type">
-                    <option value="Tutor" selected>Tutor</option>
-                    <option value="Notes">Notes</option>
-                </select>
+                <h1> 
+                    <span id="head">Create Listing</span>
+                    <select id="type" v-model="type">
+                        <option value="Tutor" selected>Tutor</option>
+                        <option value="Notes">Notes</option>
+                    </select>
                 </h1>
             <div class = "display">
                 <div id="upload">
@@ -189,6 +189,13 @@ export default {
 
 
 <style scoped>
+@font-face {
+    font-family: 'FredokaOne';
+    src: url('/fonts/fredokaone-regular-webfont.woff2') format('woff2'),
+         url('/fonts/fredokaone-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 #upload-page {
     background:  #47E4E4;
     margin-top: 0%;
@@ -223,7 +230,9 @@ h1 {
     text-align: center;
     border: transparent;
 }
-
+#head {
+    font-family: 'FredokaOne';
+}
 #module-name{
     text-transform: uppercase;
 }

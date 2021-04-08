@@ -34,7 +34,7 @@
             <div class="inline-block">
               <router-link class="profile" to="/myprofile">
                 <div class="flex-child-auto"><div class="image-cropper"><img class="profile-pic" :src="profilepic" alt="ProfilePic"></div></div>
-                <div class="flex-child-auto">{{ name }}</div>
+                <div class="flex-child-auto"> {{ name }} </div>
               </router-link>
             </div>
             <div class="inline-block">
