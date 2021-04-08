@@ -66,7 +66,8 @@ export default {
             type:'',
             rating:'',
             listing:[],
-            listingFiltered:[]
+            listingFiltered:[],
+            users:[]
         }
     },
     methods: {
@@ -96,9 +97,32 @@ export default {
             alert(uid);
             this.$router.push({ name:'chat', params:{ uid:uid } });
         },
+        /*fetchUsers: function() {
+            db.collection('users').get().then((snapshot)=> {
+                snapshot.forEach(doc=>{
+                    this.users.push([doc.id,doc.data()]);
+                });
+            });
+        },
+        updatePFP: function() {
+            for (var user in this.users) {
+                var userId = user[0]
+                var userInfo = user[1]
+                var currPFP = userInfo.profilepic
+
+                for (var currListing in this.listing) {
+                    if (userId == currListing.userId) {
+                        if (currPFP != currListing.pfp) {
+                            var ref
+                        }
+                    }
+                }
+            }
+        }*/
     },
     created() {
         this.fetchItems();
+        //this.fetchUsers();
     }
 }
 </script>
