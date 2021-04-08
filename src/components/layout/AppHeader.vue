@@ -38,9 +38,9 @@
                   <div class="dropdown">
                     <button class="dropbtn"> {{ name }} </button>
                     <div class="dropdown-content">
-                      <router-link class="profile" to="/profile/uid"> Profile </router-link>
+                      <router-link class="profile" to="/myprofile"> Profile </router-link>
                       <router-link class="edit" to="/editprofile"> Edit Profile </router-link>
-                      <router-link class="chat" to="/chat/uid"> Chats </router-link>
+                      <router-link class="chat" to="/chat/:uid"> Chats </router-link>
                     </div>
                   </div> 
                    
@@ -101,7 +101,6 @@ export default {
       isLoggedOut: false,
       name: "",
       profilepic: null,
-      uid: ""
     };
   },
   created() {
@@ -129,7 +128,6 @@ export default {
           var data = snapshot.data();
             this.name = data.name;
             this.profilepic = data.profilepic;
-            this.uid = data.uid
         },
         err => {
           alert(err.message)
