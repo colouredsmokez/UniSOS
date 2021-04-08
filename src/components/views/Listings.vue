@@ -27,10 +27,11 @@
                         <section>
                             <div id="firstpart">
                                 <h1 id="type">{{item.typeOfList}}</h1>
-                                <!-- INSERT PFP -->
-                                <p>{{profilepics[item.userId]}}</p>
-                                <img class="img" :src="item.pfp"><br>
-                                <button v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
+                                <!-- INSERT PFP 
+                                <img class="img" :src="item.pfp"><br>-->
+                                <img v-if="item.pfp" :src="item.pfp" class="img">
+                                <img v-else src="../../assets/defaultpfp.jpg" class="img">
+                                <br><button v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
                                 <p>{{item.rating}}</p>
                             </div>
                             <div id="secondpart">
@@ -90,7 +91,7 @@ export default {
             alert(uid);
             this.$router.push({ name:'chat', params:{ uid:uid } });
         },
-        fetchPFP: function() {
+        /*fetchPFP: function() {
             db.collection('users').get().then(snapshot => {
                 snapshot.docs.forEach(doc => {
                     var user = doc.data()
@@ -98,11 +99,11 @@ export default {
                     this.profilepics[doc.id] = user.profilepic
                 })
             })
-        }
+        }*/
     },
     created() {
         this.fetchItems();
-        this.fetchPFP();
+        //this.fetchPFP();
     }
 }
 </script>
@@ -144,6 +145,8 @@ h3 {
 }
 
 #display {
+    margin-bottom: 30px;
+    height: 90%;
     width:80%;
     float: left;
     background-color: whitesmoke;

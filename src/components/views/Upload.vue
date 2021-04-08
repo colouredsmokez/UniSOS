@@ -9,8 +9,7 @@
                     <option value="Notes">Notes</option>
                 </select>
                 </h1>
-                <hr>
-            <div id = "display">
+            <div class = "display">
                 <div id="upload">
                     <div v-show="type=='Tutor'" id='upload-tutor'></div>
                     <div v-show="type=='Notes'" id="upload-notes">
@@ -61,12 +60,13 @@
                             <option value="AY16/17 S1">AY20/21 S1</option> 
                         </select>
                     </a>
-                    <br>
+                    <br><br><br>
                     <textarea name="addInfo" rows="10" cols ="80" placeholder="Additional Information" v-model="addInfo"></textarea>
                     <div v-show="type=='Notes'">
                         <label for="price">Price(SGD)</label>
                         <input type="number" id="price" v-model="price">
                     </div>
+                    <br><br>
                     <input type="Submit" value="Post" v-on:click="submit()">
                 </div>
                     
@@ -93,7 +93,7 @@ export default {
             addInfo:"",
             price:'',
             name:"",
-            pfp:"",
+            pfp:"../../assets/defaultpfp.jpg",
             imageData: null,
             picture: null,
             uploadValue: 0
@@ -193,32 +193,35 @@ export default {
     background:  #47E4E4;
     margin-top: 0%;
     overflow: auto;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-
-#details {
-    float:left;
-    /*width: 50%;*/
-    flex: 1;
-}
-
-#upload{
-    /*width:50%;*/
-    float: left;
-    flex: 1;
-    
-}
-
-#display {
-    
-    margin:50px;
+.display {
+    background-position: center;
     background-color: whitesmoke;
     border-radius: 25px;
     overflow: auto;
     margin: auto;
     display: flex;
+    background-position: center;
+    background-size: cover;
+    height: 90%;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 30px;
 }
+#details {
+    float:left;
+    flex: 1;
+}
+
+#upload{
+    float: left;
+    flex: 1;
+}
+
 h1 {
     text-align: center;
+    border: transparent;
 }
 
 #module-name{
@@ -242,6 +245,7 @@ img.preview {
 #upload-tutor:after{
     content:"";
     position:absolute;
+    align-self:center;
     border-top:1px solid black;
     width:707.1px;
     transform: rotate(45deg);
