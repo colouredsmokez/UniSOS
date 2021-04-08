@@ -12,23 +12,21 @@
                             <div class="msg" style="float:right">
                                 <span class="msg-user"> You </span>
                                 <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
-                                <p class="msg-content"> {{message.message}} </p>
+                                <div class="msg-bubble">
+                                    <p class="msg-content"> {{message.message}} </p>
+                                </div>
                             </div>
                         </div>
                         <div v-if="message.author == otherData.name">
                             <div class="msg" style="float:left">
                                 <span class="msg-user"> {{message.author}} </span>
                                 <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
-                                <p class="msg-content"> {{message.message}} </p>
+                                <div class="msg-bubble">
+                                    <p class="msg-content"> {{message.message}} </p>
+                                </div>
                             </div>
                         </div>
                         <div style="clear:both"></div>
-                        <!--
-                        <span v-if="message.author === 'this.thisData.name'" class="msg-user"> You </span>
-                        <span v-else class="msg-user"> {{message.author}} </span>
-                        <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
-                        <p class="msg-content"> {{message.message}} </p>
-                        -->
                     </div>
                 </div>
             </div>
@@ -36,7 +34,7 @@
                 <div class="input-upload">
                     <button class="input-upload-btn"></button>
                 </div>
-                <textarea class="input-text" v-model="message" type="text" placeholder="Type a message"/><!--@keyup.enter="saveMessage()"-->
+                <textarea class="input-text" @keyup.enter="saveMessage()" v-model="message" type="text" placeholder="Type a message"/>
                 <div class="input-enter">
                     <button class="input-enter-btn" v-on:click="saveMessage()"> <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                 </div>
@@ -130,7 +128,7 @@ export default {
     .flex-child-bio {
         flex: 2;
         padding: 30px;
-        border-right: black solid;
+        border-right: #47E4E4 solid thick;
     }
     .flex-child-chat {
         flex: 3;
@@ -156,13 +154,17 @@ export default {
         color: #747474;
         font-size: 10px;
     }
-    .msg-content {
-        background: #ebebeb none repeat scroll 0 0;
+    .msg-bubble {
+        background: #ebebeb;
         padding: 10px;
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
         border-radius: 5px;
+        max-width: 500px;
+        word-wrap: break-word;
+    }
+    .msg-content {
+        margin:0px;
         font-size: 16px;
-        margin:0;
     }
     .input {
         height:10vh;

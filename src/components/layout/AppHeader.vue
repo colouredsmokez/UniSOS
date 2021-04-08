@@ -194,6 +194,7 @@ export default {
   color: white;
   vertical-align: middle;
   border: none;
+  cursor:pointer;
 }
 .logout:hover {
   background-color: black;
