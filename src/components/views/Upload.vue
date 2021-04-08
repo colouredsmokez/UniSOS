@@ -1,7 +1,7 @@
 <template>
    <div>  
         <div id = "upload-page">
-            <div id = "display">
+            
                 <h1>Create Listing
                 
                 <select id="type" v-model="type">
@@ -10,6 +10,7 @@
                 </select>
                 </h1>
                 <hr>
+            <div id = "display">
                 <div id="upload">
                     <div v-show="type=='Tutor'" id='upload-tutor'></div>
                     <div v-show="type=='Notes'" id="upload-notes">
@@ -26,6 +27,7 @@
                 </div>
                 <div id="details">
                     <a class="details-outer">
+                        <br><br>
                         <input id="module-name" type="text" placeholder="Module" v-model="module" class="details">
                     </a>
                     <a class="details-outer">
@@ -195,12 +197,14 @@ export default {
 
 #details {
     float:left;
-    width: 50%;
+    /*width: 50%;*/
+    flex: 1;
 }
 
 #upload{
-    width:50%;
+    /*width:50%;*/
     float: left;
+    flex: 1;
     
 }
 
@@ -210,6 +214,8 @@ export default {
     background-color: whitesmoke;
     border-radius: 25px;
     overflow: auto;
+    margin: auto;
+    display: flex;
 }
 h1 {
     text-align: center;
@@ -226,7 +232,7 @@ img.preview {
 
 #upload-tutor {
     border:1px solid gray;
-    width:80%;
+    width:500px;
     height:500px;
     position:relative;
     align-self:center;
@@ -237,8 +243,8 @@ img.preview {
     content:"";
     position:absolute;
     border-top:1px solid black;
-    width:725px;
-    transform: rotate(43.25deg);
+    width:707.1px;
+    transform: rotate(45deg);
     transform-origin: 0% 0%;
 }
 
