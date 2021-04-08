@@ -156,7 +156,7 @@ export default {
   vertical-align: middle;
 }
 .logo {
-  height: 5vh;
+  height: 50px;
   width: auto;
 }
 .profile {
@@ -174,8 +174,8 @@ export default {
   flex: auto;
 }
 .image-cropper {
-  width: 5vh;
-  height: 5vh;
+  width: 40px;
+  height: 40px;
   overflow: hidden;
   border-radius: 50%;
   margin: auto;

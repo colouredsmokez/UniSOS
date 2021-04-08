@@ -5,6 +5,7 @@
         <h1>Sign in with credentials</h1>
         <br><br><br><br>      
         <form>
+          <i class="fa fa-envelope" aria-hidden="true"></i>
           <input class="input-text" type="text" placeholder="Email" v-model="email" required>
           <br><br>
           <input class="input-text" type="password" placeholder="Password" v-model="password" required>
@@ -88,6 +89,12 @@ export default {
   font-size: 20px;
   font-family: 'FredokaOne';
   padding: 15px;
+}
+i {
+  position: absolute;
+  left: 15px;
+  top: 40px;
+  color: gray;
 }
 .btn {
   font-family: 'FredokaOne';
