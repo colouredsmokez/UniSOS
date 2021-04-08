@@ -165,7 +165,7 @@ export default {
   flex-wrap: wrap;
   list-style-type: none;
   padding: 0;
-  background-color: #2BD7E2;
+  background-color: #47E4E4;
   border-radius: 25px;
 }
 #notesli {

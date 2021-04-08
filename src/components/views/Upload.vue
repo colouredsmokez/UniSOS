@@ -91,6 +91,7 @@ export default {
             addInfo:"",
             price:'',
             name:"",
+            pfp:"",
             imageData: null,
             picture: null,
             uploadValue: 0
@@ -102,6 +103,21 @@ export default {
             if (this.module=="" || this.took_in=="" ||((this.price=="" ||this.picture==null)&& this.type=="Notes")) {
                 alert("Incomplete Submission")
             } else {
+                /*alert("currId")
+                var newListing = {}
+                var currId = auth.currentUser.uid
+                //alert("currId")
+                let currPFP = "default"
+                database.collection('users').get().then(snapshot => {
+                    snapshot.docs.forEach(doc => {
+                        var user = doc.data()
+                        //alert(doc.id)
+                        if (doc.id == auth.currentUser.uid) {
+                            currPFP = user.profilepic
+                            //alert(currPFP)
+                        }
+                    })
+                })*/
                 var newListing = {}
                 newListing["typeOfList"] = this.type;
                 newListing["grade"] = this.grade;
@@ -109,6 +125,7 @@ export default {
                 newListing["took_in"] = this.took_in
                 newListing["addInfo"] = this.addInfo;
                 newListing["userId"] = auth.currentUser.uid;
+                newListing["pfp"] = this.pfp;
                 newListing["name"] = this.name;
                 if (this.type=="Notes"){
                     newListing["price"] = this.price;
@@ -129,23 +146,36 @@ export default {
                 ()=>{this.uploadValue=100;
                 storageRef.snapshot.ref.getDownloadURL().then((url)=>{
                 this.picture =url;
-            });
-        }
-        );
+                });
+            }
+            );
         },
-
+        fetchUser: function() {
+            database.collection('users').get().then(snapshot => {
+                snapshot.docs.forEach(doc => {
+                    var user = doc.data()
+                    if (doc.id == auth.currentUser.uid) {
+                        this.name = user.name
+                        this.pfp = user.profilepic
+                    }
+                })
+            })
+        }
         
     },
     created() {
-    database.collection('users').doc(auth.currentUser.uid).get().then(
+        this.fetchUser();
+    /*database.collection('users').doc(auth.currentUser.uid).get().then(
         snapshot => {
             var data = snapshot.data();
             this.name = data.name;
+            this.profilepic = data.pfp;
+            alert(this.profilepic)
         },
         err => {
             alert(err.message)
         }
-    )
+    )*/
   }
 }
     
@@ -196,7 +226,7 @@ img.preview {
 
 #upload-tutor {
     border:1px solid gray;
-    width:800px;
+    width:80%;
     height:500px;
     position:relative;
     align-self:center;
@@ -207,8 +237,8 @@ img.preview {
     content:"";
     position:absolute;
     border-top:1px solid black;
-    width:943px;
-    transform: rotate(32deg);
+    width:725px;
+    transform: rotate(43.25deg);
     transform-origin: 0% 0%;
 }
 
