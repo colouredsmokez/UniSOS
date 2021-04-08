@@ -3,61 +3,72 @@
 
     <div id="content">
       <br>
-      <img id="bckgrnd" src="../../assets/Rectangle.png">
+      <div class="flex-container">
+        <div class="filter">
+
+      <!---<img id="bckgrnd" src="../../assets/Rectangle.png">
       <img id="notesbox" src="../../assets/NotesRectangle.png">
       
-      <img id="filterbox" src="../../assets/FilterRectangle.png">
+      <img id="filterbox" src="../../assets/FilterRectangle.png">--->
 
-      <p id="filtertext">Module Level</p>
-      
-      <input type="radio" id="lvl1" name="level" value="lvl1" v-model= "modlevel"/>
-      <p id="label1">1k</p>
+        <p id="filtertxt">Module Level</p>
+
+        <div id="level">
+          <input type="radio" id="lvl1" name="level" value="lvl1" v-model= "modlevel"/>
+          <label for="lvl1">1k</label> <br><br> 
      
-      <input type="radio" id="lvl2" name="level" value="lvl2" v-model= "modlevel"/> 
-      <p id="label2">2k</p>
+          <input type="radio" id="lvl2" name="level" value="lvl2" v-model= "modlevel"/> 
+          <label for="lvl2">2k</label> <br><br>
 
-      <input type="radio" id="lvl3" name="level" value="lvl3" v-model= "modlevel"/> 
-      <p id="label3">3k</p>
+          <input type="radio" id="lvl3" name="level" value="lvl3" v-model= "modlevel"/> 
+          <label for="lvl3">3k</label> <br><br>
 
-      <input type="radio" id="lvl4" name="level" value="lvl4" v-model= "modlevel"/> 
-      <p id="label4">4k ++</p>
+          <input type="radio" id="lvl4" name="level" value="lvl4" v-model= "modlevel"/> 
+          <label for="lvl4">4k++</label> <br><br>
+
+        </div>
+    
 
       
-      <p id=purchasetxt>Purchase Date</p><br><br>
-      <div id="purchase">
-        <input type="radio" id="recent" name="purchasedate" value="recent" v-model= "purchasedate"/>
-        <label for="recent">Most Recent</label> <br><br> 
+        <p id=purchasetxt>Purchase Date</p>
+          <div id="purchase">
+          <input type="radio" id="recent" name="purchasedate" value="recent" v-model= "purchasedate"/>
+          <label for="recent">Most Recent</label> <br><br> 
 
-        <input type="radio" id="old" name="purchasedate" value="old" v-model= "purchasedate"/>
-        <label for="old">Oldest</label> <br><br>
+          <input type="radio" id="old" name="purchasedate" value="old" v-model= "purchasedate"/>
+          <label for="old">Oldest</label> <br><br>
         
-      </div>
-
-    <p id="ratingtxt">Rating</p>
-      <div id="rating">
-        <input type="radio" id="***" name="rating" value="***" v-model= "rating"/>
-        <label for="***">***</label> <br><br>
-
-        <input type="radio" id="**" name="rating" value="**" v-model= "rating"/>
-        <label for="**">**</label> <br><br>
-
-        <input type="radio" id="*" name="rating" value="*" v-model= "rating"/>
-        <label for="*">*</label> <br><br>
-
-      </div> 
-    
-    <p id="mynotestxt">My Notes</p>
-    <div class="lastviewed">
-      <p id="lastviewedtxt">Last Viewed</p>
-      <ul id="noteslist">
-        <li id="notes" v-for="item in notes" v-bind:key="item.id">
-          <div>
-          <!--<img width= 110px height= 75px :src= "item.imageURL" v-on:click="route($event)" v-bind:id="item.id"/><br>-->
-          <router-link to="/localview" exact><img width= 110px height= 75px :src= "item.imageURL"/></router-link><br>
-          <h3>{{item.title}}</h3>
           </div>
-        </li>
-      </ul>
+
+        <p id="ratingtxt">Rating</p>
+          <div id="rating">
+            <input type="radio" id="***" name="rating" value="***" v-model= "rating"/>
+            <label for="***">***</label> <br><br>
+
+            <input type="radio" id="**" name="rating" value="**" v-model= "rating"/>
+            <label for="**">**</label> <br><br>
+
+            <input type="radio" id="*" name="rating" value="*" v-model= "rating"/>
+            <label for="*">*</label> <br><br>
+
+          </div> 
+      </div>
+    
+      <div class="notes">
+        <p id="mynotestxt">My Notes</p>
+        <div id="lastviewed">
+          <p id="lastviewedtxt">Last Viewed</p>
+          <ul id="noteslist">
+            <li id="notesli" v-for="item in notes" v-bind:key="item.id">
+              <div>
+                <!--<img width= 110px height= 75px :src= "item.imageURL" v-on:click="route($event)" v-bind:id="item.id"/><br>-->
+                <router-link to="/localview" exact><img width= 110px height= 75px :src= "item.imageURL"/></router-link><br>
+                <h3>{{item.title}}</h3>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
 
     </div>
     </div> 
@@ -105,160 +116,71 @@ export default {
 </script>
 
 <style scoped>
-/** * {
-  box-sizing: border-box;
-} **/
-img {
+/*img {
   position: absolute;
   width: 255px;
   height: 71px;
   left: 22px;
   top: 31px;
-}
+}*/
 #content {
   background: #47E4E4;
   margin-top: 0%;
+  overflow: auto;
 }
-#bckgrnd {
-position: absolute;
-width: 1440px;
-height: 900px;
-left: 0px;
-top: 150px;
-
-background: #47E4E4;
+.flex-container {
+  display: flex;
+  margin: auto;
+  height: 80vh;
 }
-#filterbox{
-  position: absolute;
-  width: 325px;
-  height: 707px;
-  left: 60px;
-  top: 265px;
-  background: #C5ECEC;
-  border-radius: 44px;
-}
-#filtertext {
-  position: absolute;
-  width: 237px;
-  height: 235.45px;
-  left: 150px;
-  top: 300px;  
+.filter {
+  flex: 1;
+  background-position: center;
+  background-size: cover;
+  height: 90%;
+  margin-left: 50px;
+  margin-right: 30px;
+  margin-top: 10px;
+  border-radius: 25px;
+  background-color: #C5ECEC;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-size: 20px;
-  font-weight: bold;
-}
-#label1, #label2, #label3, #label4, #label5, #label6 {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 15px;
-}
-#lvl1 {
-  position: absolute;
-  width: 32.85px;
-  height: 37.29px;
-  left: 104px;
-  top: 363px;
-  line-height: 27px;
-}
-#label1 {
-  position: absolute;
-  width: 32.85px;
-  height: 37.29px;
-  left: 150px;
-  top: 355px;
-  line-height: 27px;
-}
-#lvl2 {
-  position: absolute;
-  width: 32.85px;
-  height: 37.29px;
-  left: 104px;
-  top: 412px;
-}
-#label2 {
-  position: absolute;
-  width: 32.85px;
-  height: 37.29px;
-  left: 150px;
-  top: 409px;
-}
-#lvl3 {
-  position: absolute;
-  width: 32.85px;
-  height: 37.29px;
-  left: 104px;
-  top: 461px;  
-}
-#label3 {
-  position: absolute;
-  width: 32.85px;
-  height: 37.29px;
-  left: 150px;
-  top: 458px;  
-} 
-#lvl4 {
-  position: absolute;
-  width: 32.85px;
-  height: 37.29px;
-  left: 104px;
-  top: 510px;
-}
-#label4 {
-  position: absolute;
-  width: 50px;
-  height: 37.29px;
-  left: 150px;
-  top: 508px;
-}
-#purchase {
-  position: absolute;
-  width: 236.5px;
-  height: 142.99px;
-  left: 104px;
-  top: 640px;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
-#purchasetxt {
-  position: absolute;
-  width: 236.5px;
-  height: 142.99px;
-  left: 150px;
-  top: 569.61px;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-size: 20px;
   font-weight: bold;
 }
-#ratingtxt {
-  position: absolute;
-  width: 236.5px;
-  height: 186.67px;
-  left: 150px;
-  top: 734.09px;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-size: 20px;
-  font-weight: bold;
+.notes {
+  flex: 2;
+  background-position: center;
+  background-size: cover;
+  height: 90%;
+  margin-left: 30px;
+  margin-right: 50px;
+  margin-top: 10px;
+  border-radius: 25px;
+  background-color: white;
 }
-#rating {
-  position: absolute;
-  width: 236.5px;
-  height: 142.99px;
-  left: 104px;
-  top: 805px;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-} 
-#notesbox{
-  position: absolute;
-  width: 950px;
-  height: 707px;
-  left: 435px;
-  top: 265px;
+#noteslist {
+  width: 90%;
+  margin: 0px;
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 0;
+  background-color: #47E4E4;
+  border-radius: 25px;
+}
+#notesli {
+  margin-top: 100px;
+  text-align: center;
+  min-width: 33%;
+  max-width: 33%;
+}
+#filtertxt, #level, #purchasetxt, #purchase, #ratingtxt, #rating {
+  margin-left: 30px;
+  margin-top: 30px;
 }
 #mynotestxt {
-  position: absolute;
-  width: 286px;
-  height: 57px;
-  left: 475px;
-  top: 250px;
-
+  margin-left: 40px;
+  margin-top: 20px;
   font-family: 'Fredoka One';
   font-style: normal;
   font-weight: bold;
@@ -268,51 +190,32 @@ background: #47E4E4;
   align-items: center;
   letter-spacing: -0.015em;
 }
-.lastviewed {
+#lastviewedtxt {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 25px;
+  margin-top: 60px;
+  margin-left: 40px;
+}
+ul#noteslist li {
+  display:inline;
+}
+/*.lastviewed {
   position: absolute;
   width: 869.39px;
   height: 254px;
   left: 476px;
   top: 380px;
 }
-#lastviewedtxt {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 25px;
-  line-height: 30px;
-  display: flex;
-  align-items: center;
-  letter-spacing: -0.015em;
-}
-/**ul#noteslist li {
-  display:inline;
-}
 ul {
-  width: 100%;
+  width: 80%;
   max-width: 70%;
   margin: 0px;
   padding: 0 5px;
   box-sizing: border-box;
-}**/
-#noteslist {
-  width: 100%;
-  margin: 0px;
-  display: flex;
-  flex-wrap: wrap;
-  list-style-type: none;
-  padding: 0;
-  background-color: #2BD7E2;
 }
-#notes {
-  margin-top: 100px;
-  text-align: center;
-  flex-basis: 200px;
-  min-width: 50%;
-  max-width: 50%;
-
-}
-/** .noteslist {
+.noteslist {
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
@@ -327,16 +230,17 @@ ul {
   color: #2c3e50;
   margin-top: 60px;
 }
-/**li {
+li {
   flex-grow: 1;
-  flex-basis: 150px;
+  flex-basis: 15px;
   text-align: center;
-  padding: 10px;
+  padding: 1px;
   border: 1px solid #222;
   margin: 10px;
-}**/
+}
 img {
   width: 220px;
   height: 150px;
+  /*margin-top: 150px;*/
 }
 </style>

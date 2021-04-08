@@ -1,8 +1,8 @@
 <template>
     <div>
-
+      
       <!-- Logged Out -->
-      <div class="flex-container" v-if="isLoggedOut">
+      <div v-if="isLoggedOut" class="flex-container" >
         <!-- Logo -->
         <div class="flex-child">
           <router-link to="/">
@@ -10,36 +10,41 @@
           </router-link>
         </div>
         <!-- Page Links -->
-        <div class="flex-child">
-          <div class="auth-wrapper">
-            <router-link class="auth" to="/login">Login</router-link>
-            <router-link class="auth" to="/register">Register</router-link>
+        <div class="flex-child align-right">
+          <div class="inline-block">
+            <router-link class="profile" to="/login">Login</router-link>
+          </div>
+          <div class="inline-block">
+            <router-link class="profile" to="/register">Register</router-link>
           </div>
         </div>
       </div>
 
       <!-- Logged In -->
       <div v-if="isLoggedIn">
-
         <div class="flex-container">
+          <!-- Logo -->
           <div class="flex-child">
-            <!-- Logo -->
             <router-link to="/">
-              <img class="logo" src="../../assets/UniSOSlogo.png" alt="unisos logo">
+              <img class="logo" src="../../assets/UniSOSlogo.png" alt="UnisosLogo">
             </router-link>
           </div>
-          <div class="flex-child">
-            <!-- Log Out -->
-            <div class="auth-wrapper">
-              <router-link class="auth" to="/myprofile"><img class="img" :src="profilepic" alt="profile pic">{{ name }}</router-link>
-              <button class="btn" v-on:click="logout">Logout</button>
+          <!-- Log Out -->
+          <div class="flex-child align-right">
+            <div class="inline-block">
+              <router-link class="profile" to="/myprofile">
+                <div class="flex-child-auto"><div class="image-cropper"><img class="profile-pic" :src="profilepic" alt="ProfilePic"></div></div>
+                <div class="flex-child-auto">{{ name }}</div>
+              </router-link>
+            </div>
+            <div class="inline-block">
+              <button class="logout" v-on:click="logout">Logout</button>
             </div>
           </div>
         </div>
-
+        <!-- Page Links -->
         <div class="flex-container">
           <div class="flex-child gradient">
-            <!-- Page Links -->
             <div class="nav-wrapper">
               <router-link class="nav" to="/home"><img src = "../../assets/Recommendations.png" alt="home"></router-link>
               <router-link class="nav" to="/listings"><img src = "../../assets/Listings.png" alt="listings"></router-link>
@@ -52,32 +57,23 @@
 
       <!-- Admin -->
       <div v-if="isAdmin">
-
         <div class="flex-container">
+          <!-- Logo -->
           <div class="flex-child">
-            <!-- Logo -->
             <router-link to="/">
               <img class="logo" src="../../assets/UniSOSlogo.png" alt="unisos logo">
             </router-link>
           </div>
-          <div class="flex-child">
-            <!-- Log Out -->
-            <div class="auth-wrapper">
-              <router-link class="auth" to="/admin">Requests</router-link>
-              <button class="btn" v-on:click="logout">Logout</button>
+          <!-- Log Out -->
+          <div class="flex-child align-right">
+            <div class="inline-block">
+              <router-link class="profile" to="/admin">Requests</router-link>
+            </div>
+            <div class="inline-block">
+              <button class="logout" v-on:click="logout">Logout</button>
             </div>
           </div>
         </div>
-
-        <div class="flex-container">
-          <div class="flex-child gradient">
-            <!-- Page Links -->
-            <div class="nav-wrapper">
-              <router-link class="nav" to="/listings"><img src = "../../assets/Listings.png" alt="listings"></router-link>
-            </div>
-          </div>
-        </div>
-
       </div>
 
     </div>
@@ -144,16 +140,64 @@ export default {
   background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #47E4E4;
 }
 .flex-container {
+  align-items:center;
   display: flex;
-  margin: auto;
 }
 .flex-child {
   flex: 1;
-  margin : auto;
-}  
+  padding: 10px;
+}
+.align-right {
+  text-align:right;
+}
+.inline-block {
+  display: inline-block;
+  padding: 10px;
+  vertical-align: middle;
+}
 .logo {
-    height: 50px;
-    width: auto;
+  height: 5vh;
+  width: auto;
+}
+.profile {
+  font-family: 'FredokaOne';
+  text-decoration: none;
+  color: #2BD7E2;
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+.profile:hover, .profile:active {
+  color: #000000;
+}
+.flex-child-auto {
+  flex: auto;
+}
+.image-cropper {
+  width: 5vh;
+  height: 5vh;
+  overflow: hidden;
+  border-radius: 50%;
+  margin: auto;
+}
+.profile-pic {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+.logout {
+  font-family: 'FredokaOne';
+  border-radius: 0.5em;
+  padding: 10px 20px;
+  transition-duration: 0.4s;
+  background-color: #25abb4;
+  color: white;
+  vertical-align: middle;
+  border: none;
+}
+.logout:hover {
+  background-color: black;
+  color: white;
 }
 .nav-wrapper {
   display: flex;
@@ -168,40 +212,5 @@ export default {
 .nav:hover, .nav:active, .nav-wrapper .router-link-active{
   border-bottom: thick solid #25abb4;
 
-}
-.auth-wrapper {
-  float: right;
-}
-.auth {
-  font-family: 'FredokaOne';
-  padding: 20px;
-  text-align: center;
-  text-decoration: none;
-  color: #2BD7E2;
-  vertical-align: middle;
-}
-.auth:hover, .auth:active {
-  color: #000000;
-}
-.img {
-  border-radius: 50em;
-  height: 50px;
-  width: 50px;
-  vertical-align: middle;
-  padding: 10px;
-}
-.btn {
-  font-family: 'FredokaOne';
-  border-radius: 0.5em;
-  padding: 10px 20px;
-  transition-duration: 0.4s;
-  background-color: #25abb4;
-  color: white;
-  vertical-align: middle;
-  border: none;
-}
-.btn:hover {
-  background-color: black; /* Green */
-  color: white;
 }
 </style>

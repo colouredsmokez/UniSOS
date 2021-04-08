@@ -3,12 +3,12 @@
         <div id= "listing-page">
             <br>
             <div id="filter">
-                <h2> Filter</h2>
+                <h2> Filter</h2><br>
                 <h3>Type</h3>
                 <input type="radio" v-on:change="filter()" v-model="type" value="Notes">Notes
                 <br>
                 <input type="radio" v-on:change="filter()" v-model="type" value="Tutor">Tutor
-                <br>
+                <br><br><br>
                 <h3>Rating</h3>
                 <input type="radio" v-on:change="filter()" v-model="rating" value="***">***
                 <br>
@@ -27,6 +27,9 @@
                         <section>
                             <div id="firstpart">
                                 <h1 id="type">{{item.typeOfList}}</h1>
+                                <!-- INSERT PFP -->
+                                <p>{{profilepics[item.userId]}}</p>
+                                <img class="img" :src="item.pfp"><br>
                                 <button v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
                                 <p>{{item.rating}}</p>
                             </div>
@@ -56,7 +59,8 @@ export default {
             type:'',
             rating:'',
             listing:[],
-            listingFiltered:[]
+            listingFiltered:[],
+            profilepics: {},
         }
     },
     methods: {
@@ -86,9 +90,19 @@ export default {
             alert(uid);
             this.$router.push({ name:'chat', params:{ uid:uid } });
         },
+        fetchPFP: function() {
+            db.collection('users').get().then(snapshot => {
+                snapshot.docs.forEach(doc => {
+                    var user = doc.data()
+                    //alert(user.profilepic)
+                    this.profilepics[doc.id] = user.profilepic
+                })
+            })
+        }
     },
     created() {
         this.fetchItems();
+        this.fetchPFP();
     }
 }
 </script>
@@ -109,6 +123,14 @@ export default {
     overflow: auto;
 }
 
+.img {
+  border-radius: 50em;
+  height: 90px;
+  width: 90px;
+  vertical-align: middle;
+  padding: 10px;
+}
+
 ul {
     list-style-type: none;
 }
@@ -118,6 +140,7 @@ ul {
     margin-left: 1.5%;
     width:15%;
     float:left;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 h2 {
@@ -133,6 +156,7 @@ h3 {
     float: left;
     background-color: whitesmoke;
     border-radius: 25px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 #display button {
     border-radius: 8px;

@@ -5,7 +5,9 @@
             <img class="header-bg" src='../../assets/ProfileBanner2.png' alt="profile banner">
             <div class="header-content">
                 <!-- Profile Pic -->
-                <img class="header-content-pic" :src="profilepic" alt="profile pic">
+                <div class="image-cropper">
+                    <img class="profile-pic" :src="profilepic" alt="profile pic">
+                </div>
                 <div>
                     <input id="btn" type="file" v-on:change="previewImage" accept="image/*">
                     <button id="btn" v-on:click="upload">Upload</button>
@@ -159,10 +161,17 @@ methods: {
     position: relative;
     color: white;
 }
-.header-content-pic {
-    border-radius: 50em;
-    height: 200px;
+.image-cropper {
     width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin: auto;
+}
+.profile-pic {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
 }
 .list {
     margin: auto;
