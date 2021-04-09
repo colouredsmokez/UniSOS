@@ -35,13 +35,7 @@
             <!-- Tutor Info -->
             <div class="list">
                 <hr>
-                <h3>
-                    Modules
-                    <button id="btn"> 
-                        Edit
-                        <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i>  -->
-                    </button>
-                </h3> 
+                <h3> Modules </h3> 
                 <ul>
                     <li class="list-item" v-for="c in classes" v-bind:key="c">
                         <div>
@@ -56,10 +50,7 @@
             <!-- Notes Info -->
             <div class="list">
                 <hr>
-                <h3> Notes
-                    <button id="btn"> Edit </button>
-                </h3>
-                    <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i>  -->
+                <h3> Notes </h3>
                 <ul>
                     <li class="list-item" v-for="n in notes" v-bind:key="n">
                         <div>
