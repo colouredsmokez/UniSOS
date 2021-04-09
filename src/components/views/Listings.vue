@@ -46,7 +46,7 @@
                         </div>
                         <div id="thirdpart">
                             <div v-if="item.userId != currentUser">
-                                <button class="chat-button" v-bind:id="item.id" v-if="item.typeOfList=='Notes'" v-on:click="buy(item.id)">Buy</button>
+                                <button class="chat-button" v-bind:id="item.id" v-if="item.typeOfList=='Notes'" v-on:click="buy(item)">Buy</button>
                                 <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)"><i class="fa fa-comment" aria-hidden="true"></i> Chat</button>
                             </div>
                         </div>
@@ -127,8 +127,44 @@ export default {
             alert(uid);
             this.$router.push({ name:'chat', params:{ uid:uid } });
         },
-        buy: function(id) {
-            alert(id);
+        buy: function(item) {
+            //alert(item.price);
+            
+
+            db.collection('users').doc(auth.currentUser.uid).get().then(
+                snapshot => {
+                    //console.log(snapshot)
+                    alert("Buy notes for $" + item.price + "?")
+                    var notesUpdaing = snapshot.data().myNotes
+                    //alert(notesUpdaing)
+                    if (notesUpdaing == null) {
+                        //alert("making new field")
+                        notesUpdaing = {}
+                    }
+                    var id = item.id
+                    
+                    if (id in notesUpdaing) {
+                        alert("Already Bought!")
+                    } else {
+                        
+                        notesUpdaing[id] = {} 
+                        notesUpdaing[id].imageURL = item.img;
+                        notesUpdaing[id].title = item.name + "'s " + item.module + " notes"
+                        notesUpdaing[id].ownerid = item.userId
+                        db.collection('users').doc(auth.currentUser.uid).update(
+                            {myNotes: notesUpdaing}
+                        )
+                    }
+                    
+                    
+                }
+            )
+            // var Notes = {}
+            // db.collection('users').doc(auth.currentUser.uid).update(
+            //     {notesBought:}
+            //     ).then(
+            //                 () => {
+            //                     alert(`Profile picture changed.`);
 
             
         }
