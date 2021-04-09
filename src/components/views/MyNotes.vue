@@ -62,6 +62,7 @@
             <li id="notesli" v-for="item in notes" v-bind:key="item.id">
               <div>
                 <!--<img width= 110px height= 75px :src= "item.imageURL" v-on:click="route($event)" v-bind:id="item.id"/><br>-->
+                <br>
                 <router-link to="/localview" exact><img width= 110px height= 75px :src= "item.imageURL"/></router-link><br>
                 <h3>{{item.title}}</h3>
               </div>
@@ -116,13 +117,6 @@ export default {
 </script>
 
 <style scoped>
-/*img {
-  position: absolute;
-  width: 255px;
-  height: 71px;
-  left: 22px;
-  top: 31px;
-}*/
 #content {
   background: #47E4E4;
   margin-top: 0%;
@@ -156,11 +150,14 @@ export default {
   margin-right: 50px;
   margin-top: 10px;
   border-radius: 25px;
-  background-color: white;
+  background-color: whitesmoke;
+  box-shadow: inset 0 0 5px #1b1b1b;
 }
 #noteslist {
   width: 90%;
-  margin: 0px;
+  margin-left: 40px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: black;
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
@@ -169,7 +166,6 @@ export default {
   border-radius: 25px;
 }
 #notesli {
-  margin-top: 100px;
   text-align: center;
   min-width: 33%;
   max-width: 33%;
@@ -181,7 +177,7 @@ export default {
 #mynotestxt {
   margin-left: 40px;
   margin-top: 20px;
-  font-family: 'Fredoka One';
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 50px;
@@ -201,27 +197,6 @@ export default {
 ul#noteslist li {
   display:inline;
 }
-/*.lastviewed {
-  position: absolute;
-  width: 869.39px;
-  height: 254px;
-  left: 476px;
-  top: 380px;
-}
-ul {
-  width: 80%;
-  max-width: 70%;
-  margin: 0px;
-  padding: 0 5px;
-  box-sizing: border-box;
-}
-.noteslist {
-  display: flex;
-  flex-wrap: wrap;
-  list-style-type: none;
-  padding: 0;
-  background-color: #2BD7E2;
-}**/
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -231,11 +206,8 @@ ul {
   margin-top: 60px;
 }
 li {
-  flex-grow: 1;
-  flex-basis: 15px;
   text-align: center;
-  padding: 1px;
-  border: 1px solid #222;
+  border: 1px solid whitesmoke;
   margin: 10px;
 }
 img {
