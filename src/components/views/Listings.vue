@@ -20,7 +20,7 @@
 
             <div id="display">
                 <ul>
-                    <li id="listing" v-for="item in listingFiltered" v-bind:key="item.id" v-on:click="item.show = !item.show">
+                    <li id="listing" v-for="item in listingFiltered" v-bind:key="item" v-on:click="item.show = !item.show">
                         <div id="firstpart">
                             <h1>{{item.typeOfList}}</h1>
                             <div v-if="item.pfp">
@@ -41,10 +41,12 @@
                             <h2>{{item.module}}</h2>
                             <p>Took in: {{item.took_in}}</p>
                             <p>Final grade: {{item.grade}}</p>
+                            <p v-if="item.typeOfList=='Notes'"> Price: ${{item.price}}<p>
                             <p>{{item.addInfo}}</p>
                         </div>
                         <div id="thirdpart">
                             <div v-if="item.userId != currentUser">
+                                <button class="chat-button" v-bind:id="item.id" v-if="item.typeOfList=='Notes'" v-on:click="buy(item.id)">Buy</button>
                                 <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)"><i class="fa fa-comment" aria-hidden="true"></i> Chat</button>
                             </div>
                         </div>
@@ -74,7 +76,9 @@ export default {
         fetchItems:function() {
             db.collection('listing').get().then((querySnapShot)=> {
                 querySnapShot.forEach(doc=>{
-                    this.listing.push(doc.data());
+                    var dataToAdd = doc.data()
+                    dataToAdd["id"] = doc.id; 
+                    this.listing.push(dataToAdd);
                 });
             });
             this.listingFiltered = this.listing;
@@ -97,6 +101,11 @@ export default {
             alert(uid);
             this.$router.push({ name:'chat', params:{ uid:uid } });
         },
+        buy: function(id) {
+            alert(id);
+
+            
+        }
         /*fetchUsers: function() {
             db.collection('users').get().then((snapshot)=> {
                 snapshot.forEach(doc=>{
@@ -209,6 +218,7 @@ export default {
     cursor: pointer;
     transition-duration: 0.4s;
     font-size: 20px;
+    margin:5px;
 }
 .chat-button:hover {
     background-color: black;
