@@ -119,7 +119,7 @@ export default {
     .background {
         background: #47E4E4;
         font-family: sans-serif;
-        height: 80vh;
+        height: 78vh;
     }
     .flex-container {
         display: flex;
