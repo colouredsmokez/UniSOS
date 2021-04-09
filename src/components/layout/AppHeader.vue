@@ -248,6 +248,7 @@ export default {
   position: absolute;
   background-color: #f9f9f9;
   min-width: 160px;
+  height: 65px;
   z-index: 1;
 }
 a {
@@ -261,6 +262,10 @@ a:hover {
 ul {
   list-style-type: none;
   padding: 0;
+  margin-top: 0px;
+}
+li {
+  border: 1px solid #2BD7E2;
 }
 /* Links inside the dropdown */
 .chat .profile .edit {
