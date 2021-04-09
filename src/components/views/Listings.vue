@@ -23,9 +23,9 @@
                     <li id="listing" v-for="item in listingFiltered" v-bind:key="item.id" v-on:click="item.show = !item.show">
                         <div id="firstpart">
                             <h1>{{item.typeOfList}}</h1>
-                            <div v-if="item.pfp">
+                            <div v-if="item.profilepic">
                                 <div class="image-cropper">
-                                    <img :src="item.pfp" alt="profilepic" class="profile-pic">
+                                    <img :src="item.profilepic" alt="profilepic" class="profile-pic">
                                 </div>
                             </div>
                             <div v-else>
@@ -72,11 +72,35 @@ export default {
     },
     methods: {
         fetchItems:function() {
-            db.collection('listing').get().then((querySnapShot)=> {
-                querySnapShot.forEach(doc=>{
-                    this.listing.push(doc.data());
-                });
-            });
+            db.collection('listing').get().then(
+                (querySnapShot) => {
+                    querySnapShot.forEach(
+                        doc => {
+                            var listingData = doc.data();
+                            db.collection('users').doc(listingData.userId).get().then(
+                                snapshot => {
+                                    var userData = snapshot.data();
+                                    listingData.name = userData.name;
+                                    listingData.email = userData.email;
+                                    listingData.university = userData.university;
+                                    listingData.profilepic = userData.profilepic;
+                                    listingData.bio = userData.bio;
+                                    this.listing.push(listingData);
+                                },
+                                err => {
+                                    alert(err.message)
+                                }
+                            );
+                        },
+                        err => {
+                            alert(err.message)
+                        }
+                    );
+                },
+                err => {
+                    alert(err.message)
+                }    
+            );
             this.listingFiltered = this.listing;
         },
         filter:function() {
