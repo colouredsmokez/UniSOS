@@ -223,12 +223,10 @@ export default {
   color: rgba(0, 0, 0, 0.63);
 } */
 
-/* The dropdown container */
 .dropdown {
   overflow: hidden;
 }
 
-/* Dropdown button */
 .dropdown .dropbtn {
   font-family: 'FredokaOne';
   font-size: 16px; 
@@ -246,14 +244,18 @@ export default {
   text-align: center;
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: #706c6c;
+  backdrop-filter: blur(5px);
   min-width: 160px;
-  height: 65px;
+  height: 80px;
   z-index: 1;
+  border-bottom-left-radius:12px;
+  border-bottom-right-radius:12px;
+  border-top-right-radius: 12px;
 }
 a {
   text-decoration: none;
-  color: #2BD7E2;;
+  color: white;;
 }
 a:hover {
   text-decoration: none;
@@ -264,9 +266,10 @@ ul {
   padding: 0;
   margin-top: 0px;
 }
-li {
-  border: 1px solid #2BD7E2;
+li:hover {
+  background-color: #2BD7E2;
 }
+
 /* Links inside the dropdown */
 .chat .profile .edit {
   float: none;
