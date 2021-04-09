@@ -61,10 +61,14 @@
           <ul id="noteslist">
             <li id="notesli" v-for="item in notes" v-bind:key="item.id">
               <div>
-                <!--<img width= 110px height= 75px :src= "item.imageURL" v-on:click="route($event)" v-bind:id="item.id"/><br>-->
+                <img width= 110px height= 75px :src= "item.imageURL" v-on:click="route($event)" v-bind:id="item.id"><br>
                 <br>
-                <router-link to="/localview" exact><img width= 110px height= 75px :src= "item.imageURL"/></router-link><br>
+                <!-- <button class="notes-button" v-bind:id="item.id" v-on:click="route($event)"><img width= 110px height= 75px :src= "item.imageURL"/></button> -->
+                
+                <!-- <router-link to="/localview" exact><img width= 110px height= 75px :src= "item.imageURL"/></router-link><br> -->
                 <h3>{{item.title}}</h3>
+                
+                
               </div>
             </li>
           </ul>
@@ -79,6 +83,7 @@
 <script>
 
 import { db } from "../../firebase.js"
+import { auth } from '../../firebase'
 
 
 export default {
@@ -87,21 +92,29 @@ export default {
   },
   methods: {
     fetchItems: function() {
-      db.collection('notes').get().then(snapshot => {
-        let item = {}
-        snapshot.docs.forEach(doc => {          
-          item = doc.data()
-          //alert(item.imageURL)
-          this.notes.push(item)
-        }); 
-      }) 
+      db.collection('users').doc(auth.currentUser.uid).get().then(
+        snapshot => {
+          // console.log(snapshot)
+          var dict = snapshot.data().myNotes
+          for (var key in dict) {
+            // console.log(key)
+            // console.log(dict[key])
+            var newDict = dict[key]
+            newDict["id"] = key
+            // console.log(newDict)
+            this.notes.push(newDict)
+          }
+          
+        })
     },
     route: function(event) {
-          let doc_id = event.target.getAttribute("id");
-          //console.log(doc_id);
-          this.$router.push({ name: "mynotes", params: { id: doc_id } })
+        
+          let noteId = event.target.getAttribute("id");
+          console.log(noteId)
+          this.$router.push({ name: "localview", params: { noteId: noteId } })
           
-        }
+        },
+    
   },
   data() {
     return {
