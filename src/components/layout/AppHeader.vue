@@ -34,6 +34,8 @@
             <div class="inline-block">
               
                 <div class="flex-child-auto"><div class="image-cropper"><img class="profile-pic" :src="profilepic" alt="ProfilePic"></div></div>
+            </div>
+              <div class="inline-block">
                 <div class="flex-child-auto">
                   <div class="dropdown">
                     <button class="dropbtn"> {{ name }} </button>
@@ -177,8 +179,8 @@ export default {
   flex: auto;
 }
 .image-cropper {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   overflow: hidden;
   border-radius: 50%;
   margin: auto;
@@ -190,7 +192,7 @@ export default {
 }
 .logout {
   font-family: 'FredokaOne';
-  font-size: 13px;
+  font-size: 16px;
   border-radius: 0.5em;
   padding: 10px 20px;
   transition-duration: 0.4s;
@@ -229,7 +231,7 @@ export default {
 
 .dropdown .dropbtn {
   font-family: 'FredokaOne';
-  font-size: 16px; 
+  font-size: 20px; 
   text-decoration: none;
   border: none;
   color: #2BD7E2;
@@ -247,7 +249,7 @@ export default {
   background-color: #706c6c;
   backdrop-filter: blur(5px);
   min-width: 160px;
-  height: 80px;
+  height: 60px;
   z-index: 1;
   border-bottom-left-radius:12px;
   border-bottom-right-radius:12px;
