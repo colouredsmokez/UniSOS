@@ -41,9 +41,9 @@
                     <button class="dropbtn"> {{ name }} </button>
                     <div class="dropdown-content">
                       <ul>
-                        <li> <router-link class="profile" to="/myprofile"> Profile </router-link> </li>
-                        <li> <router-link class="edit" to="/editprofile"> Edit Profile </router-link> </li>
-                        <li> <router-link class="chat" to= "name:'chat', params:{ uid:uid }"> Chats </router-link> </li>
+                        <router-link class="profile" to="/myprofile"> <li> Profile </li> </router-link> 
+                        <router-link class="edit" to="/editprofile"> <li> Edit Profile </li> </router-link>
+                        <router-link class="chat" to= "name:'chat', params:{ uid:uid }"> <li> Chats </li> </router-link>
                       </ul>
                     </div>
                   </div> 
