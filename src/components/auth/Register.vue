@@ -256,13 +256,15 @@ export default {
   font-size: 20px;
   padding: 10px 50px;
   transition-duration: 0.4s;
-  background-color: #2BD7E2;
+  background-color:  #47E4E4;
+  box-shadow: 0 0 4px #000000;
+  border: none;
   color: white;
   cursor: pointer;
 
 }
 .btn:hover {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.63);
   color: white;
 }
 </style>

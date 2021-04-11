@@ -12,7 +12,7 @@
           <input class="input-text" :type='type' placeholder="Password" v-model="password" required><br>
           <br><br><br><br><br><br><br><br><br><br><br>
           <button class="btn" v-on:click="login">Sign In</button>
-          <br>
+          <br><br>
           <a href="#"><small>Forgot password?</small></a>
         </form>
       </div>
@@ -121,12 +121,14 @@ export default {
   font-size: 20px;
   padding: 10px 50px;
   transition-duration: 0.4s;
-  background-color: #2BD7E2;
+  background-color:  #47E4E4;
+  box-shadow: 0 0 4px #000000;
+  border: none;
   color: white;
   cursor: pointer;
 }
 .btn:hover {
-  background-color: black; /* Green */
+  background-color: rgba(0, 0, 0, 0.63); /* Green */
   color: white;
 }
 </style>

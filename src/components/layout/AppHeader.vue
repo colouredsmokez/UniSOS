@@ -12,10 +12,10 @@
         <!-- Page Links -->
         <div class="flex-child align-right">
           <div class="inline-block">
-            <router-link class="profile" to="/login">Login</router-link>
+            <router-link class="unauth" to="/login">Login</router-link>
           </div>
           <div class="inline-block">
-            <router-link class="profile" to="/register">Register</router-link>
+            <router-link class="unauth" to="/register">Register</router-link>
           </div>
         </div>
       </div>
@@ -189,7 +189,7 @@ export default {
   height: 100%;
   width: 100%;
 }
-.logout {
+.logout, .unauth {
   font-family: 'FredokaOne';
   font-size: 16px;
   border-radius: 0.5em;
@@ -202,7 +202,7 @@ export default {
   border: none;
   cursor:pointer;
 }
-.logout:hover {
+.logout:hover, .unauth:hover {
   background-color: rgba(0, 0, 0, 0.63);
   color: white;
 }
