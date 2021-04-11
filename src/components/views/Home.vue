@@ -10,7 +10,8 @@
 
 <script>
 export default {
-  
+  //get user.modules
+  //for each listing, if module in user.modules, add to list
 }
 </script>
 

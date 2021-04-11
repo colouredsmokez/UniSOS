@@ -19,6 +19,7 @@ import Listings from './components/views/Listings.vue'
 import Upload from './components/views/Upload.vue'
 import MyNotes from './components/views/MyNotes.vue'
 
+import Chat from './components/chat/Chat.vue'
 import PrivateChat from './components/chat/PrivateChat.vue'
 import LocalView from './components/views/LocalView'
 
@@ -140,6 +141,18 @@ let router = new Router({
             components: {
                 header: AppHeader,
                 default: MyNotes,
+                footer: AppFooter
+            },
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/chats',
+            name: "chats",
+            components: {
+                header: AppHeader,
+                default: Chat,
                 footer: AppFooter
             },
             meta: {

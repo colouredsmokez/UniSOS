@@ -14,10 +14,6 @@
                 <input type="radio" v-on:change="filter()" v-model="rating" value="*">*<br>
             </div>
 
-            <div v-show="type == 'notes'">
-                <h1>type is chosen</h1>
-            </div>
-
             <div id="display">
                 <ul>
                     <li id="listing" v-for="item in listingFiltered" v-bind:key="item.id" v-on:click="item.show = !item.show">
@@ -67,7 +63,6 @@ export default {
             rating:'',
             listing:[],
             listingFiltered:[],
-            users:[]
         }
     },
     methods: {
@@ -120,33 +115,10 @@ export default {
             let uid = event.target.getAttribute("id");
             alert(uid);
             this.$router.push({ name:'chat', params:{ uid:uid } });
-        },
-        /*fetchUsers: function() {
-            db.collection('users').get().then((snapshot)=> {
-                snapshot.forEach(doc=>{
-                    this.users.push([doc.id,doc.data()]);
-                });
-            });
-        },
-        updatePFP: function() {
-            for (var user in this.users) {
-                var userId = user[0]
-                var userInfo = user[1]
-                var currPFP = userInfo.profilepic
-
-                for (var currListing in this.listing) {
-                    if (userId == currListing.userId) {
-                        if (currPFP != currListing.pfp) {
-                            var ref
-                        }
-                    }
-                }
-            }
-        }*/
+        }
     },
     created() {
         this.fetchItems();
-        //this.fetchUsers();
     }
 }
 </script>

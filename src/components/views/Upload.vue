@@ -127,7 +127,7 @@ export default {
                 var newListing = {}
                 newListing["typeOfList"] = this.type;
                 newListing["grade"] = this.grade;
-                newListing["module"] = this.module;
+                newListing["module"] = this.module; //add to user.modules
                 newListing["took_in"] = this.took_in
                 newListing["addInfo"] = this.addInfo;
                 newListing["userId"] = auth.currentUser.uid;
@@ -135,7 +135,7 @@ export default {
                 newListing["name"] = this.name;
                 if (this.type=="Notes"){
                     newListing["price"] = this.price;
-                    newListing["img"] = this.picture
+                    newListing["img"] = this.picture; //should be able to upload a few files
                 }
             }
             database.collection("listing").add(newListing).then(()=>location.reload());
@@ -200,7 +200,6 @@ export default {
     font-weight: normal;
     font-style: normal;
 }
-
 #uploadpage {
     background:  #47E4E4;
     height: 70vh;
