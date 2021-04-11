@@ -34,14 +34,16 @@
             <div class="inline-block">
               
                 <div class="flex-child-auto"><div class="image-cropper"><img class="profile-pic" :src="profilepic" alt="ProfilePic"></div></div>
+            </div>
+              <div class="inline-block">
                 <div class="flex-child-auto">
                   <div class="dropdown">
                     <button class="dropbtn"> {{ name }} </button>
                     <div class="dropdown-content">
                       <ul>
-                        <li> <router-link class="profile" to="/myprofile"> Profile </router-link> </li>
-                        <li> <router-link class="edit" to="/editprofile"> Edit Profile </router-link> </li>
-                        <li> <router-link class="chat" to= "name:'chat', params:{ uid:uid }"> Chats </router-link> </li>
+                        <router-link class="profile" to="/myprofile"> <li> Profile </li> </router-link> 
+                        <router-link class="edit" to="/editprofile"> <li> Edit Profile </li> </router-link>
+                        <router-link class="chat" to="/chats"> <li> Chats </li> </router-link>
                       </ul>
                     </div>
                   </div> 
@@ -177,8 +179,8 @@ export default {
   flex: auto;
 }
 .image-cropper {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   overflow: hidden;
   border-radius: 50%;
   margin: auto;
@@ -190,7 +192,7 @@ export default {
 }
 .logout {
   font-family: 'FredokaOne';
-  font-size: 13px;
+  font-size: 16px;
   border-radius: 0.5em;
   padding: 10px 20px;
   transition-duration: 0.4s;
@@ -223,15 +225,13 @@ export default {
   color: rgba(0, 0, 0, 0.63);
 } */
 
-/* The dropdown container */
 .dropdown {
   overflow: hidden;
 }
 
-/* Dropdown button */
 .dropdown .dropbtn {
   font-family: 'FredokaOne';
-  font-size: 16px; 
+  font-size: 20px; 
   text-decoration: none;
   border: none;
   color: #2BD7E2;
@@ -246,14 +246,18 @@ export default {
   text-align: center;
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: #706c6c;
+  backdrop-filter: blur(5px);
   min-width: 160px;
-  height: 65px;
+  height: 60px;
   z-index: 1;
+  border-bottom-left-radius:12px;
+  border-bottom-right-radius:12px;
+  border-top-right-radius: 12px;
 }
 a {
   text-decoration: none;
-  color: #2BD7E2;;
+  color: white;;
 }
 a:hover {
   text-decoration: none;
@@ -264,9 +268,10 @@ ul {
   padding: 0;
   margin-top: 0px;
 }
-li {
-  border: 1px solid #2BD7E2;
+li:hover {
+  background-color: #2BD7E2;
 }
+
 /* Links inside the dropdown */
 .chat .profile .edit {
   float: none;

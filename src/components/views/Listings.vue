@@ -14,10 +14,6 @@
                 <input type="radio" v-on:change="filter()" v-model="rating" value="*">*<br>
             </div>
 
-            <div v-show="type == 'notes'">
-                <h1>type is chosen</h1>
-            </div>
-
             <div id="display">
                 <ul>
                     <li id="listing" v-for="item in listingFiltered" v-bind:key="item" v-on:click="item.show = !item.show">
@@ -69,7 +65,6 @@ export default {
             rating:'',
             listing:[],
             listingFiltered:[],
-            users:[]
         }
     },
     methods: {
@@ -126,6 +121,7 @@ export default {
             let uid = event.target.getAttribute("id");
             alert(uid);
             this.$router.push({ name:'chat', params:{ uid:uid } });
+
         },
         buy: function(item) {
             //alert(item.price);
@@ -190,10 +186,10 @@ export default {
                 }
             }
         }*/
+
     },
     created() {
         this.fetchItems();
-        //this.fetchUsers();
     }
 }
 </script>

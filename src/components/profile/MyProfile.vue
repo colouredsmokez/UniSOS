@@ -8,10 +8,6 @@
                 <div class="image-cropper">
                     <img class="profile-pic" :src="profilepic" alt="profile pic">
                 </div>
-                <div>
-                    <input id="btn" type="file" v-on:change="previewImage" accept="image/*">
-                    <button id="btn" v-on:click="upload">Upload</button>
-                </div>
                 <!-- User Info -->
                 <h2>{{ name }}</h2>
                 <div>{{ email }}</div>
@@ -22,13 +18,7 @@
         <div class="body">
             <!-- Bio -->
             <div id="bio">
-                <p> 
-                    Bio 
-                    <button id="btn"> 
-                        Edit
-                        <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i>  -->
-                    </button> 
-                </p>
+                <p> Bio </p>
                 <span> {{ bio }} </span>
             </div>
 
@@ -68,7 +58,6 @@
 <script>
 import { db } from '../../firebase';
 import { auth } from '../../firebase';
-import { store } from '../../firebase';
 
 export default {
 data() {
@@ -104,36 +93,6 @@ methods: {
             }
         );
     },
-    upload: function(e) {
-        var storageRef = store.ref(`${this.email}/${this.imageData.name}`).put(this.imageData);
-        storageRef.on(
-            `state_changed`,
-            snapshot => {
-                console.log(snapshot);
-                //this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-            },
-            error => {
-                console.log(error.message);
-            },
-            () => {
-                storageRef.snapshot.ref.getDownloadURL().then(
-                    (url) => {
-                        this.profilepic = url;
-                        db.collection('users').doc(this.uid).update({profilepic:url}).then(
-                            () => {
-                                alert(`Profile picture changed.`);
-                                this.$router.go( this.$router.path );
-                            }
-                        );
-                    }
-                );
-            }
-        );
-        e.preventDefault();
-    },
-    previewImage: function(event) {
-      this.imageData = event.target.files[0];
-    }
   },
   created() {
     this.fetchInfo();

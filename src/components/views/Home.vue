@@ -48,6 +48,7 @@ import { db } from '../../firebase'
 import { auth } from '../../firebase'
 
 export default {
+
   data() {
         return{
             currentUser: auth.currentUser.uid,
@@ -99,6 +100,10 @@ export default {
         //this.fetchUsers();
     }
   
+
+  //get user.modules
+  //for each listing, if module in user.modules, add to list
+
 }
 </script>
 
