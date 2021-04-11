@@ -170,10 +170,10 @@ methods: {
 #bio p {
     font-family: 'FredokaOne';
     font-size: 24px;
-    text-align: center;
 }
 #bio {
     float: left;
     width: 45%;
+    text-align: center;
 }
 </style>

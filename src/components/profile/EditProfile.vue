@@ -126,6 +126,8 @@ export default {
     .edit {
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         font-size: 22px;
+        background-image: url('../../assets/ChatBG.png');
+        height: 80vh;
     }
     .image-cropper {
         width: 200px;
