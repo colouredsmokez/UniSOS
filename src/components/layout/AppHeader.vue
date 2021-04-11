@@ -43,7 +43,7 @@
                       <ul>
                         <router-link class="profile" to="/myprofile"> <li> Profile </li> </router-link> 
                         <router-link class="edit" to="/editprofile"> <li> Edit Profile </li> </router-link>
-                        <router-link class="chat" to= "name:'chat', params:{ uid:uid }"> <li> Chats </li> </router-link>
+                        <router-link class="chat" to="/chats"> <li> Chats </li> </router-link>
                       </ul>
                     </div>
                   </div> 

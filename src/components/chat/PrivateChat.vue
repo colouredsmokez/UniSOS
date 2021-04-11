@@ -59,9 +59,9 @@ export default {
             message: null,
             messages: [],
             thisUser: auth.currentUser.uid,
-            thisData: null,
+            thisData: [],
             otherUser: this.$route.params.uid,
-            otherData: null
+            otherData: []
         }
     },
     methods: {
