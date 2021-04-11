@@ -13,11 +13,11 @@
         <div class="text-edit">
             <label for="name">Name:</label><br>
             <input type="text" id="name" name="name" v-model="name"><br>
-            <button v-on:click = "updateProfile('name')"> Update Name </button>
+            <button v-on:click = "updateName()"> Update Name </button>
             <br><br>
-            <label for="name">Bio:</label><br>
-            <input type="text" id="bio" name="bio" v-model="bio"><br>
-            <button v-on:click = "updateProfile('bio')"> Update Bio </button>
+            <label for="bio">Bio:</label><br>
+            <textarea id="bio" name="bio" v-model="bio" rows=5 cols=50></textarea> <br>
+            <button v-on:click = "updateBio()"> Update Bio </button>
         </div>
     </div>
 </template>
@@ -65,21 +65,19 @@ export default {
                 }
             );
         },
-        updateProfile: function(attr) {
-            var newData = {}
-            for (var info in this.datapacket) {
-                newData[info] = info.value
-            }
-            var newVal = document.value;
-            if (newVal !== '') {
-                newData[attr] = newVal;
-            }
-            if(attr==="bio") {
-                alert(`Bio has been updated!`);
-            } else if(attr==="name") {
-                alert(`Name has been updated!`);
-            }
-            db.collection('users').doc(this.uid).update(newData).then(() => this.$router.push('myprofile'))
+        updateName: function() {
+            db.collection('users').doc(this.uid).update({name:this.name}).then(
+                () => {
+                    alert(`Name has been updated!`);
+                    this.$router.go(this.$router.path);
+                })
+        },
+        updateBio: function() {
+            db.collection('users').doc(this.uid).update({bio:this.bio}).then(
+                () => {
+                    alert(`Bio has been updated.`);
+                    this.$router.go(this.$router.path)
+                    })
         },
         upload: function(e) {
             var storageRef = store.ref(`${this.email}/${this.imageData.name}`).put(this.imageData);
