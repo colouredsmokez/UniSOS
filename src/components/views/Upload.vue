@@ -57,8 +57,8 @@
                                     <option value="AY18/19 S1">AY18/19 S1</option>
                                     <option value="AY17/18 S2">AY17/18 S2</option>
                                     <option value="AY17/18 S1">AY17/18 S1</option>
-                                    <option value="AY16/17 S2">AY20/21 S2</option>
-                                    <option value="AY16/17 S1">AY20/21 S1</option> 
+                                    <option value="AY16/17 S2">AY16/17 S2</option>
+                                    <option value="AY16/17 S1">AY16/17 S1</option> 
                                 </select>
                             </div>
                         </div>

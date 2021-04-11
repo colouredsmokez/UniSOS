@@ -25,7 +25,7 @@
             <!-- Tutor Info -->
             <div class="list">
                 <hr>
-                <h3> Modules </h3> 
+                <h3> Modules I'm Taking </h3> 
                 <ul>
                     <li class="list-item" v-for="c in classes" v-bind:key="c">
                         <div>
@@ -40,7 +40,7 @@
             <!-- Notes Info -->
             <div class="list">
                 <hr>
-                <h3> Notes </h3>
+                <h3> Notes I'm Selling </h3>
                 <ul>
                     <li class="list-item" v-for="n in notes" v-bind:key="n">
                         <div>
@@ -174,6 +174,7 @@ methods: {
 #bio {
     float: left;
     width: 45%;
-    text-align: center;
+    white-space:pre-line;
+    padding: 35px;
 }
 </style>

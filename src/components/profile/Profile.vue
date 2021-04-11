@@ -159,7 +159,8 @@ methods: {
 #bio {
     float: left;
     width: 45%;
-    text-align: center;
+    white-space:pre-line;
+    padding: 35px;
 }
 .list {
     margin: auto;

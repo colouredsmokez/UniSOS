@@ -18,6 +18,12 @@
             <label for="bio">Bio:</label><br>
             <textarea id="bio" name="bio" v-model="bio" rows=5 cols=50></textarea> <br>
             <button v-on:click = "updateBio()"> Update Bio </button>
+            <br><br>
+            <label for="mods"> What modules are you taking? (** doesnt work yet) </label><br>
+            <multiselect v-model="classes" :options="options"> </multiselect>
+            <br>
+            <button> Update Modules </button>
+            
         </div>
     </div>
 </template>
@@ -27,8 +33,10 @@
 import { db } from '../../firebase';
 import { auth } from '../../firebase';
 import { store } from '../../firebase';
+import Multiselect from 'vue-multiselect'
 
 export default {
+    components: { Multiselect },
     data() {
         return {
             datapacket: {},
@@ -42,7 +50,8 @@ export default {
             bio: '',
             reviews: [],
             classes: [],
-            notes: []
+            notes: [],
+            options: [{name:'BT3103', info:'A module'}, {name:'BT3102', info:'Another module'}]
             // modules: data
         }
     },
@@ -68,7 +77,7 @@ export default {
         updateName: function() {
             db.collection('users').doc(this.uid).update({name:this.name}).then(
                 () => {
-                    alert(`Name has been updated!`);
+                    alert(`Name has been updated.`);
                     this.$router.go(this.$router.path);
                 })
         },
@@ -122,6 +131,7 @@ export default {
         padding: 30px;
         float: left;
         width: 25%;
+        height: 80vh;
     } 
     .edit {
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -141,9 +151,11 @@ export default {
         object-fit: cover;
         height: 100%;
         width: 100%;
+        
     }
     .text-edit {
         width: 75%;
-        padding: 30px
+        padding: 30px;
+        height: 80vh;
     }
 </style>
