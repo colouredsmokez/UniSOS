@@ -16,7 +16,7 @@
 
             <div id="display">
                 <ul>
-                    <li id="listing" v-for="item in listingFiltered" v-bind:key="item.id" v-on:click="item.show = !item.show">
+                    <li id="listing" v-for="item in listingFiltered" v-bind:key="item" v-on:click="item.show = !item.show">
                         <div id="firstpart">
                             <h1>{{item.typeOfList}}</h1>
                             <div v-if="item.profilepic">
@@ -37,10 +37,12 @@
                             <h2>{{item.module}}</h2>
                             <p>Took in: {{item.took_in}}</p>
                             <p>Final grade: {{item.grade}}</p>
+                            <p v-if="item.typeOfList=='Notes'"> Price: ${{item.price}}<p>
                             <p>{{item.addInfo}}</p>
                         </div>
                         <div id="thirdpart">
                             <div v-if="item.userId != currentUser">
+                                <button class="chat-button" v-bind:id="item.id" v-if="item.typeOfList=='Notes'" v-on:click="buy(item)">Buy</button>
                                 <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)"><i class="fa fa-comment" aria-hidden="true"></i> Chat</button>
                             </div>
                         </div>
@@ -67,10 +69,12 @@ export default {
     },
     methods: {
         fetchItems:function() {
+
             db.collection('listing').get().then(
                 (querySnapShot) => {
                     querySnapShot.forEach(
                         doc => {
+                            
                             var listingData = doc.data();
                             db.collection('users').doc(listingData.userId).get().then(
                                 snapshot => {
@@ -80,6 +84,7 @@ export default {
                                     listingData.university = userData.university;
                                     listingData.profilepic = userData.profilepic;
                                     listingData.bio = userData.bio;
+                                    listingData.id = doc.id;
                                     this.listing.push(listingData);
                                 },
                                 err => {
@@ -96,6 +101,7 @@ export default {
                     alert(err.message)
                 }    
             );
+
             this.listingFiltered = this.listing;
         },
         filter:function() {
@@ -115,7 +121,72 @@ export default {
             let uid = event.target.getAttribute("id");
             alert(uid);
             this.$router.push({ name:'chat', params:{ uid:uid } });
+
+        },
+        buy: function(item) {
+            //alert(item.price);
+            
+
+            db.collection('users').doc(auth.currentUser.uid).get().then(
+                snapshot => {
+                    //console.log(snapshot)
+                    alert("Buy notes for $" + item.price + "?")
+                    var notesUpdaing = snapshot.data().myNotes
+                    //alert(notesUpdaing)
+                    if (notesUpdaing == null) {
+                        //alert("making new field")
+                        notesUpdaing = {}
+                    }
+                    var id = item.id
+                    
+                    if (id in notesUpdaing) {
+                        alert("Already Bought!")
+                    } else {
+                        
+                        notesUpdaing[id] = {} 
+                        notesUpdaing[id].imageURL = item.img;
+                        notesUpdaing[id].title = item.name + "'s " + item.module + " notes"
+                        notesUpdaing[id].ownerid = item.userId
+                        db.collection('users').doc(auth.currentUser.uid).update(
+                            {myNotes: notesUpdaing}
+                        )
+                    }
+                    
+                    
+                }
+            )
+            // var Notes = {}
+            // db.collection('users').doc(auth.currentUser.uid).update(
+            //     {notesBought:}
+            //     ).then(
+            //                 () => {
+            //                     alert(`Profile picture changed.`);
+
+            
         }
+        /*fetchUsers: function() {
+            db.collection('users').get().then((snapshot)=> {
+                snapshot.forEach(doc=>{
+                    this.users.push([doc.id,doc.data()]);
+                });
+            });
+        },
+        updatePFP: function() {
+            for (var user in this.users) {
+                var userId = user[0]
+                var userInfo = user[1]
+                var currPFP = userInfo.profilepic
+
+                for (var currListing in this.listing) {
+                    if (userId == currListing.userId) {
+                        if (currPFP != currListing.pfp) {
+                            var ref
+                        }
+                    }
+                }
+            }
+        }*/
+
     },
     created() {
         this.fetchItems();
@@ -205,6 +276,7 @@ export default {
     cursor: pointer;
     transition-duration: 0.4s;
     font-size: 20px;
+    margin:5px;
 }
 .chat-button:hover {
     background-color: black;

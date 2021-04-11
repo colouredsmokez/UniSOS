@@ -32,7 +32,6 @@
           <!-- Log Out -->
           <div class="flex-child align-right">
             <div class="inline-block">
-              
                 <div class="flex-child-auto"><div class="image-cropper"><img class="profile-pic" :src="profilepic" alt="ProfilePic"></div></div>
             </div>
               <div class="inline-block">
