@@ -194,6 +194,9 @@ export default {
   background: #47E4E4;
   margin: 10px;
 }
+.notesli:first-child {
+  margin-left: 0px;
+}
 #filtertxt, #level, #purchasetxt, #purchase, #ratingtxt, #rating {
   margin-left: 30px;
   margin-top: 30px;
