@@ -106,6 +106,7 @@ import { auth } from "../../firebase";
     transition-duration: 0.4s;
     background-color: #2BD7E2;
     color: white;
+    margin: 10px;
 }
 .btn:hover {
     background-color: black; /* Green */
