@@ -25,16 +25,16 @@
             <!-- Tutor Info -->
             <div class="list">
                 <hr>
-                <h3> Modules I'm Taking </h3> 
+                <h3> Modules I've Taken </h3> 
+                <hr>
                 <ul>
-                    <li class="list-item" v-for="c in classes" v-bind:key="c">
+                    <li class="list-item" v-for="mod in modules" v-bind:key="mod">
                         <div>
-                            <p>Name : {{ c[1].name }}</p>
-                            <p>Info : {{ c[1].info }}</p>
+                            <span>{{mod}}</span>
                         </div>
                     </li>
                 </ul>
-                <hr>
+                
             </div>
 
             <!-- Notes Info -->
@@ -70,7 +70,7 @@ data() {
         imageData: null,
         bio: '',
         reviews: [],
-        classes: [],
+        modules: [],
         notes: []
     };
 },
@@ -85,7 +85,7 @@ methods: {
                 this.profilepic = data.profilepic;
                 this.bio = data.bio;
                 this.reviews = data.reviews;
-                this.classes = data.tutoring;
+                this.modules = data.modules;
                 this.notes = data.selling;
             },
             err => {
