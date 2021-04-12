@@ -4,12 +4,12 @@
     <div id="content">
       <br>
       <div class="flex-container">
-        <div class="filter">
+      <!--  <div class="filter">
 
-      <!---<img id="bckgrnd" src="../../assets/Rectangle.png">
+      <img id="bckgrnd" src="../../assets/Rectangle.png">
       <img id="notesbox" src="../../assets/NotesRectangle.png">
       
-      <img id="filterbox" src="../../assets/FilterRectangle.png">--->
+      <img id="filterbox" src="../../assets/FilterRectangle.png">
 
         <p id="filtertxt">Module Level</p>
 
@@ -52,7 +52,7 @@
             <label for="*">*</label> <br><br>
 
           </div> 
-      </div>
+      </div>-->
     
       <div class="notes">
         <p id="mynotestxt">My Notes</p>
@@ -61,6 +61,7 @@
           <ul id="noteslist">
             <li id="notesli" v-for="item in notes" v-bind:key="item.id">
               <div>
+                <br>
                 <img width= 110px height= 75px :src= "item.imageURL" v-on:click="route($event)" v-bind:id="item.id"><br>
                 <br>
                 <!-- <button class="notes-button" v-bind:id="item.id" v-on:click="route($event)"><img width= 110px height= 75px :src= "item.imageURL"/></button> -->
@@ -130,17 +131,25 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+    font-family: 'FredokaOne';
+    src: url('/fonts/fredokaone-regular-webfont.woff2') format('woff2'),
+         url('/fonts/fredokaone-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 #content {
   background: #47E4E4;
   margin-top: 0%;
   overflow: auto;
+  font-family: 'FredokaOne';
 }
 .flex-container {
   display: flex;
   margin: auto;
   height: 80vh;
 }
-.filter {
+/*.filter {
   flex: 1;
   background-position: center;
   background-size: cover;
@@ -153,9 +162,9 @@ export default {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-size: 15px;
   font-weight: bold;
-}
+}*/
 .notes {
-  flex: 2;
+  flex: 1;
   background-position: center;
   background-size: cover;
   height: 90%;
@@ -168,8 +177,8 @@ export default {
 }
 #noteslist {
   width: 90%;
-  margin-left: 40px;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  margin: 40px;
+  font-family: 'FredokaOne';
   color: black;
   display: flex;
   flex-wrap: wrap;
@@ -190,7 +199,6 @@ export default {
 #mynotestxt {
   margin-left: 40px;
   margin-top: 20px;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 50px;
@@ -200,7 +208,6 @@ export default {
   letter-spacing: -0.015em;
 }
 #lastviewedtxt {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 25px;
@@ -220,7 +227,8 @@ ul#noteslist li {
 }
 li {
   text-align: center;
-  border: 1px solid whitesmoke;
+  border: 1px solid #C5ECEC;
+  border-radius: 7.5%;
   margin: 10px;
 }
 img {
