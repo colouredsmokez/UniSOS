@@ -57,7 +57,7 @@
       <div class="notes">
         <p id="mynotestxt">My Notes</p>
         <div id="lastviewed">
-          <p id="lastviewedtxt">Last Viewed</p>
+          <p id="lastviewedtxt">Purchased</p>
           <ul id="noteslist">
             <li class="notesli" v-for="item in notes" v-bind:key="item.id">
               <div>
