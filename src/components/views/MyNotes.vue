@@ -59,7 +59,7 @@
         <div id="lastviewed">
           <p id="lastviewedtxt">Last Viewed</p>
           <ul id="noteslist">
-            <li id="notesli" v-for="item in notes" v-bind:key="item.id">
+            <li class="notesli" v-for="item in notes" v-bind:key="item.id">
               <div>
                 <br>
                 <img width= 110px height= 75px :src= "item.imageURL" v-on:click="route($event)" v-bind:id="item.id"><br>
@@ -184,13 +184,15 @@ export default {
   flex-wrap: wrap;
   list-style-type: none;
   padding: 0;
-  background-color: #47E4E4;
+  /*background-color: #47E4E4;*/
   border-radius: 25px;
 }
-#notesli {
+.notesli {
   text-align: center;
   min-width: 33%;
   max-width: 33%;
+  background: #47E4E4;
+  margin: 10px;
 }
 #filtertxt, #level, #purchasetxt, #purchase, #ratingtxt, #rating {
   margin-left: 30px;
@@ -228,7 +230,7 @@ ul#noteslist li {
 li {
   text-align: center;
   border: 1px solid #C5ECEC;
-  border-radius: 7.5%;
+  border-radius: 5%;
   margin: 10px;
 }
 img {
