@@ -16,27 +16,25 @@
             <button v-on:click = "updateName()"> Update Name </button>
             <br><br>
             <label for="bio">Bio:</label><br>
-            <textarea id="bio" name="bio" v-model="bio" rows=5 cols=50></textarea> <br>
+            <textarea id="bio" name="bio" v-model="bio" rows=5 cols=50 placeholder="Enter a bio"></textarea> 
+            <br>
             <button v-on:click = "updateBio()"> Update Bio </button>
             <br><br>
-            <label for="mods"> What modules are you taking? (** doesnt work yet) </label><br>
-            <multiselect v-model="classes" :options="options"> </multiselect>
+            <label for="mods"> What modules are you taking? </label><br>
+            <input type="text" id="mods" name="mods" placeholder="Enter a module code (e.g. BT3103)" width="pixels">
             <br>
-            <button> Update Modules </button>
+            <button v-on:click = "addMod()"> Add Module </button>
             
         </div>
     </div>
 </template>
 
 <script>
-// import * as data from 'https://api.nusmods.com/v2/2020-2021/moduleList.json'
 import { db } from '../../firebase';
 import { auth } from '../../firebase';
 import { store } from '../../firebase';
-import Multiselect from 'vue-multiselect'
 
 export default {
-    components: { Multiselect },
     data() {
         return {
             datapacket: {},
@@ -49,10 +47,8 @@ export default {
             imageData: null,
             bio: '',
             reviews: [],
-            classes: [],
-            notes: [],
-            options: [{name:'BT3103', info:'A module'}, {name:'BT3102', info:'Another module'}]
-            // modules: data
+            modules: [],
+            notes: []
         }
     },
     methods: {
@@ -66,7 +62,7 @@ export default {
                     this.profilepic = data.profilepic;
                     this.bio = data.bio;
                     this.reviews = data.reviews;
-                    this.classes = data.tutoring;
+                    this.modules = data.modules;
                     this.notes = data.selling;
                 },
                 err => {
@@ -88,6 +84,31 @@ export default {
                     this.$router.go(this.$router.path)
                     })
         },
+        addMod: function() {
+            var mod = document.getElementById("mods").value;
+            db.collection('users').doc(this.uid).get().then(snapshot => {
+                var modules = snapshot.data().modules;
+                if (modules == null) {
+                    modules = []
+                }
+                if(mod in modules) {
+                    alert('You have already listed this module!')
+                } else if(mod == '') {
+                    alert('Please enter a valid field.')
+                } else {
+                    var result = confirm('Please confirm if "' + mod + '" is the module you want to add to your profile.');
+                    if (result) {
+                        modules.push(mod)
+                        db.collection('users').doc(this.uid).update({modules: modules}).then(
+                            () => {
+                                alert('"' + mod + `" has been added to your profile.`);
+                                this.$router.go( this.$router.path );
+                            });
+                    }
+                }
+            })
+        },
+
         upload: function(e) {
             var storageRef = store.ref(`${this.email}/${this.imageData.name}`).put(this.imageData);
             storageRef.on(
@@ -117,7 +138,7 @@ export default {
         },
         previewImage: function(event) {
             this.imageData = event.target.files[0];
-        }
+        },
     },
     created() {
         this.fetchInfo();
@@ -157,5 +178,8 @@ export default {
         width: 75%;
         padding: 30px;
         height: 80vh;
+    }
+    #mods, #name{
+        width: 250px;
     }
 </style>
