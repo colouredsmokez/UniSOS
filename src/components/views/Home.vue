@@ -4,10 +4,10 @@
         <img src= "../../assets/HomeBanner.png">
         <h1 id="rectxt">Recommends</h1>
       </div>
-      <div id="display"><hr>
+
+      <div id="display">
                 <ul id="reclist">
-                    <li class="reclisting" v-for="item in listingFiltered" v-bind:key="item" v-on:click="item.show = !item.show">
-                        <div>
+                    <li id="reclisting" v-for="item in listingFiltered.sort(compare).slice(0,4)" v-bind:key="item" v-on:click="item.show = !item.show">
                         <div id="firstpart">
                             <h1>{{item.typeOfList}}</h1>
                             <div v-if="item.profilepic">
@@ -54,26 +54,44 @@ export default {
             rating:'',
             listing:[],
             listingFiltered:[],
-            users:[]
+            users:[],
+            modulesTaking:[]
         }
     },
   methods:{
     fetchItems:function() {
+        
+        db.collection('users').doc(auth.currentUser.uid).get().then(
+        snapshot => {
+          this.modulesTaking = snapshot.modules
+          
+        })
+        var listOfData = new Array();
         db.collection('listing').get().then(
             (querySnapShot) => {
+                
                 querySnapShot.forEach(
                     doc => {
                         var listingData = doc.data();
                         db.collection('users').doc(listingData.userId).get().then(
                             snapshot => {
                                 var userData = snapshot.data();
+                                // if (modulesTaking.include(listingData.module)) {
+                                //     listingData.weight = 5;
+                                // } else {
+                                //     listingData.weight = 0;
+                                // }
                                 listingData.name = userData.name;
                                 listingData.email = userData.email;
                                 listingData.university = userData.university;
                                 listingData.profilepic = userData.profilepic;
                                 listingData.bio = userData.bio;
                                 listingData.id = doc.id;
+                                
+                                console.log(listingData)
                                 this.listing.push(listingData);
+                                listOfData.push(listingData)
+                                
                             },
                             err => {
                                 alert(err.message)
@@ -83,7 +101,9 @@ export default {
                     err => {
                         alert(err.message)
                     }
-                );
+                ).then(()=> {
+            
+        });
             },
             err => {
                 alert(err.message)
@@ -91,16 +111,34 @@ export default {
         );
         
         this.listingFiltered = this.listing;
+        
+  },
+
+  compare:function(a,b){
+      var modulesTaking = ["BT3103"]
+      console.log("testing between")
+      console.log(a)
+      console.log(b)
+      if (modulesTaking.includes(a.module) && !(modulesTaking.includes(b.module))) {
+          console.log("This is tested 1")
+          return -1
+      } else if (modulesTaking.includes(b.module) && !(modulesTaking.includes(a.module))) {
+          console.log("This is tested 2")
+          return 1
+          
+      } else {
+          console.log("This is tested 0")
+          return 0
+
+      }
   }
+    
   },
   created() {
         this.fetchItems();
-        //this.fetchUsers();
+        
     }
   
-
-  //get user.modules
-  //for each listing, if module in user.modules, add to list
 
 }
 </script>
