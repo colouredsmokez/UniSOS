@@ -91,10 +91,10 @@ h1 {
     color: darkslategrey;
 }
 #login:hover {
-    color: darkslateblue;
+    color: black;
 }
 #signup:hover {
-    color: darkslateblue;
+    color: black;
     /*border-radius: 0.5em;
     padding: 10px 20px;*/
 }
