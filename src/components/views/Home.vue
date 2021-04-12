@@ -268,6 +268,7 @@ li {
     height: 150px;
     width: 150px;
     border-radius: 50%;
+    border:none;
 }
 .buy-button {
     border-radius: 8px;
