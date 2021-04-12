@@ -89,11 +89,14 @@ import { auth } from "../../firebase";
     margin: auto;
     padding: 20px;
     text-align: center;
+    background: #47E4E4;
 }
 .request {
     list-style-type: none;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     padding: 20px;
+    background: #C5ECEC;
+    margin: 10px;
 }
 .btn {
     width: 100px;
@@ -103,6 +106,7 @@ import { auth } from "../../firebase";
     transition-duration: 0.4s;
     background-color: #2BD7E2;
     color: white;
+    margin: 10px;
 }
 .btn:hover {
     background-color: black; /* Green */

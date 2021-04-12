@@ -49,25 +49,37 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+    font-family: 'FredokaOne';
+    src: url('/fonts/fredokaone-regular-webfont.woff2') format('woff2'),
+         url('/fonts/fredokaone-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 #localview {
+  display: flex;
   background: #47E4E4;
   margin-top: 0%;
   overflow: auto;
+  font-family: 'FredokaOne';
 }
 #cross {
     position: relative;
     width: 50px;
     height: 50px;
-    margin-left: 40px;
-    margin-top: 40px;
 }
 #info {
   width:20%;
   float:left;
+  flex: 1;
+  margin-left: 30px;
+  margin-top: 30px;
 }
 
 #notes {
+  flex: 4;
   width: 80%;
   float:left;
+  margin: 30px;
 }
 </style>

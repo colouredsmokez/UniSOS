@@ -44,6 +44,8 @@
               <h3>Attending University</h3>
               <select class="selection" v-model="university" required>
                 <option class="selection-item" value="National University of Singapore">NUS</option>
+                <option class="selection-item" value="Nanyang Technological University">NTU</option>
+                <option class="selection-item" value="Singapore Management University">SMU</option>
               </select>
             </div>
             <div class="uni-upload">    
