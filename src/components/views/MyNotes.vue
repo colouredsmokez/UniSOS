@@ -197,6 +197,9 @@ export default {
 .notesli:first-child {
   margin-left: 0px;
 }
+.notesli:last-child {
+  margin-right: 0px;
+}
 #filtertxt, #level, #purchasetxt, #purchase, #ratingtxt, #rating {
   margin-left: 30px;
   margin-top: 30px;
