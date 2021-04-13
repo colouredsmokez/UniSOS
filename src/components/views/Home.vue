@@ -150,29 +150,32 @@ export default {
         db.collection('users').doc(auth.currentUser.uid).get().then(
             snapshot => {
                 //console.log(snapshot)
-                alert("Buy notes for $" + item.price + "?")
-                var notesUpdaing = snapshot.data().myNotes
-                //alert(notesUpdaing)
-                if (notesUpdaing == null) {
-                    //alert("making new field")
-                    notesUpdaing = {}
-                }
-                var id = item.id
-                
-                if (id in notesUpdaing) {
-                    alert("Already Bought!")
+                var cfm = confirm("Buy notes for $" + item.price + "?")
+                if (cfm) {
+                    var notesUpdaing = snapshot.data().myNotes
+                    //alert(notesUpdaing)
+                    if (notesUpdaing == null) {
+                        //alert("making new field")
+                        notesUpdaing = {}
+                    }
+                    var id = item.id
+                    
+                    if (id in notesUpdaing) {
+                        alert("Already Bought!")
+                    } else {
+                        
+                        notesUpdaing[id] = {} 
+                        notesUpdaing[id].imageURL = item.img;
+                        notesUpdaing[id].title = item.name + "'s " + item.module + " notes"
+                        notesUpdaing[id].ownerid = item.userId
+                        db.collection('users').doc(auth.currentUser.uid).update(
+                            {myNotes: notesUpdaing}
+                        )
+                    }
                 } else {
-                    
-                    notesUpdaing[id] = {} 
-                    notesUpdaing[id].imageURL = item.img;
-                    notesUpdaing[id].title = item.name + "'s " + item.module + " notes"
-                    notesUpdaing[id].ownerid = item.userId
-                    db.collection('users').doc(auth.currentUser.uid).update(
-                        {myNotes: notesUpdaing}
-                    )
+                    alert("You cancelled your purchase.")
                 }
                 
-                    
             }
         )
 
