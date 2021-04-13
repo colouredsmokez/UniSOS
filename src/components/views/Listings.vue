@@ -228,6 +228,9 @@ export default {
     border-bottom: black solid;
     list-style-type: none;
 }
+#listing:last-child {
+    border-bottom: none;
+}
 #firstpart{
     flex: 2;
     font-family: 'FredokaOne';
