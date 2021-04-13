@@ -14,6 +14,7 @@
                     </div>
                 </div>
                 <h1>{{otherData.name}}</h1>
+                <button class="" v-if="tutor" v-on:click="offer()">Offer</button>
             </div>  
             <div class="flex-child-chat">
                 <div class="chat-msg">
@@ -41,7 +42,7 @@
                         <textarea class="input-text-field" @keyup.enter="saveMessage()" v-model="message" type="text" placeholder="Type a message"/>
                     </div>
                     <div class="input-enter">
-                        <button class="input-enter-btn" v-on:click="saveMessage()"> <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                        <button class="input-enter-btn" v-on:click="saveMessage()"> <i class="fa fa-paper-plane" aria-hidden="true" v-on:click="saveMessage()"></i></button>
                     </div>
                 </div>
             </div>

@@ -53,8 +53,8 @@ export default {
         snapshot => {
           var data = snapshot.data();
           var userid = auth.currentUser.uid;
-          var reviews = data.reviews;
-          if (reviews != null && userid in reviews) {
+          var reviewsData = data.reviewsData;
+          if (reviewsData != null && userid in reviewsData[1]) {
             alert("Already Reviewed!")
           } else {
             this.showReview = true;
@@ -63,29 +63,32 @@ export default {
       );
     },
     submit() {
+      var cfm = confirm("Are you sure you want to submit this review?")
+      if (cfm) {
       db.collection('listing').doc(this.noteId).get().then(
         snapshot => {
           var data = snapshot.data();
           var userid = auth.currentUser.uid;
           var rating = data.rating;
-          var reviews = data.reviews;
+          var reviewsData = data.reviewsData;
           if (rating == null) {
             rating = 0;
           }
-          if (reviews == null) {
-            reviews = {};
+          if (reviewsData == null) {
+            reviewsData = [0,{}];
           }
-          reviews[userid] = {}
-          reviews[userid].rating = this.rating;
-          reviews[userid].review = this.review;
+          reviewsData[1][userid] = {}
+          reviewsData[1][userid].rating = this.rating;
+          reviewsData[1][userid].review = this.review;
+          reviewsData[0] += 1;
           rating += this.rating;
-          rating = (Number(rating) + Number(this.rating)) / Number(reviews.length);
-          db.collection('listing').doc(this.noteId).update({rating:rating,reviews:reviews}).then(()=> {
-            alert("Review Submitted!");
+          rating /= reviewsData[0];
+          db.collection('listing').doc(this.noteId).update({rating:rating,reviewsData:reviewsData}).then(()=> {
             this.$router.go( this.$router.path );
           });
         }
       );
+      }
     }
   },
   created() {

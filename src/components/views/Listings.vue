@@ -31,7 +31,11 @@
                             </div>
                             <br>
                             <button class="profile-button" v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
-                            <p>{{item.rating}}</p>
+                            <div v-if="item.rating==0"><p>no rating</p></div>
+                            <div v-if="item.rating==1"><p>*</p></div>
+                            <div v-if="item.rating==2"><p>**</p></div>
+                            <div v-if="item.rating==3"><p>***</p></div>
+                            <br><br>
                         </div>
                         <div id="secondpart">
                             <h2>{{item.module}}</h2>
