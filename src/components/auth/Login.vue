@@ -41,7 +41,7 @@ export default {
             this.$router.go( this.$router.path );
           } else if (user.emailVerified) {
             alert(`You are logged in as ${user.email}`);
-            this.$router.push('/myprofile');
+            this.$router.push('/home');
             this.$router.go( this.$router.path );
           } else {
             alert(`${user.email} is not verified`);
