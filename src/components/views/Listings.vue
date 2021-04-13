@@ -18,7 +18,7 @@
 
             <div id="display">
                 <ul>
-                    <li id="listing" v-for="item in listingFiltered" v-bind:key="item" v-on:click="item.show = !item.show">
+                    <li id="listing" v-for="item in listingFiltered" v-bind:key="item.id" v-on:click="item.show = !item.show">
                         <div id="firstpart">
                             <h1>{{item.typeOfList}}</h1>
                             <div v-if="item.profilepic">
@@ -33,7 +33,11 @@
                             </div>
                             <br>
                             <button class="profile-button" v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
-                            <p>{{item.rating}}</p>
+                            <div v-if="item.rating==0"><p>no rating</p></div>
+                            <div v-if="item.rating==1"><p>*</p></div>
+                            <div v-if="item.rating==2"><p>**</p></div>
+                            <div v-if="item.rating==3"><p>***</p></div>
+                            <br><br>
                         </div>
                         <div id="secondpart">
                             <h2>{{item.module}}</h2>
@@ -45,7 +49,7 @@
                         <div id="thirdpart">
                             <div v-if="item.userId != currentUser">
                                 <button class="chat-button" v-bind:id="item.id" v-if="item.typeOfList=='Notes'" v-on:click="buy(item)">Buy</button>
-                                <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)"><i class="fa fa-comment" aria-hidden="true"></i> Chat</button>
+                                <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)">Chat</button>
                             </div>
                         </div>
                     </li>
@@ -71,39 +75,27 @@ export default {
     },
     methods: {
         fetchItems:function() {
-
-            db.collection('listing').get().then(
-                (querySnapShot) => {
-                    querySnapShot.forEach(
-                        doc => {
-                            
-                            var listingData = doc.data();
-                            db.collection('users').doc(listingData.userId).get().then(
-                                snapshot => {
-                                    var userData = snapshot.data();
-                                    listingData.name = userData.name;
-                                    listingData.email = userData.email;
-                                    listingData.university = userData.university;
-                                    listingData.profilepic = userData.profilepic;
-                                    listingData.bio = userData.bio;
-                                    listingData.id = doc.id;
-                                    this.listing.push(listingData);
-                                },
-                                err => {
-                                    alert(err.message)
-                                }
-                            );
-                        },
-                        err => {
-                            alert(err.message)
-                        }
-                    );
-                },
-                err => {
+            db.collection('listing').get().then((querySnapShot) => {
+                querySnapShot.forEach(doc => {
+                    var listingData = doc.data();
+                    db.collection('users').doc(listingData.userId).get().then(snapshot => {
+                        var userData = snapshot.data();
+                        listingData.name = userData.name;
+                        listingData.email = userData.email;
+                        listingData.university = userData.university;
+                        listingData.profilepic = userData.profilepic;
+                        listingData.bio = userData.bio;
+                        listingData.id = doc.id;
+                        this.listing.push(listingData);
+                    },err => {
+                        alert(err.message)
+                    });
+                },err => {
                     alert(err.message)
-                }    
-            );
-
+                });
+            },err => {
+                alert(err.message)
+            });
             this.listingFiltered = this.listing;
         },
         filter:function() {
@@ -122,52 +114,40 @@ export default {
         },
         toProfile: function(event) {
             let uid = event.target.getAttribute("id");
-            alert(uid);
             this.$router.push({ name:'profile', params:{ uid:uid } });
         },
         toChat: function(event) {
             let uid = event.target.getAttribute("id");
-            alert(uid);
             this.$router.push({ name:'chat', params:{ uid:uid } });
-
         },
         buy: function(item) {
             db.collection('users').doc(auth.currentUser.uid).get().then(
                 snapshot => {
                     //console.log(snapshot)
-                    alert("Buy notes for $" + item.price + "?")
-                    var notesUpdaing = snapshot.data().myNotes
-                    //alert(notesUpdaing)
-                    if (notesUpdaing == null) {
-                        //alert("making new field")
-                        notesUpdaing = {}
-                    }
-                    var id = item.id
+                    var cfm = confirm("Buy notes for $" + item.price + "?")
+                    if (cfm) {
+                        var notesUpdaing = snapshot.data().myNotes
+                        //alert(notesUpdaing)
+                        if (notesUpdaing == null) {
+                            //alert("making new field")
+                            notesUpdaing = {}
+                        }
+                        var id = item.id
                     
-                    if (id in notesUpdaing) {
-                        alert("Already Bought!")
+                        if (id in notesUpdaing) {
+                            alert("Already Bought!")
+                        } else {
+                            notesUpdaing[id] = {} 
+                            notesUpdaing[id].imageURL = item.img;
+                            notesUpdaing[id].title = item.name + "'s " + item.module + " notes"
+                            notesUpdaing[id].ownerid = item.userId
+                            db.collection('users').doc(auth.currentUser.uid).update({myNotes: notesUpdaing})
+                        }
                     } else {
-                        
-                        notesUpdaing[id] = {} 
-                        notesUpdaing[id].imageURL = item.img;
-                        notesUpdaing[id].title = item.name + "'s " + item.module + " notes"
-                        notesUpdaing[id].ownerid = item.userId
-                        db.collection('users').doc(auth.currentUser.uid).update(
-                            {myNotes: notesUpdaing}
-                        )
+                        alert("You cancelled your purchase.")
                     }
-                    
-                    
                 }
             )
-            // var Notes = {}
-            // db.collection('users').doc(auth.currentUser.uid).update(
-            //     {notesBought:}
-            //     ).then(
-            //                 () => {
-            //                     alert(`Profile picture changed.`);
-
-            
         }
     },
     created() {
@@ -210,6 +190,9 @@ export default {
     align-items: center;
     border-bottom: black solid;
     list-style-type: none;
+}
+#listing:last-child {
+    border-bottom: none;
 }
 #firstpart{
     flex: 2;

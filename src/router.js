@@ -173,7 +173,7 @@ let router = new Router({
             }
         },
         {
-            path: '/localview',
+            path: '/localview/:noteId',
             name: "localview",
             props: true,
             components: {

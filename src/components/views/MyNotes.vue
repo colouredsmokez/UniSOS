@@ -68,14 +68,11 @@
                 
                 <!-- <router-link to="/localview" exact><img width= 110px height= 75px :src= "item.imageURL"/></router-link><br> -->
                 <h3>{{item.title}}</h3>
-                
-                
               </div>
             </li>
           </ul>
         </div>
       </div>
-
     </div>
     </div> 
     </div>
@@ -109,13 +106,10 @@ export default {
         })
     },
     route: function(event) {
-        
-          let noteId = event.target.getAttribute("id");
-          console.log(noteId)
-          this.$router.push({ name: "localview", params: { noteId: noteId } })
-          
-        },
-    
+      let noteId = event.target.getAttribute("id");
+      console.log(noteId)
+      this.$router.push({ name: "localview", params: { noteId: noteId } })
+    },
   },
   data() {
     return {

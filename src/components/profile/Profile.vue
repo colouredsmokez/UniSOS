@@ -21,7 +21,6 @@
                 <p> Bio </p>
                 <span> {{ bio }} </span>
             </div>
-
             <!-- Tutor Info -->
             <div class="list">
                 <hr>
@@ -74,6 +73,7 @@ data() {
 },
 methods: {
     fetchInfo: function() {
+        console.log(this.uid);
         db.collection('users').doc(this.uid).get().then(
             snapshot => {
                 var data = snapshot.data();
