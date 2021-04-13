@@ -63,7 +63,7 @@ export default {
       );
     },
     submit() {
-      var cfm = confirm("Are you sure you want to submit this review?")
+      var cfm = confirm("Are you sure you want to submit this review?");
       if (cfm) {
       db.collection('listing').doc(this.noteId).get().then(
         snapshot => {
@@ -83,11 +83,22 @@ export default {
           reviewsData[0] += 1;
           rating += this.rating;
           rating /= reviewsData[0];
-          db.collection('listing').doc(this.noteId).update({rating:rating,reviewsData:reviewsData}).then(()=> {
-            this.$router.go( this.$router.path );
-          });
+          db.collection('listing').doc(this.noteId).update({rating:rating,reviewsData:reviewsData}).then(
+            ()=> {
+              alert("Review Submitted!");
+              this.$router.go( this.$router.path );
+            },
+            err => {
+              alert(err.message);
+            }
+          );
+        },
+        err => {
+          alert(err.message);
         }
       );
+      } else {
+        alert("Review Submission Cancelled.");
       }
     }
   },
