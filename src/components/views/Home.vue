@@ -55,6 +55,7 @@ export default {
             listingFiltered:[],
             users:[],
             modulesTaking:[]
+            
         }
     },
   methods:{
@@ -62,7 +63,8 @@ export default {
         
         db.collection('users').doc(auth.currentUser.uid).get().then(
         snapshot => {
-          this.modulesTaking = snapshot.modules
+          this.modulesTaking = snapshot.data().modules
+          console.log(this.modulesTaking)
           
         })
         var listOfData = new Array();
@@ -114,17 +116,24 @@ export default {
   },
 
   compare:function(a,b){
-      var modulesTaking = ["BT3103"]
+      
       console.log("testing between")
       console.log(a)
       console.log(b)
-      if (modulesTaking.includes(a.module) && !(modulesTaking.includes(b.module))) {
+      if (a.userId == this.currentUser && !(b.userId == this.currentUser)) {
+          return 1
+      } else if (b.userId == this.currentUser && !(a.userId == this.currentUser)) {
+          return -1
+      } else if (this.modulesTaking.includes(a.module) && !(this.modulesTaking.includes(b.module))) {
           console.log("This is tested 1")
           return -1
-      } else if (modulesTaking.includes(b.module) && !(modulesTaking.includes(a.module))) {
+      } else if (this.modulesTaking.includes(b.module) && !(this.modulesTaking.includes(a.module))) {
           console.log("This is tested 2")
           return 1
-          
+      } else if (a.advertise != null && b.advertise ==null) {
+          return -1 
+      } else if (b.advertise != null && a.advertise ==null){
+          return 1
       } else {
           console.log("This is tested 0")
           return 0

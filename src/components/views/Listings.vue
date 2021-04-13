@@ -51,6 +51,9 @@
                                 <button class="chat-button" v-bind:id="item.id" v-if="item.typeOfList=='Notes'" v-on:click="buy(item)">Buy</button>
                                 <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)">Chat</button>
                             </div>
+                            <div v-if="item.userId == currentUser">
+                                <button class="chat-button" v-bind:id="item.userId" v-on:click="advertise(item)">Advertise</button>
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -145,6 +148,19 @@ export default {
                         }
                     } else {
                         alert("You cancelled your purchase.")
+                    }
+                }
+            )
+        },
+        advertise: function(item) {
+            db.collection("listing").doc(item.id).get().then(
+                snapshot => {
+                    var data = snapshot.data();
+                    if (data.advertise != null) {
+                        alert("Already advertised!")
+                    } else {
+                        alert("Advertise for $5?")
+                        db.collection('listing').doc(item.id).update({advertise: true})
                     }
                 }
             )
