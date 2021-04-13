@@ -10,9 +10,21 @@
                 <input type="radio" v-on:change="filter()" v-model="type" value="All">All<br>
                 <br><br>
                 <h3>Rating</h3>
-                <input type="radio" v-on:change="filter()" v-model="rating" value="***">***<br>
-                <input type="radio" v-on:change="filter()" v-model="rating" value="**">**<br>
-                <input type="radio" v-on:change="filter()" v-model="rating" value="*">*<br>
+                <input type="radio" v-on:change="filter()" v-model="rating" value="***">
+                    <img class="filter-inline" src="../../assets/goldstar.png">
+                    <img class="filter-inline" src="../../assets/goldstar.png">
+                    <img class="filter-inline" src="../../assets/goldstar.png">
+                <br>
+                <input type="radio" v-on:change="filter()" v-model="rating" value="**">
+                    <img class="filter-inline" src="../../assets/goldstar.png">
+                    <img class="filter-inline" src="../../assets/goldstar.png">
+                    <img class="filter-inline" src="../../assets/blackstar.png">
+                <br>
+                <input type="radio" v-on:change="filter()" v-model="rating" value="*">
+                   <img class="filter-inline" src="../../assets/goldstar.png">
+                    <img class="filter-inline" src="../../assets/blackstar.png">
+                    <img class="filter-inline" src="../../assets/blackstar.png">
+                <br>
                 <input type="radio" v-on:change="filter()" v-model="rating" value="All">All<br>
             </div>
 
@@ -34,26 +46,28 @@
                             <br>
                             <button class="profile-button" v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
                             <div v-if="item.rating==0"><p>no rating</p></div>
-                            <div v-if="0<item.rating&&item.rating<=1"><p>*</p></div>
+                            <!--<div v-if="0<item.rating&&item.rating<=1"><p>*</p></div>
                             <div v-if="1<item.rating&&item.rating<=2"><p>**</p></div>
-                            <div v-if="2<item.rating&&item.rating<=3"><p>***</p></div>
+                            <div v-if="2<item.rating&&item.rating<=3"><p>***</p></div>-->
 
-                            <!--<div v-if="0<item.rating&&item.rating<=1">
-                                <img class="inline" src="../../assets/goldstar.jpg">
-                                <img class="inline" src="../../assets/blackstar.jpg">
-                                <img class="inline" src="../../assets/blackstar.jpg">
+                            <br><br>
+                            <div v-if="0<item.rating&&item.rating<=1">
+                                <img class="inline" src="../../assets/goldstar.png">
+                                <img class="inline" src="../../assets/blackstar.png">
+                                <img class="inline" src="../../assets/blackstar.png">
                             </div>
                             <div v-if="1<item.rating&&item.rating<=2">
-                                <img class="inline" src="../../assets/goldstar.jpg">
-                                <img class="inline" src="../../assets/goldstar.jpg">
-                                <img class="inline" src="../../assets/blackstar.jpg">
+                                <img class="inline" src="../../assets/goldstar.png">
+                                <img class="inline" src="../../assets/goldstar.png">
+                                <img class="inline" src="../../assets/blackstar.png">
                             </div>
                             <div v-if="2<item.rating&&item.rating<=3">
-                                <img class="inline" src="../../assets/goldstar.jpg">
-                                <img class="inline" src="../../assets/goldstar.jpg">
-                                <img class="inline" src="../../assets/goldstar.jpg">
-                            </div>-->
+                                <img class="inline" src="../../assets/goldstar.png">
+                                <img class="inline" src="../../assets/goldstar.png">
+                                <img class="inline" src="../../assets/goldstar.png">
+                            </div>
                             <br><br>
+
                         </div>
                         <div id="secondpart">
                             <h2>{{item.module}}</h2>
@@ -284,9 +298,14 @@ export default {
 }
 .inline {
   display: inline-block;
-  padding: 10px;
   vertical-align: middle;
-  height:2px;
-  width:2px;
+  height:27px;
+  width:27px;
+}
+.filter-inline {
+  display: inline-block;
+  vertical-align: middle;
+  height:18px;
+  width:18px;
 }
 </style>
