@@ -10,18 +10,18 @@
                 <input type="radio" v-on:change="filter()" v-model="type" value="All">All<br>
                 <br><br>
                 <h3>Rating</h3>
-                <input type="radio" v-on:change="filter()" v-model="rating" value="***">
+                <input type="radio" v-on:change="filter()" v-model="rating" value=3>
                     <img class="filter-inline" src="../../assets/goldstar.png">
                     <img class="filter-inline" src="../../assets/goldstar.png">
                     <img class="filter-inline" src="../../assets/goldstar.png">
                 <br>
-                <input type="radio" v-on:change="filter()" v-model="rating" value="**">
+                <input type="radio" v-on:change="filter()" v-model="rating" value=2>
                     <img class="filter-inline" src="../../assets/goldstar.png">
                     <img class="filter-inline" src="../../assets/goldstar.png">
                     <img class="filter-inline" src="../../assets/blackstar.png">
                 <br>
-                <input type="radio" v-on:change="filter()" v-model="rating" value="*">
-                   <img class="filter-inline" src="../../assets/goldstar.png">
+                <input type="radio" v-on:change="filter()" v-model="rating" value=1>
+                    <img class="filter-inline" src="../../assets/goldstar.png">
                     <img class="filter-inline" src="../../assets/blackstar.png">
                     <img class="filter-inline" src="../../assets/blackstar.png">
                 <br>
@@ -134,13 +134,30 @@ export default {
         filter:function() {
             this.listingFiltered = []
             for (var list of this.listing) {
-                if ((this.type == list.typeOfList || this.type == '') && (this.rating == list.rating || this.rating == '')) {
+                //assigning rating value
+                var assignedRating = 0
+                if (list.rating==0 || !(list.rating)) {
+                    assignedRating = 0
+                } else if (0<list.rating&&list.rating<=1) {
+                    assignedRating = 1
+                } else if (1<list.rating&&list.rating<=2) {
+                    assignedRating = 2
+                } else {
+                    assignedRating = 3
+                }
+                //console.log("list"+list.rating+", assigned"+assignedRating)
+
+                if ((this.type == list.typeOfList || this.type == '') && (this.rating == assignedRating || this.rating == '')) {
+                    //console.log("this"+this.rating+", assigned"+assignedRating)
                     this.listingFiltered.push(list);
-                } else if ((this.type == list.typeOfList || this.type == 'All') && (this.rating == list.rating || this.rating == '')) {
+                } else if ((this.type == list.typeOfList || this.type == 'All') && (this.rating == assignedRating || this.rating == '')) {
+                    //console.log("this"+this.rating+", assigned"+assignedRating)
                     this.listingFiltered.push(list);
-                } else if ((this.type == list.typeOfList || this.type == '') && (this.rating == list.rating || this.rating == 'All')) {
+                } else if ((this.type == list.typeOfList || this.type == '') && (this.rating == assignedRating || this.rating == 'All')) {
+                    //console.log("this"+this.rating+", assigned"+assignedRating)
                     this.listingFiltered.push(list);
-                } else if ((this.type == list.typeOfList || this.type == 'All') && (this.rating == list.rating || this.rating == 'All')) {
+                } else if ((this.type == list.typeOfList || this.type == 'All') && (this.rating == assignedRating || this.rating == 'All')) {
+                    //console.log("this"+this.rating+", assigned"+assignedRating)
                     this.listingFiltered.push(list);
                 }
             }
