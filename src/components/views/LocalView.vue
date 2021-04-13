@@ -1,13 +1,20 @@
 <template>
     <div>
-      <div id= "localview">
-        <div id = "info">
+      <div id="localview">
+        <div id="info">
           <router-link to="/mynotes" exact><img id="cross" src="../../assets/X.png"></router-link>
           <h1>{{title}}</h1>
+          <button class="btn" v-on:click="toReview()">Review</button>
+          <div v-show="showReview">
+            <input type="radio" v-model="rating" value=1>
+            <input type="radio" v-model="rating" value=2>
+            <input type="radio" v-model="rating" value=3>
+            <input type="text" v-model="review">
+            <button class="btn" v-on:click="submit()">Submit</button>
+          </div>
         </div>
         <div id="notes">
           <img width= 100% height= 100% :src= "imageURL"><br>     
-        
         </div>
       </div>
       
@@ -25,7 +32,9 @@ export default {
       imageURL:"",
       title:"",
       ownerid:"",
-      note:""
+      showReview: false,
+      rating:"",
+      review:""
     }
   },
   methods:{
@@ -36,15 +45,53 @@ export default {
           this.imageURL = dict[this.noteId]["imageURL"]
           this.title = dict[this.noteId]["title"]
           this.ownerid = dict[this.noteId]["ownerid"]
-          this.note = this.noteId
-        })
+        }
+      );
     },
+    toReview() {
+      db.collection('listing').doc(this.noteId).get().then(
+        snapshot => {
+          var data = snapshot.data();
+          var userid = auth.currentUser.uid;
+          var reviews = data.reviews;
+          if (reviews != null && userid in reviews) {
+            alert("Already Reviewed!")
+          } else {
+            this.showReview = true;
+          }
+        }
+      );
+    },
+    submit() {
+      db.collection('listing').doc(this.noteId).get().then(
+        snapshot => {
+          var data = snapshot.data();
+          var userid = auth.currentUser.uid;
+          var rating = data.rating;
+          var reviews = data.reviews;
+          if (rating == null) {
+            rating = 0;
+          }
+          if (reviews == null) {
+            reviews = {};
+          }
+          reviews[userid] = {}
+          reviews[userid].rating = this.rating;
+          reviews[userid].review = this.review;
+          rating += this.rating;
+          rating = (Number(rating) + Number(this.rating)) / Number(reviews.length);
+          db.collection('listing').doc(this.noteId).update({rating:rating,reviews:reviews}).then(()=> {
+            alert("Review Submitted!");
+            this.$router.go( this.$router.path );
+          });
+        }
+      );
+    }
   },
   created() {
     console.log(this.noteId)
     this.fetchItems();
   }
-    
 }
 </script>
 
@@ -59,7 +106,6 @@ export default {
 #localview {
   display: flex;
   background: #47E4E4;
-  margin-top: 0%;
   overflow: auto;
   font-family: 'FredokaOne';
 }
@@ -69,17 +115,29 @@ export default {
     height: 50px;
 }
 #info {
-  width:20%;
-  float:left;
   flex: 1;
   margin-left: 30px;
   margin-top: 30px;
 }
-
 #notes {
   flex: 4;
-  width: 80%;
-  float:left;
   margin: 30px;
+}
+.btn {
+    border-radius: 8px;
+    border: none;
+    padding: 10px 20px;
+    background-color:black;
+    color: white;
+    font-family: 'FredokaOne';
+    cursor: pointer;
+    transition-duration: 0.4s;
+    font-size: 20px;
+    margin:5px;
+    box-shadow: 0 0 4px #000000;
+}
+.btn:hover {
+    background-color: white;
+    color: black;
 }
 </style>

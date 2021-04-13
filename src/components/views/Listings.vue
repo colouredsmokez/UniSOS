@@ -16,7 +16,7 @@
 
             <div id="display">
                 <ul>
-                    <li id="listing" v-for="item in listingFiltered" v-bind:key="item" v-on:click="item.show = !item.show">
+                    <li id="listing" v-for="item in listingFiltered" v-bind:key="item.id" v-on:click="item.show = !item.show">
                         <div id="firstpart">
                             <h1>{{item.typeOfList}}</h1>
                             <div v-if="item.profilepic">
@@ -43,7 +43,7 @@
                         <div id="thirdpart">
                             <div v-if="item.userId != currentUser">
                                 <button class="chat-button" v-bind:id="item.id" v-if="item.typeOfList=='Notes'" v-on:click="buy(item)">Buy</button>
-                                <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)"><i class="fa fa-comment" aria-hidden="true"></i> Chat</button>
+                                <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)">Chat</button>
                             </div>
                         </div>
                     </li>
@@ -69,39 +69,27 @@ export default {
     },
     methods: {
         fetchItems:function() {
-
-            db.collection('listing').get().then(
-                (querySnapShot) => {
-                    querySnapShot.forEach(
-                        doc => {
-                            
-                            var listingData = doc.data();
-                            db.collection('users').doc(listingData.userId).get().then(
-                                snapshot => {
-                                    var userData = snapshot.data();
-                                    listingData.name = userData.name;
-                                    listingData.email = userData.email;
-                                    listingData.university = userData.university;
-                                    listingData.profilepic = userData.profilepic;
-                                    listingData.bio = userData.bio;
-                                    listingData.id = doc.id;
-                                    this.listing.push(listingData);
-                                },
-                                err => {
-                                    alert(err.message)
-                                }
-                            );
-                        },
-                        err => {
-                            alert(err.message)
-                        }
-                    );
-                },
-                err => {
+            db.collection('listing').get().then((querySnapShot) => {
+                querySnapShot.forEach(doc => {
+                    var listingData = doc.data();
+                    db.collection('users').doc(listingData.userId).get().then(snapshot => {
+                        var userData = snapshot.data();
+                        listingData.name = userData.name;
+                        listingData.email = userData.email;
+                        listingData.university = userData.university;
+                        listingData.profilepic = userData.profilepic;
+                        listingData.bio = userData.bio;
+                        listingData.id = doc.id;
+                        this.listing.push(listingData);
+                    },err => {
+                        alert(err.message)
+                    });
+                },err => {
                     alert(err.message)
-                }    
-            );
-
+                });
+            },err => {
+                alert(err.message)
+            });
             this.listingFiltered = this.listing;
         },
         filter:function() {
@@ -114,19 +102,14 @@ export default {
         },
         toProfile: function(event) {
             let uid = event.target.getAttribute("id");
-            alert(uid);
             this.$router.push({ name:'profile', params:{ uid:uid } });
         },
         toChat: function(event) {
             let uid = event.target.getAttribute("id");
-            alert(uid);
             this.$router.push({ name:'chat', params:{ uid:uid } });
-
         },
         buy: function(item) {
             //alert(item.price);
-            
-
             db.collection('users').doc(auth.currentUser.uid).get().then(
                 snapshot => {
                     //console.log(snapshot)
@@ -143,53 +126,18 @@ export default {
                         if (id in notesUpdaing) {
                             alert("Already Bought!")
                         } else {
-                        
                             notesUpdaing[id] = {} 
                             notesUpdaing[id].imageURL = item.img;
                             notesUpdaing[id].title = item.name + "'s " + item.module + " notes"
                             notesUpdaing[id].ownerid = item.userId
-                            db.collection('users').doc(auth.currentUser.uid).update(
-                                {myNotes: notesUpdaing}
-                           )
+                            db.collection('users').doc(auth.currentUser.uid).update({myNotes: notesUpdaing})
                         }
                     } else {
                         alert("You cancelled your purchase.")
                     }
-                    
                 }
             )
-            // var Notes = {}
-            // db.collection('users').doc(auth.currentUser.uid).update(
-            //     {notesBought:}
-            //     ).then(
-            //                 () => {
-            //                     alert(`Profile picture changed.`);
-
-            
         }
-        /*fetchUsers: function() {
-            db.collection('users').get().then((snapshot)=> {
-                snapshot.forEach(doc=>{
-                    this.users.push([doc.id,doc.data()]);
-                });
-            });
-        },
-        updatePFP: function() {
-            for (var user in this.users) {
-                var userId = user[0]
-                var userInfo = user[1]
-                var currPFP = userInfo.profilepic
-
-                for (var currListing in this.listing) {
-                    if (userId == currListing.userId) {
-                        if (currPFP != currListing.pfp) {
-                            var ref
-                        }
-                    }
-                }
-            }
-        }*/
-
     },
     created() {
         this.fetchItems();

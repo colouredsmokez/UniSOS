@@ -79,7 +79,7 @@ export default {
             });
         },
         fetchMessages() {
-            alert(this.otherUser);
+            console.log(this.otherUser);
             db.collection('chat').doc(this.thisUser).collection(this.otherUser).orderBy('createdAt').onSnapshot((querySnapshot) => {
                 let allMessages = [];
                 querySnapshot.forEach(doc => {

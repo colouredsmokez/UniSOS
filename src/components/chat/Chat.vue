@@ -2,7 +2,7 @@
     <div class="background">
         <div class="flex-container">
             <div class="flex-child-inbox">
-                <div v-for="user in users" v-bind:key="user">
+                <div v-for="user in users" v-bind:key="user.id">
                     <button class="inbox" v-bind:id="user[0]" v-on:click="fetchMessages($event)">
                         {{user[1].name}}
                     </button>
@@ -77,8 +77,12 @@ export default {
                 querySnapShot.forEach((doc) => {
                     if (doc.id == this.thisUser) {
                         this.thisData = doc.data();
-                    } else if (db.collection('chat').doc(this.thisUser).collection(doc.id)) { //still got problem
-                        this.users.push([doc.id,doc.data()]);
+                    } else {
+                        db.collection('chat').doc(this.thisUser).collection(doc.id).get().then((sub) => {
+                            if (sub.size > 0) {
+                                this.users.push([doc.id,doc.data()]);
+                            }
+                        });
                     }
                 },
                 err => {

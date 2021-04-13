@@ -83,69 +83,72 @@
     </div>
 </template>
 <script>
-import database from "../../firebase.js"
+import { db } from "../../firebase"
 import { auth } from '../../firebase';
-import firebase from 'firebase'
+import { store } from '../../firebase';
 
 export default {
     data() {
         return{
+            user: auth.currentUser.uid,
             type:"Tutor",
             grade:"A+",
             module:"",
             took_in:"AY20/21 S2",
             addInfo:"",
             price:'',
-            name:"",
-            pfp:"../../assets/defaultpfp.jpg",
             imageData: null,
             picture: null,
             uploadValue: 0
-            
         }
     },
     methods:{
         submit:function() {
-            if (this.module=="" || this.took_in=="" ||((this.price=="" ||this.picture==null)&& this.type=="Notes")) {
+            if ( this.module=="" || this.took_in=="" || ((this.price=="" || this.picture==null) && this.type=="Notes") ) {
                 alert("Incomplete Submission")
             } else {
-                /*alert("currId")
-                var newListing = {}
-                var currId = auth.currentUser.uid
-                //alert("currId")
-                let currPFP = "default"
-                database.collection('users').get().then(snapshot => {
-                    snapshot.docs.forEach(doc => {
-                        var user = doc.data()
-                        //alert(doc.id)
-                        if (doc.id == auth.currentUser.uid) {
-                            currPFP = user.profilepic
-                            //alert(currPFP)
-                        }
-                    })
-                })*/
                 var newListing = {}
                 newListing["typeOfList"] = this.type;
                 newListing["grade"] = this.grade;
-                newListing["module"] = this.module; //add to user.modules
+                newListing["module"] = this.module;
                 newListing["took_in"] = this.took_in
                 newListing["addInfo"] = this.addInfo;
-                newListing["userId"] = auth.currentUser.uid;
-                newListing["pfp"] = this.pfp;
-                newListing["name"] = this.name;
+                newListing["userId"] = this.user;
                 if (this.type=="Notes"){
                     newListing["price"] = this.price;
                     newListing["img"] = this.picture; //should be able to upload a few files
                 }
             }
-            database.collection("listing").add(newListing).then(()=>location.reload());
+            db.collection("listing").add(newListing).then(location.reload());
+            /*
+                db.collection("users").doc(this.user).get().then(
+                    snapshot => {
+                        if (this.type=="Notes") {
+                            var selling = snapshot.data().selling;
+                            if (selling == null) {
+                                selling = {};
+                            }
+                            selling[docid] = newListing;
+                            db.collection('users').doc(this.user).update({selling:selling}).then(location.reload());
+                        } else {
+                            var teaching = snapshot.data().teaching;
+                            if (teaching == null) {
+                                teaching = {};
+                            }
+                            teaching[docid] = newListing;
+                            db.collection('users').doc(this.user).update({teaching:teaching}).then(location.reload());
+                        }
+                    }
+                );
+            });
+            */
         },
         previewImage(event) {
             this.uploadValue=0;
             this.picture=null;
             this.imageData = event.target.files[0];
             this.picture=null;
-            const storageRef=firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
+            const storageRef=store.ref(`${this.imageData.name}`).put(this.imageData);
             storageRef.on(`state_changed`,snapshot=>{
             this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
                 }, error=>{console.log(error.message)},
@@ -153,42 +156,11 @@ export default {
                 storageRef.snapshot.ref.getDownloadURL().then((url)=>{
                 this.picture =url;
                 });
-            }
-            );
-        },
-        fetchUser: function() {
-            database.collection('users').get().then(snapshot => {
-                snapshot.docs.forEach(doc => {
-                    var user = doc.data()
-                    if (doc.id == auth.currentUser.uid) {
-                        this.name = user.name
-                        this.pfp = user.profilepic
-                    }
-                })
-            })
+            });
         }
-        
     },
-    created() {
-        this.fetchUser();
-    /*database.collection('users').doc(auth.currentUser.uid).get().then(
-        snapshot => {
-            var data = snapshot.data();
-            this.name = data.name;
-            this.profilepic = data.pfp;
-            alert(this.profilepic)
-        },
-        err => {
-            alert(err.message)
-        }
-    )*/
-  }
+    created() {}
 }
-    
-    
-
-
-
 </script>
 
 
