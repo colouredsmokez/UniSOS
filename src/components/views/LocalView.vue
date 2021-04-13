@@ -81,8 +81,11 @@ export default {
           reviewsData[1][userid].rating = this.rating;
           reviewsData[1][userid].review = this.review;
           reviewsData[0] += 1;
-          rating += this.rating;
-          rating /= reviewsData[0];
+          console.log(rating)
+          rating = Number(rating) + Number(this.rating);
+          console.log(rating)
+          rating = rating/reviewsData[0];
+          console.log(rating)
           db.collection('listing').doc(this.noteId).update({rating:rating,reviewsData:reviewsData}).then(
             ()=> {
               alert("Review Submitted!");
