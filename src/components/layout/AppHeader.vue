@@ -219,11 +219,6 @@ export default {
 .nav:hover, .nav:active, .nav-wrapper .router-link-active{
   border-bottom: thick solid #25abb4;
 }
-
-/* .profile:hover, .profile:active {
-  color: rgba(0, 0, 0, 0.63);
-} */
-
 .dropdown {
   overflow: hidden;
 }

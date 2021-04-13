@@ -248,6 +248,5 @@ li {
 img {
   width: 220px;
   height: 150px;
-  /*margin-top: 150px;*/
 }
 </style>

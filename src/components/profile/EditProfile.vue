@@ -115,7 +115,6 @@ export default {
                 `state_changed`,
                 snapshot => {
                     console.log(snapshot);
-                    //this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
                 },
                 error => {
                     console.log(error.message);

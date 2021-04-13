@@ -7,11 +7,13 @@
                 <h3>Type</h3>
                 <input type="radio" v-on:change="filter()" v-model="type" value="Notes">Notes<br>
                 <input type="radio" v-on:change="filter()" v-model="type" value="Tutor">Tutor<br>
+                <input type="radio" v-on:change="filter()" v-model="type" value="All">All<br>
                 <br><br>
                 <h3>Rating</h3>
                 <input type="radio" v-on:change="filter()" v-model="rating" value="***">***<br>
                 <input type="radio" v-on:change="filter()" v-model="rating" value="**">**<br>
                 <input type="radio" v-on:change="filter()" v-model="rating" value="*">*<br>
+                <input type="radio" v-on:change="filter()" v-model="rating" value="All">All<br>
             </div>
 
             <div id="display">
@@ -109,6 +111,12 @@ export default {
             for (var list of this.listing) {
                 if ((this.type == list.typeOfList || this.type == '') && (this.rating == list.rating || this.rating == '')) {
                     this.listingFiltered.push(list);
+                } else if ((this.type == list.typeOfList || this.type == 'All') && (this.rating == list.rating || this.rating == '')) {
+                    this.listingFiltered.push(list);
+                } else if ((this.type == list.typeOfList || this.type == '') && (this.rating == list.rating || this.rating == 'All')) {
+                    this.listingFiltered.push(list);
+                } else if ((this.type == list.typeOfList || this.type == 'All') && (this.rating == list.rating || this.rating == 'All')) {
+                    this.listingFiltered.push(list);
                 }
             }
         },
@@ -124,9 +132,6 @@ export default {
 
         },
         buy: function(item) {
-            //alert(item.price);
-            
-
             db.collection('users').doc(auth.currentUser.uid).get().then(
                 snapshot => {
                     //console.log(snapshot)
@@ -164,29 +169,6 @@ export default {
 
             
         }
-        /*fetchUsers: function() {
-            db.collection('users').get().then((snapshot)=> {
-                snapshot.forEach(doc=>{
-                    this.users.push([doc.id,doc.data()]);
-                });
-            });
-        },
-        updatePFP: function() {
-            for (var user in this.users) {
-                var userId = user[0]
-                var userInfo = user[1]
-                var currPFP = userInfo.profilepic
-
-                for (var currListing in this.listing) {
-                    if (userId == currListing.userId) {
-                        if (currPFP != currListing.pfp) {
-                            var ref
-                        }
-                    }
-                }
-            }
-        }*/
-
     },
     created() {
         this.fetchItems();
@@ -212,6 +194,7 @@ export default {
 #filter {
     flex: 1;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 18px;
 }
 #display {
     flex: 9;

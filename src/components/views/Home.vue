@@ -217,11 +217,6 @@ export default {
     font-family: 'FredokaOne';
     text-align: center;
 }
-/*#img {
-    object-fit: cover;
-    max-width: 100%;
-    max-height: 100vh;
-}*/
 #reclist {
   width: 90%;
   margin: 40px;
