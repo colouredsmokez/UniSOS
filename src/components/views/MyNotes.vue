@@ -193,6 +193,12 @@ export default {
   max-width: 33%;
   background: #47E4E4;
   margin: 10px;
+  cursor:pointer;
+  transition-duration: 0.4s;
+}
+.notesli:hover{
+  background-color: rgba(0, 0, 0, 0.63);
+  color: white;
 }
 .notesli:first-child {
   margin-left: 0px;

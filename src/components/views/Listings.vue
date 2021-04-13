@@ -38,7 +38,7 @@
                             <p>Took in: {{item.took_in}}</p>
                             <p>Final grade: {{item.grade}}</p>
                             <p v-if="item.typeOfList=='Notes'"> Price: ${{item.price}}<p>
-                            <p>{{item.addInfo}}</p>
+                            <p id="addInfo">{{item.addInfo}}</p>
                         </div>
                         <div id="thirdpart">
                             <div v-if="item.userId != currentUser">
@@ -261,6 +261,9 @@ export default {
 }
 #secondpart{
     flex: 6;
+}
+#addInfo{
+    white-space:pre-line;
 }
 #thirdpart{
     flex: 2;
