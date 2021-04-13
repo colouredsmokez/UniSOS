@@ -132,52 +132,52 @@ export default {
       }
   },
   
-        toProfile: function(event) {
-            let uid = event.target.getAttribute("id");
-            alert(uid);
-            this.$router.push({ name:'profile', params:{ uid:uid } });
-        },
-        toChat: function(event) {
-            let uid = event.target.getAttribute("id");
-            alert(uid);
-            this.$router.push({ name:'chat', params:{ uid:uid } });
+    toProfile: function(event) {
+        let uid = event.target.getAttribute("id");
+        alert(uid);
+        this.$router.push({ name:'profile', params:{ uid:uid } });
+    },
+    toChat: function(event) {
+        let uid = event.target.getAttribute("id");
+        alert(uid);
+        this.$router.push({ name:'chat', params:{ uid:uid } });
 
-        },
-        buy: function(item) {
-            //alert(item.price);
+    },
+    buy: function(item) {
+        //alert(item.price);
             
 
-            db.collection('users').doc(auth.currentUser.uid).get().then(
-                snapshot => {
-                    //console.log(snapshot)
-                    alert("Buy notes for $" + item.price + "?")
-                    var notesUpdaing = snapshot.data().myNotes
-                    //alert(notesUpdaing)
-                    if (notesUpdaing == null) {
-                        //alert("making new field")
-                        notesUpdaing = {}
-                    }
-                    var id = item.id
-                    
-                    if (id in notesUpdaing) {
-                        alert("Already Bought!")
-                    } else {
-                        
-                        notesUpdaing[id] = {} 
-                        notesUpdaing[id].imageURL = item.img;
-                        notesUpdaing[id].title = item.name + "'s " + item.module + " notes"
-                        notesUpdaing[id].ownerid = item.userId
-                        db.collection('users').doc(auth.currentUser.uid).update(
-                            {myNotes: notesUpdaing}
-                        )
-                    }
-                    
-                    
+        db.collection('users').doc(auth.currentUser.uid).get().then(
+            snapshot => {
+                //console.log(snapshot)
+                alert("Buy notes for $" + item.price + "?")
+                var notesUpdaing = snapshot.data().myNotes
+                //alert(notesUpdaing)
+                if (notesUpdaing == null) {
+                    //alert("making new field")
+                    notesUpdaing = {}
                 }
-            )
+                var id = item.id
+                
+                if (id in notesUpdaing) {
+                    alert("Already Bought!")
+                } else {
+                    
+                    notesUpdaing[id] = {} 
+                    notesUpdaing[id].imageURL = item.img;
+                    notesUpdaing[id].title = item.name + "'s " + item.module + " notes"
+                    notesUpdaing[id].ownerid = item.userId
+                    db.collection('users').doc(auth.currentUser.uid).update(
+                        {myNotes: notesUpdaing}
+                    )
+                }
+                
+                    
+            }
+        )
 
             
-        }
+    }
     
   },
   created() {
@@ -206,17 +206,22 @@ export default {
   overflow: auto;
   font-family: 'FredokaOne';
 }
+#banner {
+    object-fit: cover;
+    max-width: 100%;
+    min-width: 100%;
+}
 #display {
     background:  #47E4E4;
     overflow: auto;
     font-family: 'FredokaOne';
     text-align: center;
 }
-#img {
+/*#img {
     object-fit: cover;
     max-width: 100%;
     max-height: 100vh;
-}
+}*/
 #reclist {
   width: 90%;
   margin: 40px;
