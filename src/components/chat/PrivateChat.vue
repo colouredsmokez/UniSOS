@@ -14,21 +14,44 @@
                     </div>
                 </div>
                 <h1>{{otherData.name}}</h1>
-                <button class="" v-if="tutor" v-on:click="offer()">Offer</button>
+                <button class="" v-on:click="offer()">Offer</button>
+
             </div>  
             <div class="flex-child-chat">
                 <div class="chat-msg">
                     <br>
                     <div v-for="message in messages" v-bind:key="message.id">
-                        <div v-if="message.author == thisData.name" class="msg" style="float:right">
-                            <span class="msg-user"> You </span>
-                            <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
-                            <div class="msg-bubble">{{message.message}}</div>
+                        <div v-if="message.author == thisData.name">
+                            <div v-if="true" class="msg" style="float:right;border: black solid">
+                                <span class="msg-user"> You </span>
+                                <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
+                                <div class="msg-bubble">{{message.message}}</div>
+                            </div>
+                            <div v-if="false" class="msg" style="border: black solid">
+                                <span class="msg-user"> You </span>
+                                <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
+                                <div class="msg-bubble">
+                                    <button v-if="true">Accept Offer</button>
+                                    <button v-if="true">Pay</button>
+                                    <button v-if="true">Review</button>
+                                </div>
+                            </div>
                         </div>
-                        <div v-if="message.author == otherData.name" class="msg" style="float:left">
-                            <span class="msg-user"> {{message.author}} </span>
-                            <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
-                            <div class="msg-bubble">{{message.message}}</div>
+                        <div v-if="message.author == otherData.name">
+                            <div v-if="true" class="msg" style="float:left;border: red solid">
+                                <span class="msg-user"> {{message.author}} </span>
+                                <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
+                                <div class="msg-bubble">{{message.message}}</div>
+                            </div>
+                            <div v-if="false" class="msg" style="border: red solid">
+                                <span class="msg-user"> {{message.author}} </span>
+                                <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
+                                <div class="msg-bubble">
+                                    <button v-if="true">Accept Offer</button>
+                                    <button v-if="true">Pay</button>
+                                    <button v-if="true">Review</button>
+                                </div>
+                            </div>
                         </div>
                         <div style="clear:both"></div>
                     </div>
