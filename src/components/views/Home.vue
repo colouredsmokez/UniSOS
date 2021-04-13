@@ -11,15 +11,19 @@
                     <li id="reclisting" v-for="item in listingFiltered.sort(compare).slice(0,4)" v-bind:key="item" v-on:click="item.show = !item.show">
                         <div id="firstpart">
                             <h1>{{item.typeOfList}}</h1>
-                            <div v-if="item.profilepic">
-                                <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)"><div class="image-cropper">
+                            <div class="pfp" v-if="item.profilepic">
+                                <!--<button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)"><div class="image-cropper">
                                     <img :src="item.profilepic" alt="profilepic" class="profile-pic">
-                                </div></button>
+                                </div></button>-->
+                                <div class="image-cropper"><img :src="item.profilepic" v-bind:id="item.userId" v-on:click="toChat($event)" alt="profilepic" class="profile-pic">
+                                </div>
                             </div>
-                            <div v-else>
-                                <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)"><div class="image-cropper">
+                            <div class="pfp" v-else>
+                                <!--<button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)"><div class="image-cropper">
                                     <img src="../../assets/defaultpfp.jpg" alt="profilepic" class="profile-pic">
-                                </div></button>
+                                </div></button>-->
+                                <div class="image-cropper"><img src= "../../assets/defaultpfp.jpg" v-bind:id="item.userId" v-on:click="toChat($event)" alt="profilepic" class="profile-pic">
+                                </div>
                             </div>
                             <br>
                             <button class="profile-button" v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
@@ -322,9 +326,13 @@ li {
     background-color: #25abb4;
     cursor: pointer;
     text-align: center;
+    align-self: center;
 }
 .profile-button:hover {
     background-color: black;
+}
+.pfp {
+    margin-left: 70px;
 }
 
 </style>
