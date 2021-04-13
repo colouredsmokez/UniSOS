@@ -206,22 +206,18 @@ export default {
   overflow: auto;
   font-family: 'FredokaOne';
 }
-#banner {
+/*img {
     object-fit: cover;
-    max-width: 100%;
-    min-width: 100%;
-}
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+}*/
 #display {
     background:  #47E4E4;
     overflow: auto;
     font-family: 'FredokaOne';
     text-align: center;
 }
-/*#img {
-    object-fit: cover;
-    max-width: 100%;
-    max-height: 100vh;
-}*/
 #reclist {
   width: 90%;
   margin: 40px;
