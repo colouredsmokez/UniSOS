@@ -202,14 +202,14 @@ export default {
 }
 #home, #banner {
   background:  #47E4E4;
-  margin-top: 0%;
+  
   overflow: auto;
   font-family: 'FredokaOne';
 }
-#banner {
+#banner img {
     object-fit: cover;
-    max-width: 100%;
-    min-width: 100%;
+    width: 100%;
+    height: max-content
 }
 #display {
     background:  #47E4E4;

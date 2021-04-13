@@ -25,7 +25,7 @@
             <!-- Tutor Info -->
             <div class="list">
                 <hr>
-                <h3> Modules I've Taken </h3> 
+                <h3> Modules I'm Taking </h3> 
                 <hr>
                 <ul>
                     <li class="list-item" v-for="mod in modules" v-bind:key="mod">
