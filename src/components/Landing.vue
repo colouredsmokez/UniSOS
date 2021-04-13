@@ -12,10 +12,12 @@
             <h3>Therefore, we created UniSOS as a platform for seniors to sell juniors</h3>
             <h3>their resources for the modules they have completed.</h3>
             
-            <router-link class="unauth" to="/login"><h2 class="inline" id="login">Log in</h2></router-link>
-            <h2 class="inline">or</h2>
-            <router-link class="unauth" to="/register"><h2 class="inline" id="signup">Sign up</h2></router-link>
-            <h2 class="inline">now!</h2>
+            <div v-if="isLoggedOut">
+                <router-link class="unauth" to="/login"><h2 class="inline" id="login">Log in</h2></router-link>
+                <h2 class="inline">or</h2>
+                <router-link class="unauth" to="/register"><h2 class="inline" id="signup">Sign up</h2></router-link>
+                <h2 class="inline">now!</h2>
+            </div>
             <!-- Button 1 -->
         </div>
         <!-- Blank 
@@ -24,6 +26,25 @@
 </template>
 
 <script>
+import { auth } from '../firebase';
+
+export default {
+    data() {
+        return {
+            isLoggedIn: false,
+            isLoggedOut: false
+        };
+    },
+
+    created() {
+        if (auth.currentUser && auth.currentUser.emailVerified) {
+            this.isLoggedIn = true;
+        } else {
+            this.isLoggedOut = true;
+        }
+    }
+}
+
 </script>
 
 <style scoped>

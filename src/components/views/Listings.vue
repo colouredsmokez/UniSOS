@@ -37,6 +37,22 @@
                             <div v-if="0<item.rating&&item.rating<=1"><p>*</p></div>
                             <div v-if="1<item.rating&&item.rating<=2"><p>**</p></div>
                             <div v-if="2<item.rating&&item.rating<=3"><p>***</p></div>
+
+                            <!--<div v-if="0<item.rating&&item.rating<=1">
+                                <img class="inline" src="../../assets/goldstar.jpg">
+                                <img class="inline" src="../../assets/blackstar.jpg">
+                                <img class="inline" src="../../assets/blackstar.jpg">
+                            </div>
+                            <div v-if="1<item.rating&&item.rating<=2">
+                                <img class="inline" src="../../assets/goldstar.jpg">
+                                <img class="inline" src="../../assets/goldstar.jpg">
+                                <img class="inline" src="../../assets/blackstar.jpg">
+                            </div>
+                            <div v-if="2<item.rating&&item.rating<=3">
+                                <img class="inline" src="../../assets/goldstar.jpg">
+                                <img class="inline" src="../../assets/goldstar.jpg">
+                                <img class="inline" src="../../assets/goldstar.jpg">
+                            </div>-->
                             <br><br>
                         </div>
                         <div id="secondpart">
@@ -265,5 +281,12 @@ export default {
 }
 .chat-button:hover {
     background-color: black;
+}
+.inline {
+  display: inline-block;
+  padding: 10px;
+  vertical-align: middle;
+  height:2px;
+  width:2px;
 }
 </style>
