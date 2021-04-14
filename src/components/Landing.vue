@@ -1,32 +1,41 @@
 <template>
     <div class="landing">
-        <!-- Blank -->
-        <div style="height:15vh"></div>
-        <!-- Main -->
-        <div id="msg">
-            <h1>Online Uni Resources</h1>
-            <br>
-            <h3>Academic guidance can be difficult to come by in University. </h3>
-            <h3 id="uds">We understand.</h3>
-            
-            <h3>Therefore, we created UniSOS as a platform for seniors to sell juniors</h3>
-            <h3>their resources for the modules they have completed.</h3>
-            
-            <div v-if="isLoggedOut">
-                <router-link class="unauth" to="/login"><h2 class="inline" id="login">Log in</h2></router-link>
-                <h2 class="inline">or</h2>
-                <router-link class="unauth" to="/register"><h2 class="inline" id="signup">Sign up</h2></router-link>
-                <h2 class="inline">now!</h2>
+        <div class="landing-all">
+            <!-- Blank -->
+            <div style="height:15vh"></div>
+            <!-- Main -->
+            <div id="msg">
+                <h1 id="title">Online Uni Resources</h1>
+                <br>
+                <h3 id="emph">Academic guidance can be difficult to come by in University. 
+                    <br> <u> We understand. </u>
+                </h3>
+                <h3>Therefore, we created UniSOS as a platform for seniors to sell juniors</h3>
+                <h3>their resources for the modules they have completed.</h3>
+                
+                <div v-if="isLoggedOut">
+                    <router-link class="unauth" to="/login"><h2 class="inline" id="login">Log in</h2></router-link>
+                    <h2 class="inline">or</h2>
+                    <router-link class="unauth" to="/register"><h2 class="inline" id="signup">Sign up</h2></router-link>
+                    <h2 class="inline">now!</h2>
+                </div>
             </div>
-            <!-- Button 1 -->
         </div>
-        <!-- Blank 
-        <div style="height:30vh"></div>-->
+        <!-- <div class="landing-loggedout" v-if="isLoggedOut">
+            <br><br>
+            <h2> Established in late-2020, we have over 300 users today and our user base continues growing every day. </h2>
+            <br>
+            <div id="chart" style="height:600px">
+                <UserBase></UserBase>
+            </div>
+
+        </div> -->
     </div>
 </template>
 
 <script>
 import { auth } from '../firebase';
+// import UserBase from '././charts/UserBase.vue'
 
 export default {
     data() {
@@ -35,7 +44,9 @@ export default {
             isLoggedOut: false
         };
     },
-
+    // components: {
+    //     UserBase
+    // },
     created() {
         if (auth.currentUser && auth.currentUser.emailVerified) {
             this.isLoggedIn = true;
@@ -61,7 +72,7 @@ export default {
     text-align: center;
     vertical-align:middle;
 }
-.landing {
+.landing-all {
     margin: auto;
     padding: 20px;
     text-align: center;
@@ -69,6 +80,9 @@ export default {
     background-image: url('../assets/Background.png');
     height: 80vh;
     color: white;
+}
+#emph {
+    font-size: 32px;
 }
 #uds {
     text-decoration: underline;
@@ -86,7 +100,7 @@ export default {
   background-color: #2BD7E2;
   color: white;
 }*/
-h1 {
+#title {
     color: #fff;
     text-shadow: -2px 2px #000000,
                -3px 3px #2196f3,
@@ -101,6 +115,13 @@ h1 {
                -28px 28px #eeff41,
                -32px 32px #f9a825,
                -36px 36px #ff5722;*/
+}
+h2 {
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+h3 {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 .inline {
   display: inline-block;

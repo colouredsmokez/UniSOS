@@ -110,7 +110,7 @@ export default {
                 var newListing = {}
                 newListing["typeOfList"] = this.type;
                 newListing["grade"] = this.grade;
-                newListing["module"] = this.module;
+                newListing["module"] = this.module.toUpperCase();
                 newListing["took_in"] = this.took_in
                 newListing["addInfo"] = this.addInfo;
                 newListing["userId"] = this.user;

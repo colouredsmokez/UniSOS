@@ -96,12 +96,12 @@ export default {
                 } else if(mod == '') {
                     alert('Please enter a valid field.')
                 } else {
-                    var result = confirm('Please confirm if "' + mod + '" is the module you want to add to your profile.');
+                    var result = confirm('Please confirm if "' + mod.toUpperCase() + '" is the module you want to add to your profile.');
                     if (result) {
-                        modules.push(mod)
+                        modules.push(mod.toUpperCase());
                         db.collection('users').doc(this.uid).update({modules: modules}).then(
                             () => {
-                                alert('"' + mod + `" has been added to your profile.`);
+                                alert('"' + mod.toUpperCase() + `" has been added to your profile.`);
                                 this.$router.go( this.$router.path );
                             });
                     }
