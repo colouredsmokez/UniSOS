@@ -78,7 +78,7 @@
                         <div id="thirdpart">
                             <div v-if="item.userId != currentUser">
                                 <button class="chat-button" v-bind:id="item.id" v-if="item.typeOfList=='Notes'" v-on:click="buy(item)">Buy</button>
-                                <button class="chat-button" v-bind:id="item.id" v-on:click="toChat($event)">Chat</button>
+                                <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)">Chat</button>
                             </div>
                             <div v-if="item.userId == currentUser">
                                 <button class="chat-button" v-bind:id="item.userId" v-on:click="advertise(item)">Advertise</button>
@@ -181,8 +181,8 @@ export default {
             this.$router.push({ name:'profile', params:{ uid:uid } });
         },
         toChat: function(event) {
-            let id = event.target.getAttribute("id");
-            this.$router.push({ name:'chat', params:{ id:id } });
+            let uid = event.target.getAttribute("id");
+            this.$router.push({ name:'chat', params:{ uid:uid } });
         },
         buy: function(item) {
             db.collection('users').doc(auth.currentUser.uid).get().then(
