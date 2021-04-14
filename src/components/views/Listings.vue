@@ -30,7 +30,7 @@
 
             <div id="display">
                 <div>
-                    <input type="text" id="searchInput" v-on:keyup="filter()" placeholder="Search by module code...">
+                    <input type="text" id="searchInput" v-on:keyup="filter()" placeholder=" Search by module code...">
                 </div>
                 <div id="listingview">
                 <ul>
@@ -384,6 +384,10 @@ export default {
   width:18px;
 }
 #searchInput {
+    background-image: url('../../assets/search.png');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    background-size: 25px;
     width: 95%; 
     font-size: 16px; /* Increase font-size */
     padding: 12px 20px 12px 40px; /* Add some padding */
