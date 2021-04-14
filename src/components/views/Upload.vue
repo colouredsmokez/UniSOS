@@ -119,6 +119,7 @@ export default {
                     newListing["img"] = this.picture; //should be able to upload a few files
                 }
             }
+            console.log(newListing)
             db.collection("listing").add(newListing).then(location.reload());
             /*
                 db.collection("users").doc(this.user).get().then(

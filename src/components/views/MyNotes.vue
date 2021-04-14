@@ -10,7 +10,7 @@
               <li class="notesli" v-for="item in notes" v-bind:key="item.id">
                 <div>
                   <br>
-                  <img width= 110px height= 75px :src= "item.imageURL" v-on:click="route($event)" v-bind:id="item.id"><br>
+                  <img :src= "item.imageURL" v-on:click="route($event)" v-bind:id="item.id"><br>
                   <br>
                   <h3>{{item.title}}</h3>
                 </div>
@@ -78,21 +78,20 @@ export default {
 }
 #content {
   background: #47E4E4;
-  margin-top: 0%;
   overflow: auto;
   font-family: 'FredokaOne';
 }
 .flex-container {
   display: flex;
   margin: auto;
-  height: 80vh;
 }
 .notes {
   flex: 1;
   background-position: center;
   background-size: cover;
-  height: 90%;
+  height:auto;
   width: 100%;
+  margin-bottom: 10px;
   margin-left: 30px;
   margin-right: 50px;
   margin-top: 10px;
@@ -116,21 +115,15 @@ export default {
 }
 .notesli {
   text-align: center;
-  min-width: 33%;
+  min-width: 30%;
   max-width: 33%;
   background: #47E4E4;
   margin: 10px;
-  
 }
 img{
   cursor:pointer;
 }
-.notesli:first-child {
-  margin-left: 0px;
-}
-.notesli:last-child {
-  margin-right: 0px;
-}
+
 #filtertxt, #level, #purchasetxt, #purchase, #ratingtxt, #rating {
   margin-left: 30px;
   margin-top: 30px;
