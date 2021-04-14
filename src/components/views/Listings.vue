@@ -150,7 +150,7 @@ export default {
             } else {
                 og = this.listing
             }*/
-            for (var list of og) {
+            for (var list of this.listing) {
                 //assigning rating value
                 var assignedRating = 0
                 if (list.rating==0 || !(list.rating)) {
