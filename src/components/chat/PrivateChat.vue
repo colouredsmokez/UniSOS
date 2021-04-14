@@ -28,12 +28,12 @@
                             <div v-if="message.type == 'request'" class="msg" style="float:right">
                                 <span class="msg-user"> You </span>
                                 <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
-                                <div class="msg-bubble">--Request for fees made--</div>
+                                <div class="msg-bubble">--Made a tuition fee offer--</div>
                             </div>
                             <div v-if="message.type == 'review'" class="msg" style="float:right">
                                 <span class="msg-user"> You </span>
                                 <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
-                                <div class="msg-bubble">--Requested for a Review--</div>
+                                <div class="msg-bubble">--Tutee has agreed to your request--</div>
                             </div>
                         </div>
                         <div v-if="message.author == otherData.name">
@@ -85,20 +85,30 @@
                     <br>
                 </div>
                 <div v-if="!showRequestMaker" class="chat-input">
-                    <div class="input-upload">
-                        <button class="input-upload-btn" v-on:click="makeRequest()"></button>
+                    <div class="input-left">
+                        <button class="input-left-btn" v-on:click="toggleRequestMaker()" disabled>MakeOffer</button>
                     </div>
-                    <div class="input-text">
+                    <div class="input-middle">
                         <textarea class="input-text-field" @keyup.enter="saveMessage()" v-model="message" type="text" placeholder="Type a message"/>
                     </div>
-                    <div class="input-enter">
-                        <button class="input-enter-btn" v-on:click="saveMessage()"> <i class="fa fa-paper-plane" aria-hidden="true" v-on:click="saveMessage()"></i></button>
+                    <div class="input-right">
+                        <button class="input-msg-btn" v-on:click="saveMessage()"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                     </div>
                 </div>
-                <div v-if="showRequestMaker" class="chat-input2">
-                    <input id="requestFee" type="number" v-model="requestFee">
-                    <input id="requestUnit" type="text" v-model="requestUnit">
-                    <button v-on:click="request()">Request</button>
+                <div v-else class="chat-input">
+                    <div class="input-left">
+                        <button class="input-left-btn" v-on:click="toggleRequestMaker()">SendText</button>
+                    </div>
+                    <div class="input-middle">
+                        <select v-model="requestItem" required>
+                            <option v-for="item in items" v-bind:key="item.id" :value="item.id">{{item.module}}</option>
+                        </select>
+                        <input id="requestFee" type="number" v-model="requestFee" required>
+                        <input id="requestUnit" type="text" v-model="requestUnit" required>
+                    </div>
+                    <div class="input-right">
+                        <button class="input-req-btn" v-on:click="request()">Request</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -114,14 +124,13 @@ export default {
         return {
             message: null,
             messages: [],
-            itemid: this.$route.params.id,
-            itemData: {},
             thisUser: auth.currentUser.uid,
             thisData: {},
-            otherUser: "",
+            otherUser: this.$route.params.uid,
             otherData: {},
+            items: [],
             showRequestMaker: false,
-            requestItem: this.$route.params.id,
+            requestItem: "",
             requestFee: "",
             requestUnit: "",
             rating:"",
@@ -129,6 +138,23 @@ export default {
         }
     },
     methods: {
+        timeSent(d) {
+            function addZero(i) {
+                if (i < 10) {
+                    i = "0" + i;
+                }
+                return i;
+            }
+            var date = d.getDate();
+            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var mth = d.getMonth();
+            var h = addZero(d.getHours());
+            var m = addZero(d.getMinutes());
+            return String(date) + " " + months[mth] + ", " + String(h) + ":" + String(m);
+        },
+        toggleRequestMaker() {
+            this.showRequestMaker = !this.showRequestMaker;
+        },
         saveMessage() {
             let data = {
                 type: "text",
@@ -142,9 +168,22 @@ export default {
                     this.message = null;
                 });
             });
-        },
-        makeRequest() {
-            this.showRequestMaker = true;
+            db.collection("users").doc(this.thisUser).get().then(snapshot => {
+                var chatUsers = snapshot.data().chatUsers;
+                if (chatUsers == null) { 
+                    chatUsers = {}; 
+                }
+                chatUsers[this.otherUser] = [this.otherUser,this.otherData.name]; 
+                db.collection("users").doc(this.thisUser).update({chatUsers:chatUsers});
+            });
+            db.collection("users").doc(this.otherUser).get().then(snapshot => {
+                var chatUsers = snapshot.data().chatUsers;
+                if (chatUsers == null) { 
+                    chatUsers = {}; 
+                }
+                chatUsers[this.thisUser] = [this.thisUser,this.thisData.name];
+                db.collection("users").doc(this.otherUser).update({chatUsers:chatUsers});
+            });
         },
         request() {
             var cfm = confirm("Do you want to request SGD("+this.requestFee+") per "+this.requestUnit+" for "+this.requestItem+"?");
@@ -230,8 +269,28 @@ export default {
                 alert("Review Submission Cancelled.");
             }
         },
+        fetchInformation() {
+            db.collection('users').doc(this.otherUser).get().then(snapshot1 => {
+                this.otherData = snapshot1.data();
+                db.collection('users').doc(this.thisUser).get().then(snapshot2 => {
+                    this.thisData = snapshot2.data();
+                    this.fetchItems();
+                    this.fetchMessages();
+                });
+            });
+        },
+        fetchItems() {
+            this.thisData.teaching.forEach(docid => {
+                var allItems = [];
+                db.collection('listing').doc(docid).get().then(snapshot => {
+                    var item = snapshot.data();
+                    item["id"] = snapshot.id;
+                    allItems.push(item);
+                });
+                this.items = allItems;
+            });
+        },
         fetchMessages() {
-            console.log(this.otherUser);
             db.collection('chat').doc(this.thisUser).collection(this.otherUser).orderBy('createdAt').onSnapshot((querySnapshot) => {
                 let allMessages = [];
                 querySnapshot.forEach(doc => {
@@ -241,36 +300,10 @@ export default {
                 });
                 this.messages = allMessages;
             });
-        },
-        timeSent(d) {
-            function addZero(i) {
-                if (i < 10) {
-                    i = "0" + i;
-                }
-                return i;
-            }
-            var date = d.getDate();
-            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            var mth = d.getMonth();
-            var h = addZero(d.getHours());
-            var m = addZero(d.getMinutes());
-            return String(date) + " " + months[mth] + ", " + String(h) + ":" + String(m);
         }
     },
     created() {
-        db.collection('listing').doc(this.itemid).get().then(snapshot1 => {
-            console.log(this.itemid);
-            var data = snapshot1.data();
-            this.itemData = data;
-            this.otherUser = data.userId;
-            db.collection('users').doc(this.otherUser).get().then(snapshot2 => {
-                this.otherData = snapshot2.data();
-                db.collection('users').doc(this.thisUser).get().then(snapshot3 => {
-                    this.thisData = snapshot3.data();
-                    this.fetchMessages();
-                });
-            });
-        });
+        this.fetchInformation();
     }
 }
 </script>
@@ -345,23 +378,25 @@ export default {
         height:15%;
         display: flex;
     }
-    .chat-input2 {
-        background: #5ABAC0;
-        height:15%;
-        display: flex;
-    }
-    .input-upload {
+    .input-left {
         margin: 15px;
         flex: 1;
     }
-    .input-upload-btn {
+    .input-left-btn {
         height:100%;
         width:100%;
         cursor: pointer;
         background: none;
         border: none;
+        color: white;
     }
-    .input-text {
+    .input-left-btn:hover {
+        color: black;
+    }
+    .input-left-btn:disabled {
+        color: grey;
+    }
+    .input-middle {
         margin: 15px 0px 15px 0px;
         flex: 18;
     }
@@ -376,11 +411,11 @@ export default {
         font-family: sans-serif;
         background: whitesmoke;
     }
-    .input-enter {
+    .input-right {
         margin: 15px;
         flex: 1;
     }
-    .input-enter-btn {
+    .input-msg-btn {
         height:100%;
         width:100%;
         cursor: pointer;
@@ -390,7 +425,23 @@ export default {
         text-align: left;
         color: white;
     }
-    .input-enter-btn:hover {
+    .input-msg-btn:hover {
         color: black;
+    }
+    .input-req-btn {
+        height:100%;
+        width:100%;
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-size: 25px;
+        text-align: left;
+        color: white;
+    }
+    .input-req-btn:hover {
+        color: black;
+    }
+    .input-req-btn:disabled {
+        color: grey;
     }
 </style>
