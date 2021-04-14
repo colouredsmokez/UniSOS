@@ -30,7 +30,7 @@
 
             <div id="display">
                 <div>
-                    <input type="text" id="searchInput" v-on:keyup="search()" placeholder="Search by module code...">
+                    <input type="text" id="searchInput" v-on:keyup="filter()" placeholder="Search by module code...">
                 </div>
                 <div id="listingview">
                 <ul>
@@ -142,6 +142,8 @@ export default {
             this.wasFiltered = true
             this.listingFiltered = []
             //console.log("filtered "+this.listing[0].module)
+            var input = document.getElementById('searchInput');
+            var filter = input.value.toUpperCase(); //input of searchbar
             var og
             if (this.wasSearched) {
                 var og = this.listingFiltered2
@@ -160,19 +162,29 @@ export default {
                 } else {
                     assignedRating = 3
                 }
+                var txtValue = list.module
                 //console.log("list"+list.rating+", assigned"+assignedRating)
                 if ((this.type == list.typeOfList || this.type == '') && (this.rating == assignedRating || this.rating == '')) {
                     //console.log("this"+this.rating+", assigned"+assignedRating)
-                    this.listingFiltered.push(list);
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        this.listingFiltered.push(list);
+                    }
+                    
                 } else if ((this.type == list.typeOfList || this.type == 'All') && (this.rating == assignedRating || this.rating == '')) {
                     //console.log("this"+this.rating+", assigned"+assignedRating)
-                    this.listingFiltered.push(list);
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        this.listingFiltered.push(list);
+                    }
                 } else if ((this.type == list.typeOfList || this.type == '') && (this.rating == assignedRating || this.rating == 'All')) {
                     //console.log("this"+this.rating+", assigned"+assignedRating)
-                    this.listingFiltered.push(list);
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        this.listingFiltered.push(list);
+                    }
                 } else if ((this.type == list.typeOfList || this.type == 'All') && (this.rating == assignedRating || this.rating == 'All')) {
                     //console.log("this"+this.rating+", assigned"+assignedRating)
-                    this.listingFiltered.push(list);
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        this.listingFiltered.push(list);
+                    }
                 }
             } //this.listingFiltered2 = this.listingFiltered
         },
@@ -231,7 +243,7 @@ export default {
                 }
             )
         },
-        search: function() {
+        /*search: function() {
             //console.log("searched "+this.listingFiltered[0].module)
             //this.listing = this.listingFiltered
             this.listingFiltered = []
@@ -241,21 +253,21 @@ export default {
                 //og = this.listingFiltered2
                 this.type = "All"
                 this.rating = "All"    
-            } /*else {
+            } else {
                 og = this.listing
-            }*/
+            }
             this.wasSearched = true
             var input = document.getElementById('searchInput');
             var filter = input.value.toUpperCase(); //input of searchbar
 
-            for (var list of this.listing /*og*/) {
+            for (var list of this.listing) {
                 var txtValue = list.module
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                     //console.log(txtValue)
                     this.listingFiltered.push(list);
                 }
             } this.listingFiltered2 = this.listingFiltered
-        }
+        }*/
     },
     created() {
         this.fetchItems();
