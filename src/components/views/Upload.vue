@@ -122,15 +122,17 @@ export default {
             db.collection("listing").add(newListing).then(docid => {
                 db.collection("users").doc(this.user).get().then(
                     snapshot => {
+                        var data = snapshot.data();
+                        newListing["name"] = data.name;
                         if (this.type=="Notes") {
-                            var selling = snapshot.data().selling;
+                            var selling = data.selling;
                             if (selling == null) {
                                 selling = [];
                             }
                             selling.push(docid.id);
                             db.collection("users").doc(this.user).update({selling:selling}).then(() => {this.$router.go(this.$router.path)});
                         } else {
-                            var teaching = snapshot.data().teaching;
+                            var teaching = data.teaching;
                             if (teaching == null) {
                                 teaching = [];
                             }

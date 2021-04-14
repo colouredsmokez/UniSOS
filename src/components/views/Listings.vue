@@ -199,31 +199,21 @@ export default {
         buy: function(item) {
             db.collection('users').doc(auth.currentUser.uid).get().then(
                 snapshot => {
-                    //console.log(snapshot)
-                    var cfm = confirm("Buy notes for $" + item.price + "?")
-                    if (cfm) {
-                        var notesUpdaing = snapshot.data().myNotes
-                        //alert(notesUpdaing)
-                        if (notesUpdaing == null) {
-                            //alert("making new field")
-                            notesUpdaing = {}
-                        }
-                        var id = item.id
-                    
-                        if (id in notesUpdaing) {
-                            alert("Already Bought!")
-                        } else {
-                            notesUpdaing[id] = {} 
-                            notesUpdaing[id].imageURL = item.img;
-                            notesUpdaing[id].title = item.name + "'s " + item.module + " notes"
-                            notesUpdaing[id].ownerid = item.userId
-                            db.collection('users').doc(auth.currentUser.uid).update({myNotes: notesUpdaing})
-                        }
+                    var myNotes = snapshot.data().myNotes;
+                    if (myNotes == null) {
+                        myNotes = {}
+                    }
+                    var id = item.id;
+                    if (id in myNotes) {
+                        alert("Already Bought!")
                     } else {
-                        alert("You cancelled your purchase.")
+                        var cfm = confirm("Buy notes for $" + item.price + "?");
+                        if (cfm) {
+                            this.$router.push({ name:'payment', params:{itemid:item.id,notes:true} });
+                        }
                     }
                 }
-            )
+            );
         },
         advertise: function(item) {
             db.collection("listing").doc(item.id).get().then(
@@ -234,11 +224,8 @@ export default {
                     } else {
                         var adv = confirm("Advertise for $5?")
                         if (adv) {
-                            db.collection('listing').doc(item.id).update({advertise: true})
-                        } else {
-                            alert("Transaction cancelled.")
+                            this.$router.push({ name:'payment', params:{itemid:item.id,notes:false} });
                         }
-                        
                     }
                 }
             )

@@ -9,19 +9,22 @@ import Landing from "./components/Landing.vue";
 import Login from "./components/auth/Login.vue";
 import Register from "./components/auth/Register.vue";
 
-import Admin from "./components/profile/Admin.vue"
-import EditProfile from "./components/profile/EditProfile.vue"
+import Admin from "./components/profile/Admin.vue";
 import MyProfile from "./components/profile/MyProfile.vue";
 import Profile from "./components/profile/Profile.vue";
+import EditProfile from "./components/profile/EditProfile.vue";
 
-import Home from './components/views/Home.vue'
-import Listings from './components/views/Listings.vue'
-import Upload from './components/views/Upload.vue'
-import MyNotes from './components/views/MyNotes.vue'
+import Home from './components/views/Home.vue';
+import Listings from './components/views/Listings.vue';
+import Upload from './components/views/Upload.vue';
+import MyNotes from './components/views/MyNotes.vue';
 
-import Chat from './components/chat/Chat.vue'
-import PrivateChat from './components/chat/PrivateChat.vue'
-import LocalView from './components/views/LocalView'
+import Chat from './components/chat/Chat.vue';
+import PrivateChat from './components/chat/PrivateChat.vue';
+
+import LocalView from './components/views/LocalView';
+
+import Payment from './components/views/Payment'
 
 Vue.use(Router);
 
@@ -91,6 +94,19 @@ let router = new Router({
             components: {
                 header: AppHeader,
                 default: Profile,
+                footer: AppFooter
+            },
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/editprofile',
+            name: "editprofile",
+            props: true,
+            components: {
+                header: AppHeader,
+                default: EditProfile,
                 footer: AppFooter
             },
             meta: {
@@ -186,13 +202,11 @@ let router = new Router({
             }
         },
         {
-            path: '/editprofile',
-            name: "editprofile",
+            path: '/payment/:itemid',
+            name: "payment",
             props: true,
             components: {
-                header: AppHeader,
-                default: EditProfile,
-                footer: AppFooter
+                default: Payment
             },
             meta: {
                 requiresAuth: true

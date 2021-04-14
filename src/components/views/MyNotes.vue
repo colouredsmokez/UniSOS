@@ -10,7 +10,7 @@
               <li class="notesli" v-for="item in notes" v-bind:key="item.id">
                 <div>
                   <br>
-                  <img :src= "item.imageURL" v-on:click="route($event)" v-bind:id="item.id"><br>
+                  <img :src= "item.imageURL" alt="note" v-on:click="route($event)" v-bind:id="item.id"><br>
                   <br>
                   <h3>{{item.title}}</h3>
                 </div>
