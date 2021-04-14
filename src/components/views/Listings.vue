@@ -144,12 +144,12 @@ export default {
             //console.log("filtered "+this.listing[0].module)
             var input = document.getElementById('searchInput');
             var filter = input.value.toUpperCase(); //input of searchbar
-            var og
+            /*var og
             if (this.wasSearched) {
                 var og = this.listingFiltered2
             } else {
                 og = this.listing
-            }
+            }*/
             for (var list of og) {
                 //assigning rating value
                 var assignedRating = 0
