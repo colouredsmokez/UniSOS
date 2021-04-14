@@ -178,7 +178,11 @@ export default {
         padding: 30px;
         height: 80vh;
     }
-    #mods, #name{
+    #name{
+        width: 250px;
+    }
+    #mods {
+        text-transform: uppercase;
         width: 250px;
     }
 </style>
