@@ -3,38 +3,102 @@
         <div class="flex-container">
             <div class="flex-child-inbox">
                 <div v-for="user in users" v-bind:key="user.id">
-                    <button class="inbox" v-bind:id="user[0]" v-on:click="fetchMessages($event)">
-                        {{user[1].name}}
-                    </button>
+                    <button class="inbox" v-bind:id="user[0]" v-on:click="choose($event)">{{user[1]}}</button>
                 </div>
             </div>  
             <div class="flex-child-chat">
                 <div class="chat-msg">
                     <br>
                     <div v-for="message in messages" v-bind:key="message.id">
-                        <div v-if="message.author == thisData.name" class="msg" style="float:right">
-                            <span class="msg-user"> You </span>
-                            <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
-                            <div class="msg-bubble">{{message.message}}</div>
+                        <div v-if="message.author == thisData.name">
+                            <div v-if="message.type == 'text'" class="msg" style="float:right">
+                                <span class="msg-user"> You </span>
+                                <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
+                                <div class="msg-bubble">{{message.message}}</div>
+                            </div>
+                            <div v-if="message.type == 'request'" class="msg" style="float:right">
+                                <span class="msg-user"> You </span>
+                                <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
+                                <div class="msg-bubble">--Made a tuition fee offer--</div>
+                            </div>
+                            <div v-if="message.type == 'review'" class="msg" style="float:right">
+                                <span class="msg-user"> You </span>
+                                <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
+                                <div class="msg-bubble">--Tutee has agreed to your request--</div>
+                            </div>
                         </div>
-                        <div v-if="message.author == otherData.name" class="msg" style="float:left">
-                            <span class="msg-user"> {{message.author}} </span>
-                            <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
-                            <div class="msg-bubble">{{message.message}}</div>
+                        <div v-if="message.author == otherData.name">
+                            <div v-if="message.type == 'text'" class="msg" style="float:left">
+                                <span class="msg-user"> {{message.author}} </span>
+                                <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
+                                <div class="msg-bubble">{{message.message}}</div>
+                            </div>
+                            <div v-if="message.type == 'request'" class="msg" style="float:left">
+                                <span class="msg-user"> {{message.author}} </span>
+                                <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
+                                <div class="msg-bubble">
+                                    The tutor has made a request of {{message.fee}} per {{message.unit}} for {{message.item}}.
+                                    <br><br>
+                                    <div v-if="message.agreed == false">
+                                        <button v-bind:id="message.id" v-on:click="agree($event)">Agree</button>
+                                    </div>
+                                    <div v-if="message.agreed == true">
+                                        <button disabled>You have agreed to the request</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-if="message.type == 'review'" class="msg" style="float:left">
+                                <span class="msg-user"> {{message.author}} </span>
+                                <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
+                                <div class="msg-bubble">
+                                    Leave a Review!
+                                    <br><br>
+                                    <div v-if="message.reviewed == false">
+                                        <input type="radio" v-model="rating" value=1>
+                                        <input type="radio" v-model="rating" value=2>
+                                        <input type="radio" v-model="rating" value=3>
+                                        <input type="text" v-model="review">
+                                        <button v-bind:id="message.id" v-on:click="submit($event)">Submit</button>
+                                    </div>
+                                    <div v-if="message.reviewed == true">
+                                        <input type="radio" value=1 disabled>
+                                        <input type="radio" value=2 disabled>
+                                        <input type="radio" value=3 disabled>
+                                        <input type="text" disabled>
+                                        <br><br>
+                                        <button disabled>You have made a review</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div style="clear:both"></div>
                     </div>
                     <br>
                 </div>
-                <div class="chat-input">
-                    <div class="input-upload">
-                        <button class="input-upload-btn"></button>
+                <div v-if="!showRequestMaker" class="chat-input">
+                    <div class="input-left">
+                        <button class="input-left-btn" v-on:click="toggleRequestMaker()">MakeOffer</button>
                     </div>
-                    <div class="input-text">
+                    <div class="input-middle">
                         <textarea class="input-text-field" @keyup.enter="saveMessage()" v-model="message" type="text" placeholder="Type a message"/>
                     </div>
-                    <div class="input-enter">
-                        <button class="input-enter-btn" v-on:click="saveMessage()"> <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                    <div class="input-right">
+                        <button class="input-msg-btn" v-on:click="saveMessage()"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+                <div v-else class="chat-input">
+                    <div class="input-left">
+                        <button class="input-left-btn" v-on:click="toggleRequestMaker()">SendText</button>
+                    </div>
+                    <div class="input-middle">
+                        <select v-model="requestItem" required>
+                            <option v-for="item in items" v-bind:key="item.id" :value="item.id">{{item.module}}</option>
+                        </select>
+                        <input id="requestFee" type="number" v-model="requestFee" required>
+                        <input id="requestUnit" type="text" v-model="requestUnit" required>
+                    </div>
+                    <div class="input-right">
+                        <button class="input-req-btn" v-on:click="request()">Request</button>
                     </div>
                 </div>
             </div>
@@ -51,61 +115,21 @@ export default {
         return {
             message: null,
             messages: [],
-            users: [],
             thisUser: auth.currentUser.uid,
             thisData: [],
+            users: {},
             otherUser: '',
-            otherData: []
+            otherData: [],
+            items: [],
+            showRequestMaker: false,
+            requestItem: "",
+            requestFee: "",
+            requestUnit: "",
+            rating:"",
+            review:""
         }
     },
     methods: {
-        saveMessage() {
-            let data = {
-                message: this.message,
-                author: this.thisData.name,
-                createdAt: new Date()
-            }
-            console.log(data);
-            db.collection('chat').doc(this.thisUser).collection(this.otherUser).add(data).then(() => {
-                db.collection('chat').doc(this.otherUser).collection(this.thisUser).add(data).then(() => {
-                    this.message = null;
-                });
-            });
-        },
-        fetchUsers:function() {
-            db.collection('users').get().then((querySnapShot) => {
-                querySnapShot.forEach((doc) => {
-                    if (doc.id == this.thisUser) {
-                        this.thisData = doc.data();
-                    } else {
-                        db.collection('chat').doc(this.thisUser).collection(doc.id).get().then((sub) => {
-                            if (sub.size > 0) {
-                                this.users.push([doc.id,doc.data()]);
-                            }
-                        });
-                    }
-                },
-                err => {
-                    alert(err.message)
-                });
-            },
-            err => {
-                alert(err.message)
-            });
-        },
-        fetchMessages(event) {
-            this.otherUser = event.target.getAttribute("id");
-            db.collection('users').doc(this.otherUser).get().then(snapshot => {
-                this.otherData = snapshot.data();
-                db.collection('chat').doc(this.thisUser).collection(this.otherUser).orderBy('createdAt').onSnapshot((querySnapshot) => {
-                    let allMessages = [];
-                    querySnapshot.forEach(doc => {
-                        allMessages.push(doc.data())
-                    });
-                    this.messages = allMessages;
-                });
-            });
-        },
         timeSent(d) {
             function addZero(i) {
                 if (i < 10) {
@@ -119,11 +143,169 @@ export default {
             var h = addZero(d.getHours());
             var m = addZero(d.getMinutes());
             return String(date) + " " + months[mth] + ", " + String(h) + ":" + String(m);
+        },
+        toggleRequestMaker() {
+            this.showRequestMaker = !this.showRequestMaker;
+        },
+        saveMessage() {
+            let data = {
+                type: "text",
+                message: this.message,
+                author: this.thisData.name,
+                createdAt: new Date()
+            }
+            console.log(data);
+            db.collection('chat').doc(this.thisUser).collection(this.otherUser).add(data).then(() => {
+                db.collection('chat').doc(this.otherUser).collection(this.thisUser).add(data).then(() => {
+                    this.message = null;
+                });
+            });
+        },
+        request() {
+            var cfm = confirm("Do you want to request SGD("+this.requestFee+") per "+this.requestUnit+" for "+this.requestItem+"?");
+            if (cfm) {
+                alert("You requested "+this.requestFee+" per "+this.requestUnit+" for "+this.requestItem+".");
+                let data = {
+                    type: "request",
+                    agreed: false,
+                    item: this.requestItem,
+                    fee: this.requestFee,
+                    unit: this.requestUnit,
+                    author: this.thisData.name,
+                    createdAt: new Date()
+                }
+                console.log(data);
+                db.collection('chat').doc(this.thisUser).collection(this.otherUser).add(data).then(() => {
+                    db.collection('chat').doc(this.otherUser).collection(this.thisUser).add(data)
+                });
+            } else {
+                alert("You cancelled your request.");
+            }
+            this.showRequestMaker = false;
+        },
+        agree(event) {
+            let docid = event.target.getAttribute("id");
+            console.log(docid);
+            var cfm = confirm("Do you agree to the request?");
+            if (cfm) {
+                alert("You have agreed to the request.")
+                db.collection('chat').doc(this.thisUser).collection(this.otherUser).doc(docid).update({agreed:true}).then(()=> {
+                    db.collection('chat').doc(this.thisUser).collection(this.otherUser).doc(docid).get().then(snapshot => {
+                        var oldData = snapshot.data();
+                        let newData = {
+                            type: "review",
+                            reviewed: false,
+                            item: oldData.item,
+                            author: this.otherData.name,
+                            createdAt: new Date()
+                        };
+                        db.collection('chat').doc(this.thisUser).collection(this.otherUser).add(newData).then(() => {
+                            db.collection('chat').doc(this.otherUser).collection(this.thisUser).add(newData)
+                        });
+                    });
+                });
+            } else {
+                alert("You did not agree to the request.")
+            }
+        },
+        submit(event) {
+            let docid = event.target.getAttribute("id");
+            console.log(docid);
+            var cfm = confirm("Are you sure you want to submit this review?");
+            if (cfm) {
+                db.collection('chat').doc(this.thisUser).collection(this.otherUser).doc(docid).get().then(snapshot1 => {
+                    var data1 = snapshot1.data();
+                    db.collection('listing').doc(data1.item).get().then(snapshot2 => {
+                        var data2 = snapshot2.data();
+                        var rating = data2.rating;
+                        var reviewsData = data2.reviewsData;
+                        if (rating == null) {
+                            rating = 0;
+                        }
+                        if (reviewsData == null) {
+                            reviewsData = [0,{}];
+                        }
+                        reviewsData[1][this.thisUser] = {}
+                        reviewsData[1][this.thisUser].rating = this.rating;
+                        reviewsData[1][this.thisUser].review = this.review;
+                        reviewsData[0] += 1;
+                        console.log(rating)
+                        rating = Number(rating) + Number(this.rating);
+                        console.log(rating)
+                        rating = rating/reviewsData[0];
+                        console.log(rating)
+                        db.collection('listing').doc(data1.item).update({rating:rating,reviewsData:reviewsData}).then(()=> {
+                            db.collection('chat').doc(this.thisUser).collection(this.otherUser).doc(docid).update({reviewed:true}).then(()=> {
+                                alert("Review Submitted!");
+                            });
+                        });
+                    });
+                });
+            } else {
+                alert("Review Submission Cancelled.");
+            }
+        },
+        fetchInformation() {
+            db.collection('users').doc(this.thisUser).get().then(snapshot => {
+                this.thisData = snapshot.data();
+                console.log(this.thisData);
+                this.fetchItems();
+                this.fetchUsers();
+            });
+        },
+        fetchItems() {
+            var items = this.thisData.teaching;
+            items.forEach(item => {
+                db.collection('listing').doc(item).get().then(itemDoc => {
+                    var id = itemDoc.id;
+                    var data = itemDoc.data();
+                    data["id"] = id;
+                    this.items.push(data);
+                });
+            });
+            console.log(this.items);
+        },
+        fetchUsers() {
+            this.users = this.thisData.chatUsers;
+        },
+        /*
+        fetchMessages() {
+            var users = this.thisData.chatUsers;
+            users.forEach(user => {
+                db.collection('chat').doc(this.thisUser).collection(user).orderBy('createdAt').onSnapshot(snapshot => {
+                    let messages = [];
+                    snapshot.forEach(doc => {
+                        var message = doc.data();
+                        message["id"] = doc.id;
+                        messages.push(message);
+                    });
+                    this.allMessages[user] = messages;
+                });
+            });
+            console.log(this.allMessages);
+        },
+        */
+        choose(event) {
+            let id = event.target.getAttribute("id");
+            console.log(id);
+            db.collection('users').doc(id).get().then(userDoc => {
+                this.otherUser = userDoc.id;
+                this.otherData = userDoc.data();
+                db.collection('chat').doc(this.thisUser).collection(id).orderBy('createdAt').onSnapshot(snapshot => {
+                    let messages = [];
+                    snapshot.forEach(doc => {
+                        var message = doc.data();
+                        message["id"] = doc.id;
+                        messages.push(message);
+                    });
+                    this.messages = messages;
+                    console.log(this.messages);
+                });
+            });
         }
     },
     created() {
-        this.fetchUsers();
-        this.fetchMessages();
+        this.fetchInformation();
     }
 }
 </script>
@@ -161,6 +343,7 @@ export default {
         border: none;
         background: whitesmoke;
         font-family: "FredokaOne";
+        cursor: pointer;
     }
     .inbox:hover, .inbox:active {
         color: white;
@@ -217,18 +400,22 @@ export default {
         height:15%;
         display: flex;
     }
-    .input-upload {
+    .input-left {
         margin: 15px;
         flex: 1;
     }
-    .input-upload-btn {
+    .input-left-btn {
         height:100%;
         width:100%;
         cursor: pointer;
         background: none;
         border: none;
+        color: white;
     }
-    .input-text {
+    .input-left-btn:hover {
+        color: black;
+    }
+    .input-middle {
         margin: 15px 0px 15px 0px;
         flex: 18;
     }
@@ -243,11 +430,11 @@ export default {
         font-family: sans-serif;
         background: whitesmoke;
     }
-    .input-enter {
+    .input-right {
         margin: 15px;
         flex: 1;
     }
-    .input-enter-btn {
+    .input-msg-btn {
         height:100%;
         width:100%;
         cursor: pointer;
@@ -257,7 +444,20 @@ export default {
         text-align: left;
         color: white;
     }
-    .input-enter-btn:hover {
+    .input-msg-btn:hover {
+        color: black;
+    }
+    .input-req-btn {
+        height:100%;
+        width:100%;
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-size: 25px;
+        text-align: left;
+        color: white;
+    }
+    .input-req-btn:hover {
         color: black;
     }
 </style>
