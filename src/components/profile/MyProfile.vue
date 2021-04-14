@@ -156,7 +156,7 @@ methods: {
     text-align: center;
     float: right;
     width: 65%;
-    
+    border: none;
 }
 .list-item {
     list-style-type: none;
@@ -177,4 +177,5 @@ methods: {
     white-space:pre-line;
     padding: 35px;
 }
+
 </style>

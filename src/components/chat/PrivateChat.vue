@@ -22,7 +22,7 @@
                     <br>
                     <div v-for="message in messages" v-bind:key="message.id">
                         <div v-if="message.author == thisData.name">
-                            <div v-if="true" class="msg" style="float:right;border: black solid">
+                            <div v-if="true" class="msg" style="float:right;">
                                 <span class="msg-user"> You </span>
                                 <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
                                 <div class="msg-bubble">{{message.message}}</div>
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div v-if="message.author == otherData.name">
-                            <div v-if="true" class="msg" style="float:left;border: red solid">
+                            <div v-if="true" class="msg" style="float:left;">
                                 <span class="msg-user"> {{message.author}} </span>
                                 <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
                                 <div class="msg-bubble">{{message.message}}</div>
