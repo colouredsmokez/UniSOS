@@ -29,6 +29,10 @@
             </div>
 
             <div id="display">
+                <div>
+                    <input type="text" id="searchInput" v-on:keyup="search()" placeholder="Search by module code...">
+                </div>
+                <div id="listingview">
                 <ul>
                     <li id="listing" v-for="item in listingFiltered" v-bind:key="item.id" v-on:click="item.show = !item.show">
                         <div id="firstpart">
@@ -82,6 +86,7 @@
                         </div>
                     </li>
                 </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -99,6 +104,9 @@ export default {
             rating:'',
             listing:[],
             listingFiltered:[],
+            listingFiltered2:[],
+            wasFiltered:false,
+            wasSearched:false
         }
     },
     methods: {
@@ -125,10 +133,22 @@ export default {
                 alert(err.message)
             });
             this.listingFiltered = this.listing;
+            //this.listing = this.listingFiltered;
+            //console.log("created "+this.listing[0])
         },
         filter:function() {
+            //this.listing = this.listingFiltered
+            //document.getElementById('searchInput').value = ''
+            this.wasFiltered = true
             this.listingFiltered = []
-            for (var list of this.listing) {
+            //console.log("filtered "+this.listing[0].module)
+            var og
+            if (this.wasSearched) {
+                var og = this.listingFiltered2
+            } else {
+                og = this.listing
+            }
+            for (var list of og) {
                 //assigning rating value
                 var assignedRating = 0
                 if (list.rating==0 || !(list.rating)) {
@@ -154,7 +174,7 @@ export default {
                     //console.log("this"+this.rating+", assigned"+assignedRating)
                     this.listingFiltered.push(list);
                 }
-            }
+            } //this.listingFiltered2 = this.listingFiltered
         },
         toProfile: function(event) {
             let uid = event.target.getAttribute("id");
@@ -200,11 +220,41 @@ export default {
                     if (data.advertise != null) {
                         alert("Already advertised!")
                     } else {
-                        alert("Advertise for $5?")
-                        db.collection('listing').doc(item.id).update({advertise: true})
+                        var adv = confirm("Advertise for $5?")
+                        if (adv) {
+                            db.collection('listing').doc(item.id).update({advertise: true})
+                        } else {
+                            alert("Transaction cancelled.")
+                        }
+                        
                     }
                 }
             )
+        },
+        search: function() {
+            //console.log("searched "+this.listingFiltered[0].module)
+            //this.listing = this.listingFiltered
+            this.listingFiltered = []
+            
+            var og
+            if (this.wasFiltered) {
+                //og = this.listingFiltered2
+                this.type = "All"
+                this.rating = "All"    
+            } /*else {
+                og = this.listing
+            }*/
+            this.wasSearched = true
+            var input = document.getElementById('searchInput');
+            var filter = input.value.toUpperCase(); //input of searchbar
+
+            for (var list of this.listing /*og*/) {
+                var txtValue = list.module
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    //console.log(txtValue)
+                    this.listingFiltered.push(list);
+                }
+            } this.listingFiltered2 = this.listingFiltered
         }
     },
     created() {
@@ -236,11 +286,13 @@ export default {
 #display {
     flex: 9;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+#listingview {
     padding: 0px 40px 20px 0px;
     background-color: whitesmoke;
     border-radius: 25px;
     box-shadow: inset 0 0 10px #000000;
-    
+    margin: 12px;
 }
 #listing {
     display: flex;
@@ -318,5 +370,15 @@ export default {
   vertical-align: middle;
   height:18px;
   width:18px;
+}
+#searchInput {
+    width: 95%; 
+    font-size: 16px; /* Increase font-size */
+    padding: 12px 20px 12px 40px; /* Add some padding */
+    border: 1px solid #ddd; /* Add a grey border */
+    margin: 12px; /* Add some space below the input */
+    margin-left: 0px;
+    font-family: 'FredokaOne';
+    border-radius: 25px;
 }
 </style>
