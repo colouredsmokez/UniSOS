@@ -11,19 +11,19 @@
                 <br><br>
                 <h3>Rating</h3>
                 <input type="radio" v-on:change="filter()" v-model="rating" value=3>
-                    <img class="filter-inline" src="../../assets/goldstar.png">
-                    <img class="filter-inline" src="../../assets/goldstar.png">
-                    <img class="filter-inline" src="../../assets/goldstar.png">
+                    <img class="filter-inline" src="../../assets/goldstar.png" alt="star">
+                    <img class="filter-inline" src="../../assets/goldstar.png" alt="star">
+                    <img class="filter-inline" src="../../assets/goldstar.png" alt="star">
                 <br>
                 <input type="radio" v-on:change="filter()" v-model="rating" value=2>
-                    <img class="filter-inline" src="../../assets/goldstar.png">
-                    <img class="filter-inline" src="../../assets/goldstar.png">
-                    <img class="filter-inline" src="../../assets/blackstar.png">
+                    <img class="filter-inline" src="../../assets/goldstar.png" alt="star">
+                    <img class="filter-inline" src="../../assets/goldstar.png" alt="star">
+                    <img class="filter-inline" src="../../assets/blackstar.png" alt="star">
                 <br>
                 <input type="radio" v-on:change="filter()" v-model="rating" value=1>
-                    <img class="filter-inline" src="../../assets/goldstar.png">
-                    <img class="filter-inline" src="../../assets/blackstar.png">
-                    <img class="filter-inline" src="../../assets/blackstar.png">
+                    <img class="filter-inline" src="../../assets/goldstar.png" alt="star">
+                    <img class="filter-inline" src="../../assets/blackstar.png" alt="star">
+                    <img class="filter-inline" src="../../assets/blackstar.png" alt="star">
                 <br>
                 <input type="radio" v-on:change="filter()" v-model="rating" value="All">All<br>
             </div>
@@ -46,28 +46,23 @@
                             <br>
                             <button class="profile-button" v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
                             <div v-if="item.rating==0"><p>no rating</p></div>
-                            <!--<div v-if="0<item.rating&&item.rating<=1"><p>*</p></div>
-                            <div v-if="1<item.rating&&item.rating<=2"><p>**</p></div>
-                            <div v-if="2<item.rating&&item.rating<=3"><p>***</p></div>-->
-
                             <br><br>
                             <div v-if="0<item.rating&&item.rating<=1">
-                                <img class="inline" src="../../assets/goldstar.png">
-                                <img class="inline" src="../../assets/blackstar.png">
-                                <img class="inline" src="../../assets/blackstar.png">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                                <img class="inline" src="../../assets/blackstar.png" alt="star">
+                                <img class="inline" src="../../assets/blackstar.png" alt="star">
                             </div>
                             <div v-if="1<item.rating&&item.rating<=2">
-                                <img class="inline" src="../../assets/goldstar.png">
-                                <img class="inline" src="../../assets/goldstar.png">
-                                <img class="inline" src="../../assets/blackstar.png">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                                <img class="inline" src="../../assets/blackstar.png" alt="star">
                             </div>
                             <div v-if="2<item.rating&&item.rating<=3">
-                                <img class="inline" src="../../assets/goldstar.png">
-                                <img class="inline" src="../../assets/goldstar.png">
-                                <img class="inline" src="../../assets/goldstar.png">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
                             </div>
                             <br><br>
-
                         </div>
                         <div id="secondpart">
                             <h2>{{item.module}}</h2>
@@ -79,7 +74,7 @@
                         <div id="thirdpart">
                             <div v-if="item.userId != currentUser">
                                 <button class="chat-button" v-bind:id="item.id" v-if="item.typeOfList=='Notes'" v-on:click="buy(item)">Buy</button>
-                                <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)">Chat</button>
+                                <button class="chat-button" v-bind:id="item.id" v-on:click="toChat($event)">Chat</button>
                             </div>
                             <div v-if="item.userId == currentUser">
                                 <button class="chat-button" v-bind:id="item.userId" v-on:click="advertise(item)">Advertise</button>
@@ -146,7 +141,6 @@ export default {
                     assignedRating = 3
                 }
                 //console.log("list"+list.rating+", assigned"+assignedRating)
-
                 if ((this.type == list.typeOfList || this.type == '') && (this.rating == assignedRating || this.rating == '')) {
                     //console.log("this"+this.rating+", assigned"+assignedRating)
                     this.listingFiltered.push(list);
@@ -167,8 +161,8 @@ export default {
             this.$router.push({ name:'profile', params:{ uid:uid } });
         },
         toChat: function(event) {
-            let uid = event.target.getAttribute("id");
-            this.$router.push({ name:'chat', params:{ uid:uid } });
+            let id = event.target.getAttribute("id");
+            this.$router.push({ name:'chat', params:{ id:id } });
         },
         buy: function(item) {
             db.collection('users').doc(auth.currentUser.uid).get().then(
