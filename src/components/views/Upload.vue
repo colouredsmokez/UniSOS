@@ -119,30 +119,27 @@ export default {
                     newListing["img"] = this.picture; //should be able to upload a few files
                 }
             }
-            console.log(newListing)
-            db.collection("listing").add(newListing).then(location.reload());
-            /*
+            db.collection("listing").add(newListing).then(docid => {
                 db.collection("users").doc(this.user).get().then(
                     snapshot => {
                         if (this.type=="Notes") {
                             var selling = snapshot.data().selling;
                             if (selling == null) {
-                                selling = {};
+                                selling = [];
                             }
-                            selling[docid] = newListing;
-                            db.collection('users').doc(this.user).update({selling:selling}).then(location.reload());
+                            selling.push(docid.id);
+                            db.collection("users").doc(this.user).update({selling:selling}).then(() => {this.$router.go(this.$router.path)});
                         } else {
                             var teaching = snapshot.data().teaching;
                             if (teaching == null) {
-                                teaching = {};
+                                teaching = [];
                             }
-                            teaching[docid] = newListing;
-                            db.collection('users').doc(this.user).update({teaching:teaching}).then(location.reload());
+                            teaching.push(docid.id);
+                            db.collection("users").doc(this.user).update({teaching:teaching}).then(() => {this.$router.go(this.$router.path)});
                         }
                     }
                 );
             });
-            */
         },
         previewImage(event) {
             this.uploadValue=0;

@@ -160,7 +160,7 @@ let router = new Router({
             }
         },
         {
-            path: '/chat/:uid',
+            path: '/chat/:id',
             name: "chat",
             props: true,
             components: {

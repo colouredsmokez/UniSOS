@@ -14,42 +14,69 @@
                     </div>
                 </div>
                 <h1>{{otherData.name}}</h1>
-                <button class="" v-on:click="offer()">Offer</button>
-
             </div>  
             <div class="flex-child-chat">
                 <div class="chat-msg">
                     <br>
                     <div v-for="message in messages" v-bind:key="message.id">
                         <div v-if="message.author == thisData.name">
-                            <div v-if="true" class="msg" style="float:right;">
+                            <div v-if="message.type == 'text'" class="msg" style="float:right">
                                 <span class="msg-user"> You </span>
                                 <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
                                 <div class="msg-bubble">{{message.message}}</div>
                             </div>
-                            <div v-if="false" class="msg" style="border: black solid">
+                            <div v-if="message.type == 'request'" class="msg" style="float:right">
                                 <span class="msg-user"> You </span>
                                 <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
-                                <div class="msg-bubble">
-                                    <button v-if="true">Accept Offer</button>
-                                    <button v-if="true">Pay</button>
-                                    <button v-if="true">Review</button>
-                                </div>
+                                <div class="msg-bubble">--Request for fees made--</div>
+                            </div>
+                            <div v-if="message.type == 'review'" class="msg" style="float:right">
+                                <span class="msg-user"> You </span>
+                                <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
+                                <div class="msg-bubble">--Requested for a Review--</div>
                             </div>
                         </div>
                         <div v-if="message.author == otherData.name">
-                            <div v-if="true" class="msg" style="float:left;">
+                            <div v-if="message.type == 'text'" class="msg" style="float:left">
                                 <span class="msg-user"> {{message.author}} </span>
                                 <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
                                 <div class="msg-bubble">{{message.message}}</div>
                             </div>
-                            <div v-if="false" class="msg" style="border: red solid">
+                            <div v-if="message.type == 'request'" class="msg" style="float:left">
                                 <span class="msg-user"> {{message.author}} </span>
                                 <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
                                 <div class="msg-bubble">
-                                    <button v-if="true">Accept Offer</button>
-                                    <button v-if="true">Pay</button>
-                                    <button v-if="true">Review</button>
+                                    The tutor has made a request of {{message.fee}} per {{message.unit}} for {{message.item}}.
+                                    <br><br>
+                                    <div v-if="message.agreed == false">
+                                        <button v-bind:id="message.id" v-on:click="agree($event)">Agree</button>
+                                    </div>
+                                    <div v-if="message.agreed == true">
+                                        <button disabled>You have agreed to the request</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-if="message.type == 'review'" class="msg" style="float:left">
+                                <span class="msg-user"> {{message.author}} </span>
+                                <span class="msg-time"> {{'   ' + timeSent(message.createdAt.toDate())}} </span>
+                                <div class="msg-bubble">
+                                    Leave a Review!
+                                    <br><br>
+                                    <div v-if="message.reviewed == false">
+                                        <input type="radio" v-model="rating" value=1>
+                                        <input type="radio" v-model="rating" value=2>
+                                        <input type="radio" v-model="rating" value=3>
+                                        <input type="text" v-model="review">
+                                        <button v-bind:id="message.id" v-on:click="submit($event)">Submit</button>
+                                    </div>
+                                    <div v-if="message.reviewed == true">
+                                        <input type="radio" value=1 disabled>
+                                        <input type="radio" value=2 disabled>
+                                        <input type="radio" value=3 disabled>
+                                        <input type="text" disabled>
+                                        <br><br>
+                                        <button disabled>You have made a review</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -57,9 +84,9 @@
                     </div>
                     <br>
                 </div>
-                <div class="chat-input">
+                <div v-if="!showRequestMaker" class="chat-input">
                     <div class="input-upload">
-                        <button class="input-upload-btn"></button>
+                        <button class="input-upload-btn" v-on:click="makeRequest()"></button>
                     </div>
                     <div class="input-text">
                         <textarea class="input-text-field" @keyup.enter="saveMessage()" v-model="message" type="text" placeholder="Type a message"/>
@@ -67,6 +94,11 @@
                     <div class="input-enter">
                         <button class="input-enter-btn" v-on:click="saveMessage()"> <i class="fa fa-paper-plane" aria-hidden="true" v-on:click="saveMessage()"></i></button>
                     </div>
+                </div>
+                <div v-if="showRequestMaker" class="chat-input2">
+                    <input id="requestFee" type="number" v-model="requestFee">
+                    <input id="requestUnit" type="text" v-model="requestUnit">
+                    <button v-on:click="request()">Request</button>
                 </div>
             </div>
         </div>
@@ -82,15 +114,24 @@ export default {
         return {
             message: null,
             messages: [],
+            itemid: this.$route.params.id,
+            itemData: {},
             thisUser: auth.currentUser.uid,
-            thisData: [],
-            otherUser: this.$route.params.uid,
-            otherData: []
+            thisData: {},
+            otherUser: "",
+            otherData: {},
+            showRequestMaker: false,
+            requestItem: this.$route.params.id,
+            requestFee: "",
+            requestUnit: "",
+            rating:"",
+            review:""
         }
     },
     methods: {
         saveMessage() {
             let data = {
+                type: "text",
                 message: this.message,
                 author: this.thisData.name,
                 createdAt: new Date()
@@ -102,12 +143,101 @@ export default {
                 });
             });
         },
+        makeRequest() {
+            this.showRequestMaker = true;
+        },
+        request() {
+            var cfm = confirm("Do you want to request SGD("+this.requestFee+") per "+this.requestUnit+" for "+this.requestItem+"?");
+            if (cfm) {
+                alert("You requested "+this.requestFee+" per "+this.requestUnit+" for "+this.requestItem+".");
+                let data = {
+                    type: "request",
+                    agreed: false,
+                    item: this.requestItem,
+                    fee: this.requestFee,
+                    unit: this.requestUnit,
+                    author: this.thisData.name,
+                    createdAt: new Date()
+                }
+                console.log(data);
+                db.collection('chat').doc(this.thisUser).collection(this.otherUser).add(data).then(() => {
+                    db.collection('chat').doc(this.otherUser).collection(this.thisUser).add(data)
+                });
+            } else {
+                alert("You cancelled your request.");
+            }
+            this.showRequestMaker = false;
+        },
+        agree(event) {
+            let docid = event.target.getAttribute("id");
+            console.log(docid);
+            var cfm = confirm("Do you agree to the request?");
+            if (cfm) {
+                alert("You have agreed to the request.")
+                db.collection('chat').doc(this.thisUser).collection(this.otherUser).doc(docid).update({agreed:true}).then(()=> {
+                    db.collection('chat').doc(this.thisUser).collection(this.otherUser).doc(docid).get().then(snapshot => {
+                        var oldData = snapshot.data();
+                        let newData = {
+                            type: "review",
+                            reviewed: false,
+                            item: oldData.item,
+                            author: this.otherData.name,
+                            createdAt: new Date()
+                        };
+                        db.collection('chat').doc(this.thisUser).collection(this.otherUser).add(newData).then(() => {
+                            db.collection('chat').doc(this.otherUser).collection(this.thisUser).add(newData)
+                        });
+                    });
+                });
+            } else {
+                alert("You did not agree to the request.")
+            }
+        },
+        submit(event) {
+            let docid = event.target.getAttribute("id");
+            console.log(docid);
+            var cfm = confirm("Are you sure you want to submit this review?");
+            if (cfm) {
+                db.collection('chat').doc(this.thisUser).collection(this.otherUser).doc(docid).get().then(snapshot1 => {
+                    var data1 = snapshot1.data();
+                    db.collection('listing').doc(data1.item).get().then(snapshot2 => {
+                        var data2 = snapshot2.data();
+                        var rating = data2.rating;
+                        var reviewsData = data2.reviewsData;
+                        if (rating == null) {
+                            rating = 0;
+                        }
+                        if (reviewsData == null) {
+                            reviewsData = [0,{}];
+                        }
+                        reviewsData[1][this.thisUser] = {}
+                        reviewsData[1][this.thisUser].rating = this.rating;
+                        reviewsData[1][this.thisUser].review = this.review;
+                        reviewsData[0] += 1;
+                        console.log(rating)
+                        rating = Number(rating) + Number(this.rating);
+                        console.log(rating)
+                        rating = rating/reviewsData[0];
+                        console.log(rating)
+                        db.collection('listing').doc(data1.item).update({rating:rating,reviewsData:reviewsData}).then(()=> {
+                            db.collection('chat').doc(this.thisUser).collection(this.otherUser).doc(docid).update({reviewed:true}).then(()=> {
+                                alert("Review Submitted!");
+                            });
+                        });
+                    });
+                });
+            } else {
+                alert("Review Submission Cancelled.");
+            }
+        },
         fetchMessages() {
             console.log(this.otherUser);
             db.collection('chat').doc(this.thisUser).collection(this.otherUser).orderBy('createdAt').onSnapshot((querySnapshot) => {
                 let allMessages = [];
                 querySnapshot.forEach(doc => {
-                    allMessages.push(doc.data())
+                    var message = doc.data();
+                    message["id"] = doc.id;
+                    allMessages.push(message)
                 });
                 this.messages = allMessages;
             });
@@ -128,13 +258,19 @@ export default {
         }
     },
     created() {
-        db.collection('users').doc(this.thisUser).get().then(snapshot => {
-            this.thisData = snapshot.data();
+        db.collection('listing').doc(this.itemid).get().then(snapshot1 => {
+            console.log(this.itemid);
+            var data = snapshot1.data();
+            this.itemData = data;
+            this.otherUser = data.userId;
+            db.collection('users').doc(this.otherUser).get().then(snapshot2 => {
+                this.otherData = snapshot2.data();
+                db.collection('users').doc(this.thisUser).get().then(snapshot3 => {
+                    this.thisData = snapshot3.data();
+                    this.fetchMessages();
+                });
+            });
         });
-        db.collection('users').doc(this.otherUser).get().then(snapshot => {
-            this.otherData = snapshot.data();
-        });
-        this.fetchMessages();
     }
 }
 </script>
@@ -156,6 +292,7 @@ export default {
         background: whitesmoke;
         flex: 2;
         text-align: center;
+        height: 90%;
     }
     .image-cropper {
         width: 200px;
@@ -173,6 +310,7 @@ export default {
         margin: 30px 30px 30px 0px;
         background: whitesmoke;
         flex: 3;
+        height: 90%;
     }
     .chat-msg {
         background-image: url("../../assets/ChatBG.png");
@@ -203,6 +341,11 @@ export default {
         padding: 10px;
     }
     .chat-input {
+        background: #5ABAC0;
+        height:15%;
+        display: flex;
+    }
+    .chat-input2 {
         background: #5ABAC0;
         height:15%;
         display: flex;
