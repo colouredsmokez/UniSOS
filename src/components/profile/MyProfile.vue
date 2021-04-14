@@ -111,7 +111,7 @@ methods: {
 .body{
     flex: 9;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-color: whitesmoke;
+    background-color: #C5ECEC;
     border-radius: 25px;
     box-shadow: 0 0 10px #000000;
     display:flex;
