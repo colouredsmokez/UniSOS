@@ -42,9 +42,9 @@
                 <ul>
                     <li class="list-item" v-for="n in listing" v-bind:key="n.id" v-on:click="n.show = !n.show" >
                         <div>
-                            <p>Type of listing : {{ n.typeOfList }}</p>
-                            <p>Module : {{ n.module }}</p>
-                            <p>Rating : {{n.rating}}</p>
+                            <p> <b> Type of listing : </b> {{ n.typeOfList }}</p>
+                            <p> <b> Module : </b> {{ n.module }}</p>
+                            <p> <b> Rating : </b> {{n.rating}}</p>
                             <ul class="list-item" v-for="review in n.reviewsData" v-bind:key="review"  v-show="n.show">
                                 <li> 
                                     <div>

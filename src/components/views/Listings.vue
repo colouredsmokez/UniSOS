@@ -81,6 +81,9 @@
                                 <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)">Chat</button>
                             </div>
                             <div v-if="item.userId == currentUser">
+                                <a v-bind:id="item.id" v-on:click="deleteListing(item)"> 
+                                    <i class="fa fa-trash" aria-hidden="true" title="Delete listing?"></i> 
+                                </a>
                                 <button class="chat-button" v-bind:id="item.userId" v-on:click="advertise(item)">Advertise</button>
                             </div>
                         </div>
@@ -135,6 +138,12 @@ export default {
             this.listingFiltered = this.listing;
             //this.listing = this.listingFiltered;
             //console.log("created "+this.listing[0])
+        },
+        deleteListing: function(item) {
+            var result = confirm("Are you sure you want to delete listing?");
+            if (result) {
+                db.collection('listing').doc(item.id).delete().then(() => location.reload())
+            }
         },
         filter:function() {
             //this.listing = this.listingFiltered
@@ -342,6 +351,18 @@ export default {
 #thirdpart{
     flex: 2;
     text-align: center;
+}
+#thirdpart a{
+    font-size: 26px;
+    cursor: pointer;
+    padding: 10px;
+    color: rgb(87, 85, 85);
+}
+#thirdpart a:hover {
+    color: rgba(250, 24, 24, 0.904);
+    transition-duration: 0.4s;
+    outline: 2px;
+    outline-color: black;
 }
 .chat-button {
     border-radius: 8px;
