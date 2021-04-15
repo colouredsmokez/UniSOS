@@ -21,10 +21,18 @@
             <button v-on:click = "updateBio()"> Update Bio </button>
             <br><br>
             <label for="mods"> What modules are you taking? </label><br>
+            <a id='desc'> Update your modules based on what you're taking this semester so that we can best tailor our recommendations for you! </a> 
+            <br>
             <input type="text" id="mods" name="mods" placeholder="Enter a module code (e.g. BT3103)" width="pixels">
             <br>
             <button v-on:click = "addMod()"> Add Module </button>
+            <a id='modules'> or </a>
             <button v-on:click = "deleteMod()"> Remove Module </button>
+            <br><br>
+            <ul>
+                <p> Your current module list:
+                <li class="bullets" v-for="mod in modules" v-bind:key="mod" id='modules'> {{mod}} </li>
+            </ul>
         </div>
     </div>
 </template>
@@ -91,10 +99,10 @@ export default {
                 if (modules == null) {
                     modules = []
                 }
-                if(mod in modules) {
-                    alert('You have already listed this module!')
-                } else if(mod == '') {
+                if(mod == '') {
                     alert('Please enter a valid field.')
+                } else if(modules.includes(mod)) {
+                    alert('You have previoudly listed this module!')
                 } else {
                     var result = confirm('Please confirm if "' + mod.toUpperCase() + '" is the module you want to add to your profile.');
                     if (result) {
@@ -114,9 +122,9 @@ export default {
                 var modules = snapshot.data().modules;
                 if (mod == '') {
                     alert('Please enter a valid field.')
-                } else if (mod in modules) {
+                } else if (modules.includes(mod)) {
                     modules = modules.filter(item => item !== mod);
-                    var result = confirm('Please confirm if "' + mod.toUpperCase() + '" is the module you want to add to your profile.');
+                    var result = confirm('Please confirm if "' + mod.toUpperCase() + '" is the module you want to delete from your profile.');
                     if (result) {
                         db.collection('users').doc(this.uid).update({modules: modules}).then(
                                 () => {
@@ -125,7 +133,7 @@ export default {
                                 });
                     }
                 } else {
-                    alert('Module has not been previously registered. Please enter an existing module code in your profile page.')
+                    alert('Module has not been previously registered. Please enter an existing module code listed in your profile page.')
                 }
             })
         },
@@ -203,5 +211,20 @@ export default {
     }
     #mods {
         width: 250px;
+    }
+    #modules {
+        font-size:14px;
+        color: rgba(85, 83, 83, 0.836);
+    }
+    #desc {
+        font-size:12px;
+        font-style: italic;
+        color: rgba(85, 83, 83, 0.836);
+    }
+    .bullets {
+        padding-left: 1em;
+        margin-right: 2em;
+        margin-left: 0;
+        list-style: none;
     }
 </style>

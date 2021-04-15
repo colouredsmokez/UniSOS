@@ -192,8 +192,10 @@ methods: {
     padding: 20px;
     text-align: center;
     float: right;
-    width: 65%;
+    width: 100%;
     border: none;
+    float: left;
+    margin-top: 0;
 }
 .list-item {
     list-style-type: none;

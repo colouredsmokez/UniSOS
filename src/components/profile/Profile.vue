@@ -165,7 +165,11 @@ methods: {
     margin: auto;
     padding: 20px;
     text-align: center;
-    width: 65%
+    float: right;
+    width: 100%;
+    border: none;
+    float: left;
+    margin-top: 0;
 }
 .list-item {
     list-style-type: none;
