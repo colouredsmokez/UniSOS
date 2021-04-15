@@ -136,7 +136,7 @@ export default {
                   selling: [], //just add listing id
                   teaching: [], //just add listing id
                   myNotes: {},
-                  reviewsData: [0,{}],
+                  reviewsData: {},
                   chatUsers: {}
                 };
                 db.collection('requests').add(data).then(
