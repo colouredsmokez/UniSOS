@@ -28,10 +28,12 @@ import { auth } from '../../firebase'
 export default {
   data() {
     return{
+      userid: auth.currentUser.uid,
+      username: "",
       noteId:this.$route.params.noteId,
-      imageURL:"",
-      title:"",
       ownerid:"",
+      title:"",
+      imageURL:"",
       showReview: false,
       rating:"",
       review:""
@@ -39,12 +41,13 @@ export default {
   },
   methods:{
     fetchItems: function() {
-      db.collection('users').doc(auth.currentUser.uid).get().then(
+      db.collection('users').doc(this.userid).get().then(
         snapshot => {
-          var dict = snapshot.data().myNotes
-          this.imageURL = dict[this.noteId]["imageURL"]
-          this.title = dict[this.noteId]["title"]
-          this.ownerid = dict[this.noteId]["ownerid"]
+          this.username = snapshot.data().name;
+          var dict = snapshot.data().myNotes;
+          this.imageURL = dict[this.noteId]["imageURL"];
+          this.title = dict[this.noteId]["title"];
+          this.ownerid = dict[this.noteId]["ownerid"];
         }
       );
     },
@@ -54,7 +57,7 @@ export default {
           var data = snapshot.data();
           var userid = auth.currentUser.uid;
           var reviewsData = data.reviewsData;
-          if (reviewsData != null && userid in reviewsData[1]) {
+          if (reviewsData != null && userid in reviewsData) {
             alert("Already Reviewed!")
           } else {
             this.showReview = true;
@@ -65,41 +68,35 @@ export default {
     submit() {
       var cfm = confirm("Are you sure you want to submit this review?");
       if (cfm) {
-      db.collection('listing').doc(this.noteId).get().then(
-        snapshot => {
-          var data = snapshot.data();
-          var userid = auth.currentUser.uid;
-          var rating = data.rating;
-          var reviewsData = data.reviewsData;
-          if (rating == null) {
-            rating = 0;
-          }
-          if (reviewsData == null) {
-            reviewsData = [0,{}];
-          }
-          reviewsData[1][userid] = {}
-          reviewsData[1][userid].rating = this.rating;
-          reviewsData[1][userid].review = this.review;
-          reviewsData[0] += 1;
-          console.log(rating)
-          rating = Number(rating) + Number(this.rating);
-          console.log(rating)
-          rating = rating/reviewsData[0];
-          console.log(rating)
-          db.collection('listing').doc(this.noteId).update({rating:rating,reviewsData:reviewsData}).then(
-            ()=> {
+        db.collection('listing').doc(this.noteId).get().then(
+          snapshot => {
+            var id = this.userid;
+            var data = snapshot.data();
+            var rating = data.rating;
+            var reviewsData = data.reviewsData;
+            if (rating == null) {
+              rating = 0;
+            }
+            if (reviewsData == null) {
+              reviewsData = {};
+            }
+            reviewsData[id] = {}
+            reviewsData[id].rating = this.rating;
+            reviewsData[id].review = this.review;
+            reviewsData[id].name = this.username;
+            var pair = [0,0]
+            Object.keys(reviewsData).forEach(function(key) {
+                pair[0] += 1;
+                pair[1] += Number(reviewsData[key].rating)
+            });
+            rating = pair[1]/pair[0];
+            console.log(rating);
+            db.collection('listing').doc(this.noteId).update({rating:rating,reviewsData:reviewsData}).then(()=> {
               alert("Review Submitted!");
               this.$router.go( this.$router.path );
-            },
-            err => {
-              alert(err.message);
-            }
-          );
-        },
-        err => {
-          alert(err.message);
-        }
-      );
+            });
+          }
+        );
       } else {
         alert("Review Submission Cancelled.");
       }
