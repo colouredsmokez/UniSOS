@@ -38,12 +38,23 @@
             <!-- Notes Info -->
             <div class="list">
                 <hr>
-                <h3>Notes</h3>
+                <h3> Listings </h3>
                 <ul>
-                    <li class="list-item" v-for="n in notes" v-bind:key="n">
+                    <li class="list-item" v-for="n in listing" v-bind:key="n.id" v-on:click="n.show = !n.show" >
                         <div>
-                            <p>Name : {{ n[1].name }}</p>
-                            <p>Info : {{ n[1].info }}</p>
+                            <p>Type of listing : {{ n.typeOfList }}</p>
+                            <p>Module : {{ n.module }}</p>
+                            <p>Rating : {{n.rating}}</p>
+                            <ul class="list-item" v-for="review in n.reviewsData" v-bind:key="review"  v-show="n.show">
+                                <li> 
+                                    <div>
+                                        <p> Name: {{review.name}}</p>
+                                        <p> Rating: {{review.rating}}/3</p>
+                                        <p> Review: {{review.review}}</p>   
+                                    </div>
+                                </li> 
+
+                            </ul>
                         </div>
                     </li>
                 </ul>
@@ -68,12 +79,12 @@ data() {
         bio: '',
         reviews: [],
         modules: [],
-        selling: []
+        selling: [],
+        listing: []
     };
 },
 methods: {
     fetchInfo: function() {
-        console.log(this.uid);
         db.collection('users').doc(this.uid).get().then(
             snapshot => {
                 var data = snapshot.data();
@@ -84,14 +95,39 @@ methods: {
                 this.bio = data.bio;
                 this.reviews = data.reviews;
                 this.modules = data.modules;
-                this.notes = data.selling;
+                // this.notes = data.selling;
             },
             err => {
                 alert(err.message)
             }
         );
-    }
-  },
+        db.collection('listing').get().then((querySnapShot) => {
+                querySnapShot.forEach(doc => {
+                    var listingData = doc.data();
+                    if (listingData.userId == this.uid) {
+                        if(listingData.rating == null) {
+                            listingData.rating = "No rating yet"
+                        } else {
+                            listingData.reviewsData = listingData.reviewsData[1]
+                            // for (var key in listingData.reviewsData) {
+                            //     console.log(key)
+                            //     console.log(listingData.reviewsData)
+                            //     db.collection('users').doc(key).get().then(snapshot => {
+                            //     var userData = snapshot.data();
+                            //     console.log(listingData.reviewsData)
+                            //     listingData.reviewsData.name = userData.name;
+                                
+                                // })
+                            //}
+                        }
+                        listingData.show = false;
+                        this.listing.push(listingData)
+                    }
+                });
+        })
+                    
+    }        
+    },
   created() {
     this.fetchInfo();
   }
