@@ -223,17 +223,19 @@ export default {
                             rating = 0;
                         }
                         if (reviewsData == null) {
-                            reviewsData = [0,{}];
+                            reviewsData = {};
                         }
-                        reviewsData[1][this.thisUser] = {}
-                        reviewsData[1][this.thisUser].rating = this.rating;
-                        reviewsData[1][this.thisUser].review = this.review;
-                        reviewsData[0] += 1;
-                        console.log(rating)
-                        rating = Number(rating) + Number(this.rating);
-                        console.log(rating)
-                        rating = rating/reviewsData[0];
-                        console.log(rating)
+                        reviewsData[this.thisUser] = {}
+                        reviewsData[this.thisUser].rating = this.rating;
+                        reviewsData[this.thisUser].review = this.review;
+                        reviewsData[this.thisUser].name = this.thisData.name;
+                        var pair = [0,0]
+                        Object.keys(reviewsData).forEach(function(key) {
+                            pair[0] += 1;
+                            pair[1] += Number(reviewsData[key].rating)
+                        });
+                        rating = pair[1]/pair[0];
+                        console.log(rating);
                         db.collection('listing').doc(data1.item).update({rating:rating,reviewsData:reviewsData}).then(()=> {
                             db.collection('chat').doc(this.thisUser).collection(this.otherUser).doc(docid).update({reviewed:true}).then(()=> {
                                 alert("Review Submitted!");
