@@ -83,6 +83,7 @@ export default {
 }
 #emph {
     font-size: 32px;
+    text-shadow: 2px 2px rgba(47, 79, 79, 0.568);
 }
 #uds {
     text-decoration: underline;
@@ -124,11 +125,13 @@ h3 {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 .inline {
-  display: inline-block;
-  padding: 10px;
-  vertical-align: middle;
+    display: inline-block;
+    padding: 10px;
+    vertical-align: middle;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 22px;
 }
-#login, #signup {
+/* #login, #signup {
     text-decoration: underline;
     color: darkslategrey;
 }
@@ -137,7 +140,24 @@ h3 {
 }
 #signup:hover {
     color: black;
-    /*border-radius: 0.5em;
-    padding: 10px 20px;*/
+    border-radius: 0.5em;
+    padding: 10px 20px;
+} */
+#login, #signup {
+    border-radius: 16px;
+    font-size: 16px;
+    padding: 10px 20px;
+    transition-duration: 0.4s;
+    vertical-align: middle;
+    border: none;
+    cursor:pointer;
+    text-decoration: none;
+    background-color: #C5ECEC;
+    color:darkslategrey;
+}
+#login:hover, #signup:hover {
+    box-shadow: 0 0 4px #000000;
+    background-color: darkslategrey; 
+    color: white;
 }
 </style>

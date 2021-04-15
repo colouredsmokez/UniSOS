@@ -24,7 +24,7 @@
             <input type="text" id="mods" name="mods" placeholder="Enter a module code (e.g. BT3103)" width="pixels">
             <br>
             <button v-on:click = "addMod()"> Add Module </button>
-            
+            <button v-on:click = "deleteMod()"> Remove Module </button>
         </div>
     </div>
 </template>
@@ -85,7 +85,7 @@ export default {
                     })
         },
         addMod: function() {
-            var mod = document.getElementById("mods").value;
+            var mod = document.getElementById("mods").value.toUpperCase();
             db.collection('users').doc(this.uid).get().then(snapshot => {
                 var modules = snapshot.data().modules;
                 if (modules == null) {
@@ -108,7 +108,27 @@ export default {
                 }
             })
         },
-
+        deleteMod: function() {
+            var mod = document.getElementById("mods").value.toUpperCase();
+            db.collection('users').doc(this.uid).get().then(snapshot => {
+                var modules = snapshot.data().modules;
+                if (mod == '') {
+                    alert('Please enter a valid field.')
+                } else if (mod in modules) {
+                    modules = modules.filter(item => item !== mod);
+                    var result = confirm('Please confirm if "' + mod.toUpperCase() + '" is the module you want to add to your profile.');
+                    if (result) {
+                        db.collection('users').doc(this.uid).update({modules: modules}).then(
+                                () => {
+                                    alert('"' + mod.toUpperCase() + `" has been removed from your profile.`);
+                                    this.$router.go( this.$router.path );
+                                });
+                    }
+                } else {
+                    alert('Module has not been previously registered. Please enter an existing module code in your profile page.')
+                }
+            })
+        },
         upload: function(e) {
             var storageRef = store.ref(`${this.email}/${this.imageData.name}`).put(this.imageData);
             storageRef.on(
@@ -137,8 +157,8 @@ export default {
         },
         previewImage: function(event) {
             this.imageData = event.target.files[0];
-        },
-    },
+        }, 
+    },   
     created() {
         this.fetchInfo();
     }
@@ -182,7 +202,6 @@ export default {
         width: 250px;
     }
     #mods {
-        text-transform: uppercase;
         width: 250px;
     }
 </style>

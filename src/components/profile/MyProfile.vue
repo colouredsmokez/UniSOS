@@ -26,7 +26,6 @@
             <div class="list">
                 <hr>
                 <h3> Modules I'm Taking </h3> 
-                <hr>
                 <ul>
                     <li class="list-item" v-for="mod in modules" v-bind:key="mod">
                         <div>
@@ -34,7 +33,7 @@
                         </div>
                     </li>
                 </ul>
-                
+                <hr>
             </div>
 
             <!-- Notes Info -->
@@ -71,7 +70,7 @@ data() {
         bio: '',
         reviews: [],
         modules: [],
-        notes: []
+        // notes: []
     };
 },
 methods: {
@@ -86,7 +85,7 @@ methods: {
                 this.bio = data.bio;
                 this.reviews = data.reviews;
                 this.modules = data.modules;
-                this.notes = data.selling;
+                // this.notes = data.selling;
             },
             err => {
                 alert(err.message)
@@ -111,7 +110,7 @@ methods: {
 .body{
     flex: 9;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-color: #C5ECEC;
+    background-color: whitesmoke;
     border-radius: 25px;
     box-shadow: 0 0 10px #000000;
     display:flex;

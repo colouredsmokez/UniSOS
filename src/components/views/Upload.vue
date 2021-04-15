@@ -10,9 +10,7 @@
                         <option value="Notes">Notes</option>
                     </select>
                 </div>
-
                 <div id="display">
-
                     <div id="upload">
                         <div v-show="type=='Tutor'" class="">
                         </div>
@@ -159,7 +157,9 @@ export default {
             });
         }
     },
-    created() {}
+    created() {
+        
+    }
 }
 </script>
 
