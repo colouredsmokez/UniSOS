@@ -27,10 +27,24 @@
                             </div>
                             <br>
                             <button class="profile-button" v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
-                            <div v-if="item.rating==null||item.rating<1"></div>
-                            <div v-if="1<=item.rating&&item.rating<2">*</div>
-                            <div v-if="2<=item.rating&&item.rating<3">**</div>
-                            <div v-if="item.rating&&item.rating==3">***</div>
+                            <br><br>
+                            <div v-if="item.rating==0 || item.rating==null"><p>no rating</p></div>
+                            <div v-if="0<item.rating&&item.rating<=1">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                                <img class="inline" src="../../assets/blackstar.png" alt="star">
+                                <img class="inline" src="../../assets/blackstar.png" alt="star">
+                            </div>
+                            <div v-if="1<item.rating&&item.rating<=2">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                                <img class="inline" src="../../assets/blackstar.png" alt="star">
+                            </div>
+                            <div v-if="2<item.rating&&item.rating<=3">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                            </div>
+                            
                         </div>
                         <div id="secondpart">
                             <h2>{{item.module}}</h2>
@@ -333,6 +347,12 @@ li {
 }
 .pfp {
     margin-left: 70px;
+}
+.inline {
+  display: inline-block;
+  vertical-align: middle;
+  height:27px;
+  width:27px;
 }
 
 </style>
