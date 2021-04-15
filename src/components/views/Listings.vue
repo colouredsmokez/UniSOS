@@ -81,10 +81,10 @@
                                 <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)">Chat</button>
                             </div>
                             <div v-if="item.userId == currentUser">
-                                <a v-bind:id="item.id" v-on:click="deleteListing(item)"> 
+                                <button class="chat-button" v-bind:id="item.userId" v-on:click="advertise(item)">Advertise</button>
+                                <a v-bind:id="item.id" v-on:click="deleteListing(item)" > 
                                     <i class="fa fa-trash" aria-hidden="true" title="Delete listing?"></i> 
                                 </a>
-                                <button class="chat-button" v-bind:id="item.userId" v-on:click="advertise(item)">Advertise</button>
                             </div>
                         </div>
                     </li>

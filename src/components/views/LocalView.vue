@@ -55,15 +55,18 @@ export default {
       db.collection('listing').doc(this.noteId).get().then(
         snapshot => {
           var data = snapshot.data();
-          var userid = auth.currentUser.uid;
-          var reviewsData = data.reviewsData;
-          if (reviewsData != null && userid in reviewsData) {
-            alert("Already Reviewed!")
+          if(typeof(data) === "undefined") {
+            alert('Unable to review as listing has been deleted by the seller.')
           } else {
-            this.showReview = true;
+            var userid = auth.currentUser.uid;
+            var reviewsData = data.reviewsData;
+            if (reviewsData != null && userid in reviewsData) {
+              alert("Already Reviewed!")
+            } else {
+              this.showReview = true;
+            }
           }
-        }
-      );
+        })
     },
     submit() {
       var cfm = confirm("Are you sure you want to submit this review?");
