@@ -1,11 +1,15 @@
 <template>
     <div>
         <router-link to="/listings" exact><img id="cross" src="../../assets/X.png" alt="X"></router-link>
-        <div v-if="notes">Payment for Notes</div>
-        <div v-if="!notes">Payment for Advertisement</div>
-        <img src="../../assets/QR.png" alt="QR">
-        <button v-if="notes" v-on:click="buy()">Confirm Payment</button>
-        <button v-if="!notes" v-on:click="advertise()">Confirm Payment</button>
+        <div id="page">
+            <div v-if="notes">Payment for Notes</div>
+            <div v-if="!notes">Payment for Advertisement</div>
+            <br>
+            <img src="../../assets/QR.png" alt="QR">
+            <br>
+            <button v-if="notes" v-on:click="buy()">Confirm Payment</button>
+            <button v-if="!notes" v-on:click="advertise()">Confirm Payment</button>
+        </div>
     </div>
 </template>
 <script>
@@ -58,3 +62,11 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+#page {
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 25px;
+}
+</style>
