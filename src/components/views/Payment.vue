@@ -37,7 +37,7 @@ export default {
                         }
                         myNotes[id] = {} 
                         myNotes[id].imageURL = item.img;
-                        myNotes[id].title = item.name + "'s " + item.module + " notes"
+                        myNotes[id].title = item.title;
                         myNotes[id].ownerid = item.userId
                         db.collection('users').doc(auth.currentUser.uid).update({myNotes:myNotes}).then(() => {
                             this.$router.push({ name:'mynotes' });

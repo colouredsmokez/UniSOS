@@ -123,7 +123,10 @@ export default {
             db.collection("users").doc(this.user).get().then(snapshot => {
                 var data = snapshot.data();
                 //add user info to listing here
-                newListing["name"] = data.name;
+                newListing["userName"] = data.name;
+                if (this.type=="Notes") {
+                    newListing["title"] = data.name + "'s " + this.module.toUpperCase() + " Notes";
+                }
                 //upload listing here
                 db.collection("listing").add(newListing).then(docid => {
                     //actions after uploading listing here
@@ -205,6 +208,7 @@ export default {
     font-size: 20px;
     vertical-align: middle;
     font-family: "FredokaOne";
+    cursor: pointer;
 }
 #display {
     display: flex;
@@ -216,7 +220,6 @@ export default {
     flex: 4.5;
     height: 100%;
     width: 100%;
-    border: black solid thin;
     text-align: left;
 }
 #upload-file {
@@ -227,6 +230,7 @@ export default {
     padding: 50px;
     width: 100%;
     height: 375px;
+    border: black solid thin;
 }
 #upload-file:hover {
     background: rgba(0, 0, 0, 0.432);
@@ -285,6 +289,7 @@ export default {
     padding: 5px;
     border-radius: 25px;
     font-size: 20px;
+    cursor: pointer;
 }
 #took_in {
     flex: 4;
@@ -294,6 +299,7 @@ export default {
     padding: 5px;
     border-radius: 25px;
     font-size: 20px;
+    cursor: pointer;
 }
 #secondpart {
     display: flex;
