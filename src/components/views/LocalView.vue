@@ -56,7 +56,7 @@ export default {
         snapshot => {
           var data = snapshot.data();
           if(typeof(data) === "undefined") {
-            alert('Unable to review as listing has been deleted by the seller.')
+            alert('Unable to review as the listing has been deleted by the seller.')
           } else {
             var userid = auth.currentUser.uid;
             var reviewsData = data.reviewsData;

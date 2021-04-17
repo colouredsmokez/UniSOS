@@ -18,14 +18,14 @@
         <div class="body">   
             <!-- Bio -->
             <div id="bio">
-                <p> Bio </p>
+                <hr>
+                <h3> Bio </h3>
                 <span> {{ bio }} </span>
             </div>
             <!-- Tutor Info -->
             <div class="list">
                 <hr>
                 <h3> Modules I'm Taking </h3> 
-                <hr>
                 <ul>
                     <li class="list-item" v-for="mod in modules" v-bind:key="mod">
                         <div>
@@ -58,7 +58,6 @@
                         </div>
                     </li>
                 </ul>
-                <hr>
             </div>
         </div>
     </div>
@@ -186,16 +185,13 @@ methods: {
     display:flex;
     padding: 20px;
 }
-#bio p {
-    font-family: 'FredokaOne';
-    font-size: 24px;
-    text-align: center;
-}
 #bio {
     float: left;
     width: 45%;
     white-space:pre-line;
-    padding: 35px;
+    padding: 20px;
+    margin-top: 0;
+    text-align: center;
 }
 .list {
     margin: auto;

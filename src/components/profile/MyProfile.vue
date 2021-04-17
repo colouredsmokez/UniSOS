@@ -18,7 +18,7 @@
         <div class="body">
             <!-- Bio -->
             <div id="bio">
-                <p> Bio </p>
+                <h3> Bio </h3>
                 <span> {{ bio }} </span>
             </div>
 
@@ -33,7 +33,6 @@
                         </div>
                     </li>
                 </ul>
-                <hr>
             </div>
 
             <!-- Notes Info -->
@@ -59,7 +58,6 @@
                         </div>
                     </li>
                 </ul>
-                <hr>
             </div>
         </div>
     </div>
@@ -206,15 +204,12 @@ methods: {
     cursor: pointer;
     font-size: 10px;
 }
-#bio p {
-    font-family: 'FredokaOne';
-    font-size: 24px;
-}
 #bio {
     float: left;
     width: 45%;
     white-space:pre-line;
     padding: 35px;
+    text-align: center;
 }
 
 
