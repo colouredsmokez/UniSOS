@@ -2,7 +2,7 @@
    <div>  
         <div id="uploadpage">
             <div id="main">
-                
+                <!--header-->
                 <div id="header">
                     Create Listing
                     <select id="type" v-model="type">
@@ -10,19 +10,21 @@
                         <option value="Notes">Notes</option>
                     </select>
                 </div>
+                <!--body-->
                 <div id="display">
+                    <!--picture preview-->
                     <div id="upload">
                         <div v-show="type=='Tutor'" class="">
                         </div>
-                        <div v-show="type=='Notes'" class="upload">
-                            Upload Notes
-                            <input type="file" id="upload-file" @change="previewImage" accept="image/*">
+                        <div v-show="type=='Notes'" class="upload">                            
+                            <input v-if="imageData==null" type="file" id="upload-file" @change="previewImage" accept="image/*">
+                            <img v-if="imageData!=null" id="cross" src="../../assets/X.png" alt="X" v-on:click="cross()">
                             <div v-if="imageData!=null" class="image-cropper">
-                                <img class="preview" :src="picture">
+                                <img class="preview" :src="picture" alt="preview">
                             </div>
                         </div>
                     </div>
-
+                    <!--form inputs-->
                     <div id="details">
                         <div id="firstpart">
                             <div id="module">
@@ -102,9 +104,10 @@ export default {
     },
     methods:{
         submit:function() {
-            if ( this.module=="" || this.took_in=="" || ((this.price=="" || this.picture==null) && this.type=="Notes") ) {
+            if ( this.module=="" || this.took_in=="" || ((this.price=="" || this.price<0 || this.picture==null) && this.type=="Notes") ) {
                 alert("Incomplete Submission")
             } else {
+                //create listing info here
                 var newListing = {}
                 newListing["typeOfList"] = this.type;
                 newListing["grade"] = this.grade;
@@ -117,28 +120,29 @@ export default {
                     newListing["img"] = this.picture; //should be able to upload a few files
                 }
             }
-            db.collection("listing").add(newListing).then(docid => {
-                db.collection("users").doc(this.user).get().then(
-                    snapshot => {
-                        var data = snapshot.data();
-                        newListing["name"] = data.name;
-                        if (this.type=="Notes") {
-                            var selling = data.selling;
-                            if (selling == null) {
-                                selling = [];
-                            }
-                            selling.push(docid.id);
-                            db.collection("users").doc(this.user).update({selling:selling}).then(() => {this.$router.go(this.$router.path)});
-                        } else {
-                            var teaching = data.teaching;
-                            if (teaching == null) {
-                                teaching = [];
-                            }
-                            teaching.push(docid.id);
-                            db.collection("users").doc(this.user).update({teaching:teaching}).then(() => {this.$router.go(this.$router.path)});
+            db.collection("users").doc(this.user).get().then(snapshot => {
+                var data = snapshot.data();
+                //add user info to listing here
+                newListing["name"] = data.name;
+                //upload listing here
+                db.collection("listing").add(newListing).then(docid => {
+                    //actions after uploading listing here
+                    if (this.type=="Notes") {
+                        var selling = data.selling;
+                        if (selling == null) {
+                            selling = [];
                         }
+                        selling.push(docid.id);
+                        db.collection("users").doc(this.user).update({selling:selling}).then(() => {this.$router.go(this.$router.path)});
+                    } else {
+                        var teaching = data.teaching;
+                        if (teaching == null) {
+                            teaching = [];
+                        }
+                        teaching.push(docid.id);
+                        db.collection("users").doc(this.user).update({teaching:teaching}).then(() => {this.$router.go(this.$router.path)});
                     }
-                );
+                });
             });
         },
         previewImage(event) {
@@ -155,10 +159,10 @@ export default {
                 this.picture =url;
                 });
             });
+        },
+        cross() {
+            this.imageData = null;
         }
-    },
-    created() {
-        
     }
 }
 </script>
@@ -175,7 +179,6 @@ export default {
 #uploadpage {
     background:  #47E4E4;
     height: 70vh;
-    border: #47E4E4 solid thin;
     padding: 30px;
     font-family: "FredokaOne";
     font-size:20px;
@@ -185,12 +188,17 @@ export default {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     border-radius: 25px;
     height: 100%;
+    max-width: 1100px;
+    margin: auto;
 }
 #header {
-    padding: 20px;
     text-align: center;
+    padding: 20px;
     font-size: 40px;
-    border-bottom: black solid;
+    border-bottom: black solid thin;
+    height: 10%;
+    width: 90%;
+    margin: auto;
 }
 #type {
     padding: 5px 10px;
@@ -200,61 +208,77 @@ export default {
 }
 #display {
     display: flex;
-    height: 85%;
+    height: 71%;
+    padding: 30px;
+    gap: 30px;
 }
 #upload{
-    flex: 3;
-    padding: 0px 20px 40px 40px;
-    height: 85%;
+    flex: 4.5;
+    height: 100%;
+    width: 100%;
+    border: black solid thin;
+    text-align: left;
 }
 #upload-file {
-    padding: 20px 0px;
     font-family: 'FredokaOne';
-    font-size: 15px;
-    width: 200px;
+    font-size: 20px;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 50px;
+    width: 100%;
+    height: 375px;
+}
+#upload-file:hover {
+    background: rgba(0, 0, 0, 0.432);
 }
 #upload-file::-webkit-file-upload-button {
-  font-family: 'FredokaOne';
-  font-size: 15px;
-  padding: 5px;
-  transition-duration: 0.4s;
-  cursor: pointer;
+    width: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+#cross {
+    position:absolute;
+    margin-top: 5px;
+    margin-left: 5px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
 }
 .image-cropper {
+    height:375px;
     width: 100%;
-    height: 350px;
-    overflow: hidden;
+    overflow: auto;
 }
 .preview {
-    object-fit: cover;
-    height: 100%;
     width: 100%;
+    height: auto;
 }
 #details {
-    height: 100%;
-    flex: 7;
+    height: 99%;
+    width: 100%;
+    flex: 5.5;
 }
 #firstpart {
     display: flex;
-    height: 20%;
-    padding:20px 40px 20px 20px;
-    gap: 20px;
+    height: 30%;
     align-items: center;
 }
 #module {
-    flex: 5;
-    text-align: center;
+    flex: 3;
 }
 #module-search {
     text-transform: uppercase;
     width: 100%;
+    min-width: 100px;
     box-sizing: border-box;
     border-radius: 25px;
     padding: 5px;
     font-size: 20px;
+    border: black solid thin;
 }
 #grade {
-    flex: 2;
+    flex: 3;
     text-align: center;
 }
 #grade-select {
@@ -263,8 +287,8 @@ export default {
     font-size: 20px;
 }
 #took_in {
-    flex: 3;
-    text-align: center;
+    flex: 4;
+    text-align: right;
 }
 #took_in-select {
     padding: 5px;
@@ -274,7 +298,6 @@ export default {
 #secondpart {
     display: flex;
     height: 40%;
-    padding: 0px 40px 0px 20px;
 }
 #addInfo {
     width: 100%;
@@ -285,28 +308,26 @@ export default {
 }
 #thirdpart {
     display: flex;
-    height: 20%;
-    padding: 20px 40px 20px 20px;
-    gap: 20px;
+    height: 30%;
     align-items: center;
 }
 #price {
-    flex: 3;
+    flex: 8;
 }
 #price-input {
     border-radius: 25px;
     padding: 5px;
     box-sizing: border-box;
-    width: 25%;
+    width: 50%;
     font-size: 20px;
-
+    border: black solid thin;
 }
 #post {
-    flex: 1;
+    flex: 2;
     text-align: right;
 }
 #post-btn {
-    padding: 15px 20px;
+    padding: 10px 20px;
     border-radius: 10px;
     background:  #47E4E4;
     border: none;
