@@ -25,6 +25,7 @@
             <br><br>
             <textarea class="review-text" type="text" v-model="review" placeholder="Type in your review here..."/>
             <button class="btn" v-on:click="submit()">Submit</button>
+            <br><br>
           </div>
         </div>
         <div id="notes">
@@ -142,6 +143,7 @@ export default {
   background: #47E4E4;
   overflow: auto;
   font-family: 'FredokaOne';
+  min-width: 1000px;
 }
 #cross {
     position: relative;
@@ -160,15 +162,16 @@ export default {
 .btn {
     border-radius: 8px;
     border: none;
-    padding: 10px 20px;
+    padding: 5px 20px;
     background-color:black;
     color: white;
     font-family: 'FredokaOne';
     cursor: pointer;
     transition-duration: 0.4s;
-    font-size: 20px;
-    margin:5px;
+    font-size: 18px;
+    margin:5px 5px 5px 0px;
     box-shadow: 0 0 4px #000000;
+    width: 100%;
 }
 .btn:hover {
     background-color: white;

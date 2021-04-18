@@ -10,10 +10,11 @@
           <br><br>
           <a class="icon-clickable" @click='showPassword'><i class="fa fa-lock" aria-hidden="true"></i></a>
           <input class="input-text" :type='type' placeholder="Password" v-model="password" required><br>
-          <br><br><br><br><br><br><br><br><br><br><br>
+          <div style="height:23vh"></div>
+          <br><br>
           <button class="btn" v-on:click="login">Sign In</button>
           <br><br>
-          <a href="#"><small>Forgot password?</small></a>
+          <!--<a href="#"><small>Forgot password?</small></a>-->
         </form>
       </div>
     </div>
@@ -73,25 +74,23 @@ export default {
 }
 .flex-container {
   display: flex;
-  margin: auto;
-  height: 80vh;
+  height: 87vh;
+  min-width: 1000px;
+  min-height: 500px;
 }
 .flex-child-banner {
   flex: 2;
   background-image: url('../../assets/Banner.png');
   background-position: center;
   background-size: cover;
-  height: 107%;
 }
 .flex-child-form { 
   flex: 3;
-  margin: auto;
   padding: 20px;
   text-align: center;
   font-family: 'FredokaOne';
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   width: 80%;
-  height: 100%;
 }
 .input-text {
   width:75%;

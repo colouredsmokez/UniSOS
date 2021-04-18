@@ -185,7 +185,10 @@ export default {
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         font-size: 22px;
         background-image: url('../../assets/ChatBG.png');
-        height: 80vh;
+        height: 78vh;
+        background-size: cover;
+        min-width: 1000px;
+        min-height: 590px;
     }
     .image-cropper {
         width: 200px;

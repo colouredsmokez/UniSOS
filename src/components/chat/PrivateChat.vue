@@ -338,7 +338,9 @@ export default {
     .background {
         background: #47E4E4;
         font-family: sans-serif;
-        height: 78vh;
+        height: 79vh;
+        min-width: 1000px;
+        min-height: 595px;
     }
     .flex-container {
         display: flex;

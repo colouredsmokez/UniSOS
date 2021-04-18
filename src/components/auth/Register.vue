@@ -176,25 +176,23 @@ export default {
 }
 .flex-container {
   display: flex;
-  margin: auto;
-  height: 80vh;
+  height: 87vh;
+  min-width: 1000px;
+  min-height: 650px;
 }
 .flex-child-banner {
   flex: 2;
   background-image: url('../../assets/Banner.png');
   background-position: center;
   background-size: cover;
-  height:107%;
 }
 .flex-child-form { 
   flex: 3;
-  margin: auto;
   padding: 20px;
   text-align: center;
   font-family: 'FredokaOne';
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   width: 80%;
-  height:100%;
 }
 .input-text {
   width:75%;

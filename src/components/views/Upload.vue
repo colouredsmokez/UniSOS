@@ -185,6 +185,8 @@ export default {
     padding: 30px;
     font-family: "FredokaOne";
     font-size:20px;
+    min-width: 940px;
+    min-height: 500px;
 }
 #main {
     background: whitesmoke;

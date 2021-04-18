@@ -151,6 +151,7 @@ export default {
   font-family: "FredokaOne";
   text-align: center;
   padding: 30px;
+  min-width: 940px;
 }
 .header-bg {
   position: absolute;
@@ -184,6 +185,7 @@ export default {
   box-shadow: inset 0 0 2px #000000;
   display: flex;
   min-height: 500px;
+  min-width: 1000px;
 }
 .child-1 {
   flex: 2;

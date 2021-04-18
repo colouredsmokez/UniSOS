@@ -189,9 +189,9 @@ export default {
 }
 #home, #banner {
   background:  #47E4E4;
-  
   overflow: auto;
   font-family: 'FredokaOne';
+  min-width: 1000px;
 }
 
 /*img {
