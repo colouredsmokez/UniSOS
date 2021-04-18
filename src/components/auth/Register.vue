@@ -27,7 +27,7 @@
           >
           <br><br>
           <!-- Password -->
-          <a class="icon-clickable" @click='showPassword'><i class="fa fa-lock" aria-hidden="true"></i></a>
+          <a class="icon-clickable" @click='showPassword'><i class="fa fa-lock" aria-hidden="true"></i><br><span style="font-size:12px;margin: 0 0 0 -8px">show</span></a>
           <input 
             class="input-text" 
             :type="type"
@@ -212,6 +212,9 @@ export default {
   position: absolute;
   font-size: 20px;
   cursor: pointer;
+  font-size: 16px;
+  margin-top: -6px;
+  transition-duration: 0.4s;
 }
 .icon-clickable:hover, .icon-clickable:active {
   color:#2BD7E2;

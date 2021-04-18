@@ -8,7 +8,7 @@
           <i class="fa fa-envelope icon" aria-hidden="true"></i>
           <input class="input-text" type="text" placeholder="Email" v-model="email" required>
           <br><br>
-          <a class="icon-clickable" @click='showPassword'><i class="fa fa-lock" aria-hidden="true"></i></a>
+          <a class="icon-clickable" @click='showPassword'><i class="fa fa-lock" aria-hidden="true"></i><br><span style="font-size:12px;margin: 0 0 0 -8px">show</span></a>
           <input class="input-text" :type='type' placeholder="Password" v-model="password" required><br>
           <div style="height:23vh"></div>
           <br><br>
@@ -108,8 +108,10 @@ export default {
   padding: 19px;
   text-align: left;
   position: absolute;
-  font-size: 20px;
   cursor: pointer;
+  font-size: 16px;
+  margin-top: -6px;
+  transition-duration: 0.4s;
 }
 .icon-clickable:hover, .icon-clickable:active {
   color:#2BD7E2;

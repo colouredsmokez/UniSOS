@@ -146,7 +146,8 @@
                         <textarea class="input-text-field" @keyup.enter="saveMessage()" v-model="message" type="text" placeholder="Type a message"/>
                     </div>
                     <div class="input-right">
-                        <button class="input-msg-btn" v-on:click="saveMessage()"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                        <button class="input-msg-btn fa fa-paper-plane" v-on:click="saveMessage()"></button><br>
+                        <b style="color:white">Send</b>
                     </div>
                 </div>
             </div>
@@ -500,7 +501,7 @@ export default {
         flex: 1;
     }
     .input-msg-btn {
-        height:100%;
+        height:80%;
         width:100%;
         cursor: pointer;
         background: none;
@@ -511,21 +512,5 @@ export default {
     }
     .input-msg-btn:hover {
         color: black;
-    }
-    .input-req-btn {
-        height:100%;
-        width:100%;
-        cursor: pointer;
-        background: none;
-        border: none;
-        font-size: 25px;
-        text-align: left;
-        color: white;
-    }
-    .input-req-btn:hover {
-        color: black;
-    }
-    .input-req-btn:disabled {
-        color: grey;
     }
 </style>

@@ -121,7 +121,8 @@
                         <textarea class="text-field" @keyup.enter="saveMessage()" v-model="message" type="text" placeholder="Type a message"/>
                     </div>
                     <div class="input-right">
-                        <button class="enter-btn" v-on:click="saveMessage()">E</button>
+                        <button class="enter-btn fa fa-paper-plane" v-on:click="saveMessage()"></button><br>
+                        <b style="color:white">Send</b>
                     </div>
                 </div>
                 <div v-else class="chat-input">
@@ -131,19 +132,21 @@
                         </button>
                     </div>
                     <div class="input-middle">
-                        <div class="req-item-label"><p>Lesson:</p></div>
                         <div class="req-item">
+                            Lesson:
                             <select class="req-item-input" v-model="requestItem" required>
                                 <option v-for="item in items" v-bind:key="item.id" :value="item.id">{{item.module}}</option>
                             </select>
                         </div>
-                        <div class="req-fee-label"><p>Price(SGD):</p></div>
+                        
                         <div class="req-fee">
+                            Price(SGD):
                             <input class="req-fee-input" type="number" v-model="requestFee" required>
                         </div>
                     </div>
                     <div class="input-right">
-                        <button class="req-btn" v-on:click="request()">R</button>
+                        <button  class="req-btn fa fa-paper-plane" v-on:click="request()"></button><br>
+                        <b style="color:white">Send</b>
                     </div>
                 </div>
             </div>
@@ -368,16 +371,18 @@ export default {
         overflow-y: auto;
     }
     .inbox {
-        width:100%;
+        width:90%;
         height: 100px;
+        color: darkgrey;
         border: none;
+        border-bottom: darkgrey solid;
         background: whitesmoke;
         font-family: "FredokaOne";
         cursor: pointer;
+        font-size: 20px;
     }
     .inbox:hover, .inbox:active {
-        color: white;
-        background: black;
+        color: black;
     }
     .image-cropper {
         width: 200px;
@@ -485,10 +490,10 @@ export default {
         height:100%;
         width:100%;
         cursor: pointer;
-        background: whitesmoke;
-        border: none;
+        background: none;
+        border: whitesmoke solid;
         border-radius: 10px;
-        color: darkgray;
+        color: whitesmoke;
     }
     .left-btn:hover {
         background: black;
@@ -498,8 +503,11 @@ export default {
         margin: 15px 0px 15px 0px;
         flex: 18;
         display: flex;
-        font-size: 15px;
-        align-items: middle;
+        font-size: 20px;
+        font-family: 'FredokaOne';
+        color: whitesmoke;
+        gap: 20px;
+        text-align: center;
     }
     .text-field {
         white-space: pre-line;
@@ -513,51 +521,42 @@ export default {
         font-family: sans-serif;
         background: whitesmoke;
     }
-    .req-item-label {
-        font-family: 'FredokaOne';
-        flex: 1;
-        text-align: right;
-        margin: auto 10px;
-    }
     .req-item {
-        flex: 3;
+        flex: 1;
         border-radius: 20px;
         border: none;
     }
     .req-item-input {
-        width: 100%;
+        width: 60%;
         height: 100%;
         font-family: 'FredokaOne';
-        padding: 10px;
         border-radius: 20px;
         cursor: pointer;
-    }
-    .req-fee-label {
-        font-family: 'FredokaOne';
-        flex: 2;
-        text-align: right;
-        margin: auto 10px;
+        border:none;
+        padding: 0px 10px;
+        font-size: 20px;
     }
     .req-fee {
-        flex: 2;
+        flex: 1;
         border-radius: 20px;
         border: none;
     }
     .req-fee-input {
         font-family: 'FredokaOne';
         box-sizing: border-box;
-        width: 100%;
+        width: 60%;
         height: 100%;
-        padding: 10px;
+        padding: 0px 20px;
         border-radius: 20px;
-        border: black solid thin;
+        border: none;
+        font-size: 20px;
     }
     .input-right {
         margin: 15px;
         flex: 1;
     }
     .enter-btn {
-        height:100%;
+        height: 80%;
         width:100%;
         cursor: pointer;
         background: none;
@@ -570,7 +569,7 @@ export default {
         color: black;
     }
     .req-btn {
-        height:100%;
+        height:80%;
         width:100%;
         cursor: pointer;
         background: none;
