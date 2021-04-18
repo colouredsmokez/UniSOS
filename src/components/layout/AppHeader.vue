@@ -88,6 +88,7 @@
             </div>
           </div>
         </div>
+        <br>
       </div>
 
     </div>
@@ -103,7 +104,7 @@ export default {
       isAdmin: false,
       isLoggedIn: false,
       isLoggedOut: false,
-      name: "",
+      name: "Administrator Account",
       profilepic: null,
       uid: null,
     };
@@ -120,12 +121,13 @@ export default {
   },
   methods: {
     logout: function() {
-      auth
-        .signOut()
-        .then(() => {
+      let cfm = confirm("Are you sure you want to log out?");
+      if (cfm) {
+        auth.signOut().then(() => {
           alert(`You are logged out of ${this.name}`);
           this.$router.go({ path: this.$router.path });
         });
+      }
     },
     fetchInfo: function() {
       db.collection('users').doc(auth.currentUser.uid).get().then(
