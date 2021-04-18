@@ -25,7 +25,7 @@
                 </div>
                 <!-- Modules Taking-->
                 <div class="mods">
-                    <h1 class="title"> Modules I'm Taking </h1>
+                    <h1 class="title"> My Modules </h1>
                     <ul>
                         <li class="mod" v-for="mod in modules" v-bind:key="mod">
                             {{mod}}
@@ -39,10 +39,35 @@
                 <div class="listings">
                     <h1 class="title"> Listings </h1>
                     <ul>
-                        <li class="listing" v-for="l in listings" v-bind:key="l.id" v-bind:id="l.id" v-on:click="show($event)" >
-                            <b> Type of listing : </b> {{ l.typeOfList }}<br>
-                            <b> Module : </b> {{ l.module }}<br>
-                            <b> Rating : </b> {{ l.rating}}<br>
+                        <li class="listing" v-for="l in listings" v-bind:key="l.id">
+                            <b> {{ l.typeOfList }} for {{ l.module }} </b><br>
+                            <div v-if="l.rating==0 || l.rating==null">
+                              <p>No rating yet</p>
+                            </div>
+                            <div v-if="0<l.rating&&l.rating<=1">
+                              <br>
+                              <img class="inline" src="../../assets/goldstar.png" alt="star">
+                              <img class="inline" src="../../assets/blackstar.png" alt="star">
+                              <img class="inline" src="../../assets/blackstar.png" alt="star">
+                              <br><br>
+                              <button class="btn" v-bind:id="l.id" v-on:click="show($event)">See Reviews</button>
+                            </div>
+                            <div v-if="1<l.rating&&l.rating<=2">
+                              <br>
+                              <img class="inline" src="../../assets/goldstar.png" alt="star">
+                              <img class="inline" src="../../assets/goldstar.png" alt="star">
+                              <img class="inline" src="../../assets/blackstar.png" alt="star">
+                              <br><br>
+                              <button class="btn" v-bind:id="l.id" v-on:click="show($event)">See Reviews</button>
+                            </div>
+                            <div v-if="2<l.rating&&l.rating<=3">
+                              <br>
+                              <img class="inline" src="../../assets/goldstar.png" alt="star">
+                              <img class="inline" src="../../assets/goldstar.png" alt="star">
+                              <img class="inline" src="../../assets/goldstar.png" alt="star">
+                              <br><br>
+                              <button class="btn" v-bind:id="l.id" v-on:click="show($event)">See Reviews</button>
+                            </div>
                             <ul v-for="review in l.reviewsData" v-bind:key="review.name"  v-show="l.show">
                                 <li> 
                                     <p> Name: {{review.name}}</p>
@@ -218,8 +243,12 @@ export default {
 }
 .mod {
   list-style-type: none;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border: lightgrey solid;
+  border-radius: 5px;
   padding: 20px;
+  margin: 10px;
+  font-weight: bold;
+  font-size: 20px;
 }
 .listings {
   margin: 30px 30px 30px 0px;
@@ -230,8 +259,32 @@ export default {
 }
 .listing {
   list-style-type: none;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 20px;
+  border-radius: 5px;
+  border: lightgrey solid;
   padding: 20px;
-  cursor: pointer;
+}
+.inline {
+  display: inline-block;
+  vertical-align: middle;
+  height:27px;
+  width:27px;
+}
+.btn {
+  font-family: 'FredokaOne';
+  font-size: 16px;
+  border-radius: 0.5em;
+  padding: 10px 20px;
+  transition-duration: 0.4s;
+  background-color:  #47E4E4;
+  color: white;
+  vertical-align: middle;
+  border: none;
+  cursor:pointer;
+  margin-right: 10px;
+}
+.btn:hover {
+  background-color: rgba(0, 0, 0, 0.63);
+  color: white;
 }
 </style>

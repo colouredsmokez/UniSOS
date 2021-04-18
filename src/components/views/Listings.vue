@@ -55,7 +55,9 @@
                             </div>
                             <br>
                             <button class="profile-button" v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
-                            <div v-if="item.rating==0 || item.rating==null"><p>no rating</p></div>
+                            <div v-if="item.rating==0 || item.rating==null">
+                                <p>No rating yet</p>
+                            </div>
                             <br><br>
                             <div v-if="0<item.rating&&item.rating<=1">
                                 <img class="inline" src="../../assets/goldstar.png" alt="star">
