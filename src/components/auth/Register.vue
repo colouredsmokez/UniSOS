@@ -130,7 +130,7 @@ export default {
                   password: this.password,
                   university: this.university,
                   credentials: url,
-                  profilepic: "https://firebasestorage.googleapis.com/v0/b/unisos-bcf1f.appspot.com/o/defaultpfp.jpg?alt=media&token=5fd8c012-3d56-4771-be88-fa4ae98d3d32",
+                  profilepic: "https://firebasestorage.googleapis.com/v0/b/unisos-bcf1f.appspot.com/o/defaultpfp.jpg?alt=media&token=2a8b5dbe-2f4e-48c6-baeb-9d1cf3aa243c",
                   bio: "",
                   modules: [],
                   selling: [], //just add listing id
