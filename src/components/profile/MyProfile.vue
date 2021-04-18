@@ -39,21 +39,17 @@
                 <div class="listings">
                     <h1 class="title"> Listings </h1>
                     <ul>
-                        <li class="listing" v-for="n in listing" v-bind:key="n.id" v-on:click="n.show = !n.show" >
-                            <div>
-                                <b> Type of listing : </b> {{ n.typeOfList }}
-                                <b> Module : </b> {{ n.module }}<br>
-                                 <b> Rating : </b> {{n.rating}}<br>
-                                <ul class="listing" v-for="review in n.reviewsData" v-bind:key="review"  v-show="n.show">
-                                    <li> 
-                                        <div>
-                                            <p> Name: {{review.name}}</p>
-                                            <p> Rating: {{review.rating}}/3</p>
-                                            <p> Review: {{review.review}}</p>   
-                                        </div>
-                                    </li> 
-                                </ul>
-                            </div>
+                        <li class="listing" v-for="l in listings" v-bind:key="l.id" v-bind:id="l.id" v-on:click="show($event)" >
+                            <b> Type of listing : </b> {{ l.typeOfList }}<br>
+                            <b> Module : </b> {{ l.module }}<br>
+                            <b> Rating : </b> {{ l.rating}}<br>
+                            <ul v-for="review in l.reviewsData" v-bind:key="review.name"  v-show="l.show">
+                                <li> 
+                                    <p> Name: {{review.name}}</p>
+                                    <p> Rating: {{review.rating}}</p>
+                                    <p> Review: {{review.review}}</p>
+                                </li> 
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -73,67 +69,69 @@ export default {
       name: "",
       email: "",
       university: "",
-      profilepic:
-        "https://firebasestorage.googleapis.com/v0/b/unisos-bcf1f.appspot.com/o/defaultpfp.jpg?alt=media&token=5fd8c012-3d56-4771-be88-fa4ae98d3d32",
-      imageData: null,
+      profilepic: "https://firebasestorage.googleapis.com/v0/b/unisos-bcf1f.appspot.com/o/defaultpfp.jpg?alt=media&token=5fd8c012-3d56-4771-be88-fa4ae98d3d32",
       bio: "",
-      reviews: [],
       modules: [],
-      notes: [],
-      listing: [],
+      listings: {}
     };
   },
   methods: {
-    fetchInfo: function () {
-      db.collection("users")
-        .doc(this.uid)
-        .get()
-        .then(
-          (snapshot) => {
+    show(event) {
+        let id = event.target.getAttribute("id");
+        console.log(id);
+        var status = this.listings[id].show;
+        this.listings[id].show = !status;
+    },
+    fetchInfo() {
+        db.collection("users").doc(this.uid).get().then((snapshot) => {
             var data = snapshot.data();
             this.name = data.name;
             this.email = data.email;
             this.university = data.university;
             this.profilepic = data.profilepic;
             this.bio = data.bio;
-            this.reviews = data.reviews;
             this.modules = data.modules;
-            // this.notes = data.selling;
-          },
-          (err) => {
-            alert(err.message);
-          }
-        );
-      db.collection("listing")
-        .get()
-        .then((querySnapShot) => {
-          querySnapShot.forEach((doc) => {
-            var listingData = doc.data();
-            if (listingData.userId == this.uid) {
-              if (listingData.rating == null) {
-                listingData.rating = "No rating yet";
-              } else {
-                listingData.reviewsData = listingData.reviewsData[1];
-                // for (var key in listingData.reviewsData) {
-                //     console.log(key)
-                //     console.log(listingData.reviewsData)
-                //     db.collection('users').doc(key).get().then(snapshot => {
-                //     var userData = snapshot.data();
-                //     console.log(listingData.reviewsData)
-                //     listingData.reviewsData.name = userData.name;
-
-                // })
-                //}
-              }
-              listingData.show = false;
-              this.listing.push(listingData);
-            }
-          });
+            var listings = {};
+            db.collection("listing").get().then((querySnapshot) => {
+                querySnapshot.forEach(doc => {
+                    var id = doc.id;
+                    var docData = doc.data();
+                    docData["id"] = id;
+                    if(docData.userId == this.uid) {
+                        docData.show = false;
+                        listings[id] = docData;
+                    }
+                });
+                this.listings = listings;
+                console.log(this.listings);
+            });
+            /*
+            var notes = data.selling;
+            var lessons = data.teaching;
+            notes.forEach(note => {
+                db.collection("listing").doc(note).get().then(doc => {
+                    var noteData = doc.data();
+                    var id = doc.id;
+                    noteData["id"] = id;
+                    noteData.show = false;
+                    this.listings[id] = noteData;
+                });
+            });
+            lessons.forEach(lesson => {
+                db.collection("listing").doc(lesson).get().then(doc => {
+                    var lessonData = doc.data();
+                    var id = doc.id;
+                    lessonData["id"] = id;
+                    lessonData.show = false;
+                    this.listings[id] = lessonData;
+                });
+            });
+            */
         });
-    },
+    }
   },
   created() {
-    this.fetchInfo();
+        this.fetchInfo();
   },
 };
 </script>

@@ -131,12 +131,11 @@ export default {
                   university: this.university,
                   credentials: url,
                   profilepic: "https://firebasestorage.googleapis.com/v0/b/unisos-bcf1f.appspot.com/o/defaultpfp.jpg?alt=media&token=5fd8c012-3d56-4771-be88-fa4ae98d3d32",
-                  bio: null,
+                  bio: "",
                   modules: [],
                   selling: [], //just add listing id
                   teaching: [], //just add listing id
                   myNotes: {},
-                  reviewsData: {},
                   chatUsers: {}
                 };
                 db.collection('requests').add(data).then(
