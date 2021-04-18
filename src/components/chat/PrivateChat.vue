@@ -146,8 +146,7 @@
                         <textarea class="input-text-field" @keyup.enter="saveMessage()" v-model="message" type="text" placeholder="Type a message"/>
                     </div>
                     <div class="input-right">
-                        <button class="input-msg-btn fa fa-paper-plane" v-on:click="saveMessage()"></button><br>
-                        <b style="color:white">Send</b>
+                        <button class="input-msg-btn" v-on:click="saveMessage()"><i class="fa fa-paper-plane"></i><b style="color:white;font-size:15px">Send</b></button>
                     </div>
                 </div>
             </div>
@@ -506,9 +505,11 @@ export default {
         cursor: pointer;
         background: none;
         border: none;
-        font-size: 25px;
+        font-size: 30px;
         text-align: left;
         color: white;
+        text-align: center;
+        line-height: 15px;
     }
     .input-msg-btn:hover {
         color: black;
