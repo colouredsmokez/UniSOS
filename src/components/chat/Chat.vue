@@ -121,8 +121,7 @@
                         <textarea class="text-field" @keyup.enter="saveMessage()" v-model="message" type="text" placeholder="Type a message"/>
                     </div>
                     <div class="input-right">
-                        <button class="enter-btn fa fa-paper-plane" v-on:click="saveMessage()"></button><br>
-                        <b style="color:white">Send</b>
+                        <button class="enter-btn" v-on:click="saveMessage()"><i class="fa fa-paper-plane"></i><b style="color:white;font-size:15px">Send</b></button>
                     </div>
                 </div>
                 <div v-else class="chat-input">
@@ -145,8 +144,7 @@
                         </div>
                     </div>
                     <div class="input-right">
-                        <button  class="req-btn fa fa-paper-plane" v-on:click="request()"></button><br>
-                        <b style="color:white">Send</b>
+                        <button  class="req-btn" v-on:click="request()"><i class="fa fa-paper-plane"></i><br><b style="color:white;font-size:15px">Request</b></button>
                     </div>
                 </div>
             </div>
@@ -209,6 +207,7 @@ export default {
             this.showRequestMaker = !this.showRequestMaker;
         },
         request() {
+            console.log(this.requestItem);
             var itemname = this.items[this.requestItem].module;
             var cfm = confirm("You are requesting SGD("+this.requestFee+") from your tutee for your "+itemname+" lessons. Do you want to proceed?");
             if (cfm) {
@@ -561,9 +560,11 @@ export default {
         cursor: pointer;
         background: none;
         border: none;
-        font-size: 25px;
+        font-size: 30px;
         text-align: left;
         color: white;
+        text-align: center;
+        line-height: 15px;
     }
     .enter-btn:hover {
         color: black;
@@ -574,9 +575,11 @@ export default {
         cursor: pointer;
         background: none;
         border: none;
-        font-size: 25px;
+        font-size: 30px;
         text-align: left;
         color: white;
+        text-align: center;
+        line-height: 15px;
     }
     .req-btn:hover {
         color: black;
