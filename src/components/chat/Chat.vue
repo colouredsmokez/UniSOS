@@ -459,6 +459,7 @@ export default {
         width:18px;
     }
     .review-text {
+        white-space: pre-line;
         width: 80%;
         height: 100px;
         font-size: 15px;
@@ -499,6 +500,7 @@ export default {
         align-items: middle;
     }
     .text-field {
+        white-space: pre-line;
         height:100%;
         width:100%;
         font-size: 15px;
