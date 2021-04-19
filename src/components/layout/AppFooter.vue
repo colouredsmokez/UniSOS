@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p> <br> &#169; 2021 Copyright: unisos.com <br><br> </p>
+        <p> <br> &#169; 2021 Copyright: Unisos <br><br> </p>
     </div>
 </template>
 

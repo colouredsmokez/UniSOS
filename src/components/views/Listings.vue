@@ -38,9 +38,12 @@
                 <div id="searchdiv">
                     <input type="text" id="searchInput" v-on:keyup="filter()" placeholder=" Search by module code...">
                 </div>
-                <div id="listingview">
+                <div v-if="this.listingFiltered.length === 0" class="listingview" >
+                    <br><h2 id="notfound">No Listings Found!</h2>
+                </div>
+                <div v-else class="listingview">
                 <ul>
-                    <li id="listing" v-for="item in listingFiltered" v-bind:key="item.id" v-on:click="item.show = !item.show">
+                    <li class="listing" v-for="item in listingFiltered" v-bind:key="item.id" v-on:click="item.show = !item.show">
                         <div id="firstpart">
                             <h1>{{item.typeOfList}}</h1>
                             <div v-if="item.profilepic">
@@ -115,7 +118,6 @@ export default {
             rating:'',
             listing:[],
             listingFiltered:[],
-            listingFiltered2:[],
             wasFiltered:false,
             wasSearched:false
         }
@@ -144,8 +146,6 @@ export default {
                 alert(err.message)
             });
             this.listingFiltered = this.listing;
-            //this.listing = this.listingFiltered;
-            //console.log("created "+this.listing[0])
         },
         deleteListing: function(item) {
             var result = confirm("Are you sure you want to delete listing?");
@@ -154,19 +154,10 @@ export default {
             }
         },
         filter:function() {
-            //this.listing = this.listingFiltered
-            //document.getElementById('searchInput').value = ''
             this.wasFiltered = true
             this.listingFiltered = []
-            //console.log("filtered "+this.listing[0].module)
             var input = document.getElementById('searchInput');
             var filter = input.value.toUpperCase(); //input of searchbar
-            /*var og
-            if (this.wasSearched) {
-                var og = this.listingFiltered2
-            } else {
-                og = this.listing
-            }*/
             for (var list of this.listing) {
                 //assigning rating value
                 var assignedRating = 0
@@ -180,30 +171,25 @@ export default {
                     assignedRating = 3
                 }
                 var txtValue = list.module
-                //console.log("list"+list.rating+", assigned"+assignedRating)
                 if ((this.type == list.typeOfList || this.type == '') && (this.rating == assignedRating || this.rating == '')) {
-                    //console.log("this"+this.rating+", assigned"+assignedRating)
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
                         this.listingFiltered.push(list);
                     }
                     
                 } else if ((this.type == list.typeOfList || this.type == 'All') && (this.rating == assignedRating || this.rating == '')) {
-                    //console.log("this"+this.rating+", assigned"+assignedRating)
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
                         this.listingFiltered.push(list);
                     }
                 } else if ((this.type == list.typeOfList || this.type == '') && (this.rating == assignedRating || this.rating == 'All')) {
-                    //console.log("this"+this.rating+", assigned"+assignedRating)
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
                         this.listingFiltered.push(list);
                     }
                 } else if ((this.type == list.typeOfList || this.type == 'All') && (this.rating == assignedRating || this.rating == 'All')) {
-                    //console.log("this"+this.rating+", assigned"+assignedRating)
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
                         this.listingFiltered.push(list);
                     }
                 }
-            } //this.listingFiltered2 = this.listingFiltered
+            } 
         },
         toProfile: function(event) {
             let uid = event.target.getAttribute("id");
@@ -247,31 +233,6 @@ export default {
                 }
             )
         },
-        /*search: function() {
-            //console.log("searched "+this.listingFiltered[0].module)
-            //this.listing = this.listingFiltered
-            this.listingFiltered = []
-            
-            var og
-            if (this.wasFiltered) {
-                //og = this.listingFiltered2
-                this.type = "All"
-                this.rating = "All"    
-            } else {
-                og = this.listing
-            }
-            this.wasSearched = true
-            var input = document.getElementById('searchInput');
-            var filter = input.value.toUpperCase(); //input of searchbar
-
-            for (var list of this.listing) {
-                var txtValue = list.module
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    //console.log(txtValue)
-                    this.listingFiltered.push(list);
-                }
-            } this.listingFiltered2 = this.listingFiltered
-        }*/
     },
     created() {
         this.fetchItems();
@@ -304,20 +265,20 @@ export default {
     flex: 9;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-#listingview {
+.listingview {
     padding: 0px 40px 20px 0px;
     background-color: whitesmoke;
     border-radius: 25px;
     box-shadow: inset 0 0 10px #000000;
     margin: 12px;
 }
-#listing {
+.listing {
     display: flex;
     align-items: center;
     border-bottom: black solid;
     list-style-type: none;
 }
-#listing:last-child {
+.listing:last-child {
     border-bottom: none;
 }
 #firstpart{
@@ -416,5 +377,10 @@ export default {
     font-family: 'FredokaOne';
     border-radius: 25px;
     box-sizing: border-box;
+}
+#notfound {
+    font-family: 'FredokaOne';
+    text-align: center;
+    color: rgb(100, 100, 100);
 }
 </style>

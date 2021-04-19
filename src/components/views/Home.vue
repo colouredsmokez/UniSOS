@@ -1,63 +1,58 @@
 <template>
     <div id="home">
         <div id="banner">
-            <img src= "../../assets/HomeBanner.png">
+            <img src= "../../assets/HomeBanner.png" alt="banner">
         </div>
         <div id="display">
-            <h1 id="rectxt">Recommended for you</h1>
-            <button v-show="reccomended" class="buy-button" v-on:click="sortList">Get Reccomendation</button>
-            <ul id="reclist">
-                <li id="reclisting" v-for="item in listingFiltered.slice(0,4)" v-bind:key="item.id" v-on:click="item.show = !item.show">
-                    <div id="firstpart">
-                        <h1>{{item.typeOfList}}</h1>
-                        <div class="pfp" v-if="item.profilepic">
-                            <!--<button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)"><div class="image-cropper">
-                                <img :src="item.profilepic" alt="profilepic" class="profile-pic">
-                            </div></button>-->
-                            <div class="image-cropper">
-                                <img :src="item.profilepic" v-bind:id="item.id" v-on:click="toChat($event)" alt="profilepic" class="profile-pic">
+            <h1>Recommended for you</h1>
+            <button v-show="recommended" class="recbutton" v-on:click="sortList">Get Recomendation</button>
+            <div id="overflow">
+                <ul class="reclist">
+                    <li class="reclisting" v-for="item in listingFiltered.slice(0,5)" v-bind:key="item.id" v-on:click="item.show = !item.show">
+                        <div>
+                            <h1>{{item.typeOfList}}</h1>
+                            <div v-if="item.profilepic">
+                                <div class="image-cropper">
+                                    <img class="profile-pic" :src="item.profilepic" v-bind:id="item.id" v-on:click="toChat($event)" alt="profilepic">
+                                </div>
                             </div>
-                        </div>
-                        <div class="pfp" v-else>
-                            <!--<button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)"><div class="image-cropper">
-                                <img src="../../assets/defaultpfp.jpg" alt="profilepic" class="profile-pic">
-                            </div></button>-->
-                            <div class="image-cropper">
-                                <img src= "../../assets/defaultpfp.jpg" v-bind:id="item.id" v-on:click="toChat($event)" alt="profilepic" class="profile-pic">
+                            <div v-else>
+                                <div class="image-cropper">
+                                    <img class="profile-pic" src= "../../assets/defaultpfp.jpg" v-bind:id="item.id" v-on:click="toChat($event)" alt="profilepic">
+                                </div>
                             </div>
+                            <br>
+                            <button class="profile-button" v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
+                            <br><br>
+                            <div v-if="item.rating==0 || item.rating==null">
+                                <p>No rating yet</p>
+                            </div>
+                            <div v-if="0<item.rating&&item.rating<=1">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                                <img class="inline" src="../../assets/blackstar.png" alt="star">
+                                <img class="inline" src="../../assets/blackstar.png" alt="star">
+                            </div>
+                            <div v-if="1<item.rating&&item.rating<=2">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                                <img class="inline" src="../../assets/blackstar.png" alt="star">
+                            </div>
+                            <div v-if="2<item.rating&&item.rating<=3">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                                <img class="inline" src="../../assets/goldstar.png" alt="star">
+                            </div>
+                            <div>
+                                <h2>{{item.module}}</h2>
+                            </div>
+                            <div v-if="item.userId != currentUser">
+                                <button class="buy-button" v-bind:id="item.id" v-if="item.typeOfList=='Notes'" v-on:click="buy(item)">Buy</button>
+                            </div>
+                            <br>
                         </div>
-                        <br>
-                        <button class="profile-button" v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
-                        <br><br>
-                        <div v-if="item.rating==0 || item.rating==null">
-                            <p>No rating yet</p>
-                        </div>
-                        <div v-if="0<item.rating&&item.rating<=1">
-                            <img class="inline" src="../../assets/goldstar.png" alt="star">
-                            <img class="inline" src="../../assets/blackstar.png" alt="star">
-                            <img class="inline" src="../../assets/blackstar.png" alt="star">
-                        </div>
-                        <div v-if="1<item.rating&&item.rating<=2">
-                            <img class="inline" src="../../assets/goldstar.png" alt="star">
-                            <img class="inline" src="../../assets/goldstar.png" alt="star">
-                            <img class="inline" src="../../assets/blackstar.png" alt="star">
-                        </div>
-                        <div v-if="2<item.rating&&item.rating<=3">
-                            <img class="inline" src="../../assets/goldstar.png" alt="star">
-                            <img class="inline" src="../../assets/goldstar.png" alt="star">
-                            <img class="inline" src="../../assets/goldstar.png" alt="star">
-                        </div>
-                    </div>
-                    <div id="secondpart">
-                        <h2>{{item.module}}</h2>
-                    </div>
-                    <div id="thirdpart">
-                        <div v-if="item.userId != currentUser">
-                            <button class="buy-button" v-bind:id="item.id" v-if="item.typeOfList=='Notes'" v-on:click="buy(item)">Buy</button>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -76,35 +71,27 @@ export default {
             listingFiltered:[],
             users:[],
             modulesTaking:[],
-            reccomended: true
+            recommended: true
         }
     },
     methods:{
         fetchItems:function() {
             db.collection('users').doc(auth.currentUser.uid).get().then(snapshot => {
                 this.modulesTaking = snapshot.data().modules
-                console.log(this.modulesTaking)
             });
-            var listOfData = new Array();
             db.collection('listing').get().then((querySnapShot) => {
                 querySnapShot.forEach(doc => {
                     var listingData = doc.data();
                     db.collection('users').doc(listingData.userId).get().then(snapshot => {
                         var userData = snapshot.data();
-                        // if (modulesTaking.include(listingData.module)) {
-                        //     listingData.weight = 5;
-                        // } else {
-                        //     listingData.weight = 0;
-                        // }
                         listingData.name = userData.name;
                         listingData.email = userData.email;
                         listingData.university = userData.university;
                         listingData.profilepic = userData.profilepic;
                         listingData.bio = userData.bio;
                         listingData.id = doc.id;
-                        console.log(listingData)
-                        this.listing.push(listingData);
-                        listOfData.push(listingData)                        
+                        // console.log(listingData)
+                        this.listing.push(listingData);                      
                     },
                     err => {
                         alert(err.message)
@@ -112,9 +99,7 @@ export default {
                 },
                 err => {
                     alert(err.message)
-                }).then(
-                    ()=> {}
-                );
+                });
             },
             err => {
                 alert(err.message)
@@ -122,18 +107,13 @@ export default {
             
         },
         compare:function(a,b){
-            console.log("testing between")
-            console.log(a)
-            console.log(b)
             if (a.userId == this.currentUser && !(b.userId == this.currentUser)) {
                 return 1
             } else if (b.userId == this.currentUser && !(a.userId == this.currentUser)) {
                 return -1
             } else if (this.modulesTaking.includes(a.module) && !(this.modulesTaking.includes(b.module))) {
-                console.log("This is tested 1")
                 return -1
             } else if (this.modulesTaking.includes(b.module) && !(this.modulesTaking.includes(a.module))) {
-                console.log("This is tested 2")
                 return 1
             } else if (a.advertise != null && b.advertise ==null) {
                 return -1 
@@ -144,22 +124,19 @@ export default {
             } else if (b.rating > a.rating || (b.rating!=null && a.rating == null)) {
                 return 1
             } else {
-                console.log("This is tested 0")
                 return 0
             }
         },
         sortList: function(){
             this.listingFiltered = this.listing.sort(this.compare);
-            this.reccomended = false;
+            this.recommended = false;
         },
         toProfile: function(event) {
             let uid = event.target.getAttribute("id");
-            console.log(uid);
             this.$router.push({ name:'profile', params:{ uid:uid } });
         },
         toChat: function(event) {
             let id = event.target.getAttribute("id");
-            console.log(id);
             this.$router.push({ name:'chat', params:{ id:id } });
         },
         buy: function(item) {
@@ -194,89 +171,21 @@ export default {
     font-weight: normal;
     font-style: normal;
 }
-#rectxt {
-    margin-left: 30px;
+#home, #banner, #display{
+    background:  #47E4E4;
+    font-family: 'FredokaOne';
+    min-width: 1000px;
+    text-align: center;
 }
-#home, #banner {
-  background:  #47E4E4;
-  overflow: auto;
-  font-family: 'FredokaOne';
-  min-width: 1000px;
-}
-
-/*img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    max-height: 100%;
-}*/
-
 #banner img {
     object-fit: cover;
     width: 100%;
     height: max-content
 }
-#display {
-    background:  #47E4E4;
-    overflow: auto;
-    font-family: 'FredokaOne';
-    text-align: center;
+#overflow {
+    overflow-x: auto;
 }
-#reclist {
-  width: 90%;
-  margin: 40px;
-  font-family: 'FredokaOne';
-  color: black;
-  display: flex;
-  flex-wrap: wrap;
-  list-style-type: none;
-  padding:10px;
-}
-ul#reclist li {
-    display: inline;
-    border-right:2px solid #C5ECEC;
-    width: 23.2%;
-    align-items: center;
-}
-ul#reclist li:last-child {
-    border-right:none;
-}
-li {
-  text-align: center;
-  align-items: center;
-  margin: 10px;
-}
-.reclisting {
-    text-align: center;
-    min-width: 60%;
-    max-width: 60%;
-    background: #47E4E4;
-    margin: 10px;
-}
-.image-cropper {
-  height: 150px;
-  width: 150px;
-  overflow: hidden;
-  border-radius: 50%;
-  align-content: center;
-  /*margin-left: 70px;
-  margin-right: 70px;*/
-}
-.profile-pic {
-  object-fit: cover;
-  height: 100%;
-  width: 100%;
-  align-content: center;
-  cursor: pointer;
-}
-.chat-button {
-    background-color: #C5ECEC;
-    height: 150px;
-    width: 150px;
-    border-radius: 50%;
-    border:none;
-}
-.buy-button {
+.recbutton {
     border-radius: 8px;
     border: none;
     padding: 10px 20px;
@@ -288,11 +197,34 @@ li {
     font-size: 20px;
     margin:5px;
 }
-.buy-button:hover {
+.recbutton:hover {
     background-color: white;
 }
-#firstpart {
-    align-items: center;
+.reclist {
+  width: 100%;
+  display: flex;
+  list-style-type: none;
+}
+.reclisting {
+    display: inline;
+    border-right: solid #C5ECEC thin;
+    background: #47E4E4;
+    padding: 0 100px;
+}
+.reclisting:last-child {
+    border-right:none;
+}
+.image-cropper {
+  height: 150px;
+  width: 150px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.profile-pic {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
 }
 .profile-button {
     font-family: 'FredokaOne';
@@ -309,8 +241,20 @@ li {
 .profile-button:hover {
     background-color: black;
 }
-.pfp {
-    margin-left: 70px;
+.buy-button {
+    border-radius: 8px;
+    border: none;
+    padding: 5px 20px;
+    background-color:#C5ECEC;
+    color: black;
+    font-family: 'FredokaOne';
+    cursor: pointer;
+    transition-duration: 0.4s;
+    font-size: 16px;
+    margin:5px;
+}
+.buy-button:hover {
+    background-color: white;
 }
 .inline {
   display: inline-block;
