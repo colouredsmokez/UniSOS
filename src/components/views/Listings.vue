@@ -38,9 +38,12 @@
                 <div id="searchdiv">
                     <input type="text" id="searchInput" v-on:keyup="filter()" placeholder=" Search by module code...">
                 </div>
-                <div id="listingview">
+                <div v-if="this.listingFiltered.length === 0" class="listingview" >
+                    <br><h2 id="notfound">No Listings Found!</h2>
+                </div>
+                <div v-else class="listingview">
                 <ul>
-                    <li id="listing" v-for="item in listingFiltered" v-bind:key="item.id" v-on:click="item.show = !item.show">
+                    <li class="listing" v-for="item in listingFiltered" v-bind:key="item.id" v-on:click="item.show = !item.show">
                         <div id="firstpart">
                             <h1>{{item.typeOfList}}</h1>
                             <div v-if="item.profilepic">
@@ -115,7 +118,6 @@ export default {
             rating:'',
             listing:[],
             listingFiltered:[],
-            listingFiltered2:[],
             wasFiltered:false,
             wasSearched:false
         }
@@ -304,14 +306,14 @@ export default {
     flex: 9;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-#listingview {
+.listingview {
     padding: 0px 40px 20px 0px;
     background-color: whitesmoke;
     border-radius: 25px;
     box-shadow: inset 0 0 10px #000000;
     margin: 12px;
 }
-#listing {
+.listing {
     display: flex;
     align-items: center;
     border-bottom: black solid;
@@ -416,5 +418,10 @@ export default {
     font-family: 'FredokaOne';
     border-radius: 25px;
     box-sizing: border-box;
+}
+#notfound {
+    font-family: 'FredokaOne';
+    text-align: center;
+    color: rgb(100, 100, 100);
 }
 </style>
