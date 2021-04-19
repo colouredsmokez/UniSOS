@@ -6,7 +6,6 @@
                     <div>
                         <p>Name : {{ user[1].name }}</p>
                         <p>Email : {{ user[1].email }}</p>
-                        <!-- <p>Password : {{ user[1].password }}</p> -->
                         <p>University : {{ user[1].university }}</p>
                         <img height="300" width="auto" :src="user[1].credentials" />
                         <br><br>

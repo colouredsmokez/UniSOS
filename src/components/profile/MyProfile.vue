@@ -130,28 +130,6 @@ export default {
                 this.listings = listings;
                 console.log(this.listings);
             });
-            /*
-            var notes = data.selling;
-            var lessons = data.teaching;
-            notes.forEach(note => {
-                db.collection("listing").doc(note).get().then(doc => {
-                    var noteData = doc.data();
-                    var id = doc.id;
-                    noteData["id"] = id;
-                    noteData.show = false;
-                    this.listings[id] = noteData;
-                });
-            });
-            lessons.forEach(lesson => {
-                db.collection("listing").doc(lesson).get().then(doc => {
-                    var lessonData = doc.data();
-                    var id = doc.id;
-                    lessonData["id"] = id;
-                    lessonData.show = false;
-                    this.listings[id] = lessonData;
-                });
-            });
-            */
         });
     }
   },

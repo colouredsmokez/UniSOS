@@ -5,7 +5,6 @@
         <div class="notes">
           <p id="mynotestxt">My Notes</p>
           <div id="lastviewed">
-            <!--<p id="lastviewedtxt">Purchased</p>-->
             <ul id="noteslist">
               <li class="notesli" v-for="item in notes" v-bind:key="item.id">
                 <div>
@@ -36,14 +35,10 @@ export default {
     fetchItems: function() {
       db.collection('users').doc(auth.currentUser.uid).get().then(
         snapshot => {
-          // console.log(snapshot)
           var dict = snapshot.data().myNotes
           for (var key in dict) {
-            // console.log(key)
-            // console.log(dict[key])
             var newDict = dict[key]
             newDict["id"] = key
-            // console.log(newDict)
             this.notes.push(newDict)
           }
           

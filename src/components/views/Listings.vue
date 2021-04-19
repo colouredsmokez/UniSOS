@@ -115,7 +115,6 @@ export default {
             rating:'',
             listing:[],
             listingFiltered:[],
-            listingFiltered2:[],
             wasFiltered:false,
             wasSearched:false
         }
@@ -144,8 +143,6 @@ export default {
                 alert(err.message)
             });
             this.listingFiltered = this.listing;
-            //this.listing = this.listingFiltered;
-            //console.log("created "+this.listing[0])
         },
         deleteListing: function(item) {
             var result = confirm("Are you sure you want to delete listing?");
@@ -154,19 +151,10 @@ export default {
             }
         },
         filter:function() {
-            //this.listing = this.listingFiltered
-            //document.getElementById('searchInput').value = ''
             this.wasFiltered = true
             this.listingFiltered = []
-            //console.log("filtered "+this.listing[0].module)
             var input = document.getElementById('searchInput');
             var filter = input.value.toUpperCase(); //input of searchbar
-            /*var og
-            if (this.wasSearched) {
-                var og = this.listingFiltered2
-            } else {
-                og = this.listing
-            }*/
             for (var list of this.listing) {
                 //assigning rating value
                 var assignedRating = 0
@@ -180,30 +168,25 @@ export default {
                     assignedRating = 3
                 }
                 var txtValue = list.module
-                //console.log("list"+list.rating+", assigned"+assignedRating)
                 if ((this.type == list.typeOfList || this.type == '') && (this.rating == assignedRating || this.rating == '')) {
-                    //console.log("this"+this.rating+", assigned"+assignedRating)
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
                         this.listingFiltered.push(list);
                     }
                     
                 } else if ((this.type == list.typeOfList || this.type == 'All') && (this.rating == assignedRating || this.rating == '')) {
-                    //console.log("this"+this.rating+", assigned"+assignedRating)
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
                         this.listingFiltered.push(list);
                     }
                 } else if ((this.type == list.typeOfList || this.type == '') && (this.rating == assignedRating || this.rating == 'All')) {
-                    //console.log("this"+this.rating+", assigned"+assignedRating)
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
                         this.listingFiltered.push(list);
                     }
                 } else if ((this.type == list.typeOfList || this.type == 'All') && (this.rating == assignedRating || this.rating == 'All')) {
-                    //console.log("this"+this.rating+", assigned"+assignedRating)
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
                         this.listingFiltered.push(list);
                     }
                 }
-            } //this.listingFiltered2 = this.listingFiltered
+            } 
         },
         toProfile: function(event) {
             let uid = event.target.getAttribute("id");
@@ -247,31 +230,6 @@ export default {
                 }
             )
         },
-        /*search: function() {
-            //console.log("searched "+this.listingFiltered[0].module)
-            //this.listing = this.listingFiltered
-            this.listingFiltered = []
-            
-            var og
-            if (this.wasFiltered) {
-                //og = this.listingFiltered2
-                this.type = "All"
-                this.rating = "All"    
-            } else {
-                og = this.listing
-            }
-            this.wasSearched = true
-            var input = document.getElementById('searchInput');
-            var filter = input.value.toUpperCase(); //input of searchbar
-
-            for (var list of this.listing) {
-                var txtValue = list.module
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    //console.log(txtValue)
-                    this.listingFiltered.push(list);
-                }
-            } this.listingFiltered2 = this.listingFiltered
-        }*/
     },
     created() {
         this.fetchItems();

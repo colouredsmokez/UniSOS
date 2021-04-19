@@ -271,8 +271,6 @@ ul {
 li:hover {
   background-color: #2BD7E2;
 }
-
-/* Links inside the dropdown */
 .chat .profile .edit {
   float: none;
   color: black;
@@ -281,13 +279,9 @@ li:hover {
   display: block;
   text-align: left;
 }
-
-/* Add a grey background color to dropdown links on hover */
 .dropdown-content router-link:hover {
   background-color: #ddd;
 }
-
-/* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: block;
   color: rgba(0, 0, 0, 0.63);
