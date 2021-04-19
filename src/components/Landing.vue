@@ -16,7 +16,7 @@
                 <div v-if="isLoggedOut">
                     <router-link class="unauth" to="/login"><h2 class="inline" id="login">Log in</h2></router-link>
                     <h2 class="inline">or</h2>
-                    <router-link class="unauth" to="/register"><h2 class="inline" id="signup">Sign up</h2></router-link>
+                    <router-link class="unauth" to="/register"><h2 class="inline" id="signup">Register</h2></router-link>
                     <h2 class="inline">now!</h2>
                 </div>
             </div>
