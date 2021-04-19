@@ -86,7 +86,6 @@
 import { db } from "../../firebase"
 import { auth } from '../../firebase';
 import { store } from '../../firebase';
-
 export default {
     data() {
         return{
