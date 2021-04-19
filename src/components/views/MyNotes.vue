@@ -6,6 +6,10 @@
           <p id="mynotestxt">My Notes</p>
           <div id="lastviewed">
             <!--<p id="lastviewedtxt">Purchased</p>-->
+            <div id="noNotes" v-if="notes.length == 0">No notes yet...
+              <br>
+              <router-link id="goNotes" to="/listings">Buy notes now?</router-link>
+            </div>
             <ul id="noteslist">
               <li class="notesli" v-for="item in notes" v-bind:key="item.id">
                 <div>
@@ -169,4 +173,17 @@ img {
   width: 220px;
   height: 150px;
 }
+#noNotes {
+  text-align: center;
+  font-size: 36px;
+}
+#goNotes {
+  color:blue
+  
+}
+
+#goNotes:hover, #goNotes:active {
+  color: #5ABAC0;
+}
+
 </style>
