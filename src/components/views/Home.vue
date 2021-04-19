@@ -5,7 +5,7 @@
         </div>
         <div id="display">
             <h1 id="rectxt">Recommended for you</h1>
-            <button v-show="reccomended" class="buy-button" v-on:click="sortList">Get Reccomendation</button>
+            <button v-show="recommended" class="buy-button" v-on:click="sortList">Get Recommendation</button>
             <ul id="reclist">
                 <li id="reclisting" v-for="item in listingFiltered.slice(0,4)" v-bind:key="item.id" v-on:click="item.show = !item.show">
                     <div id="firstpart">
@@ -76,7 +76,7 @@ export default {
             listingFiltered:[],
             users:[],
             modulesTaking:[],
-            reccomended: true
+            recommended: true
         }
     },
     methods:{
@@ -150,7 +150,7 @@ export default {
         },
         sortList: function(){
             this.listingFiltered = this.listing.sort(this.compare);
-            this.reccomended = false;
+            this.recommended = false;
         },
         toProfile: function(event) {
             let uid = event.target.getAttribute("id");

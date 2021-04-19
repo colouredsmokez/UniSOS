@@ -12,7 +12,7 @@
                 </h3>
                 <h3>Therefore, we created UniSOS as a platform for seniors to sell juniors</h3>
                 <h3>their resources for the modules they have completed.</h3>
-                
+                <br><br>
                 <div v-if="isLoggedOut">
                     <router-link class="unauth" to="/login"><h2 class="inline" id="login">Log in</h2></router-link>
                     <h2 class="inline">or</h2>
@@ -21,15 +21,6 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="landing-loggedout" v-if="isLoggedOut">
-            <br><br>
-            <h2> Established in late-2020, we have over 300 users today and our user base continues growing every day. </h2>
-            <br>
-            <div id="chart" style="height:600px">
-                <UserBase></UserBase>
-            </div>
-
-        </div> -->
     </div>
 </template>
 
@@ -148,7 +139,7 @@ h3 {
 } */
 #login, #signup {
     border-radius: 16px;
-    font-size: 16px;
+    font-size: 23px;
     padding: 10px 20px;
     transition-duration: 0.4s;
     vertical-align: middle;
