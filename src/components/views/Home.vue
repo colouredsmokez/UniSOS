@@ -5,8 +5,9 @@
         </div>
         <div id="display">
             <h1 id="rectxt">Recommended for you</h1>
+            <button v-on:click="sortList">Get Reccomendation</button>
             <ul id="reclist">
-                <li id="reclisting" v-for="item in listingFiltered.sort(compare).slice(0,4)" v-bind:key="item.id" v-on:click="item.show = !item.show">
+                <li id="reclisting" v-for="item in listingFiltered.slice(0,4)" v-bind:key="item.id" v-on:click="item.show = !item.show">
                     <div id="firstpart">
                         <h1>{{item.typeOfList}}</h1>
                         <div class="pfp" v-if="item.profilepic">
@@ -117,7 +118,7 @@ export default {
             err => {
                 alert(err.message)
             });
-            this.listingFiltered = this.listing;
+            
         },
         compare:function(a,b){
             console.log("testing between")
@@ -141,6 +142,9 @@ export default {
                 console.log("This is tested 0")
                 return 0
             }
+        },
+        sortList: function(){
+            this.listingFiltered = this.listing.sort(this.compare);
         },
         toProfile: function(event) {
             let uid = event.target.getAttribute("id");
