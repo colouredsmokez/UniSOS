@@ -2,13 +2,17 @@
     <div>
         <div id="listing-page">
             <div id="filter">
+                <br><br><br><br>
                 <h1><i class="fa fa-filter" aria-hidden="true"></i> Filter</h1>
                 <br>
                 <h3>Type</h3>
-                <input type="radio" v-on:change="filter()" v-model="type" value="Notes">Notes<br>
-                <input type="radio" v-on:change="filter()" v-model="type" value="Tutor">Tutor<br>
-                <input type="radio" v-on:change="filter()" v-model="type" value="All">All<br>
-                <br><br>
+                <input type="radio" v-on:change="filter()" v-model="type" value="Notes">Notes
+                <br>
+                <input type="radio" v-on:change="filter()" v-model="type" value="Tutor">Tutor
+                <br>
+                <input type="radio" v-on:change="filter()" v-model="type" value="All">All
+                <br>
+                <br>
                 <h3>Rating</h3>
                 <input type="radio" v-on:change="filter()" v-model="rating" value=3>
                     <img class="filter-inline" src="../../assets/goldstar.png" alt="star">
@@ -25,11 +29,13 @@
                     <img class="filter-inline" src="../../assets/blackstar.png" alt="star">
                     <img class="filter-inline" src="../../assets/blackstar.png" alt="star">
                 <br>
-                <input type="radio" v-on:change="filter()" v-model="rating" value="All">All<br>
+                <input type="radio" v-on:change="filter()" v-model="rating" value="All">All
+                <br>
+                <br>
             </div>
 
             <div id="display">
-                <div>
+                <div id="searchdiv">
                     <input type="text" id="searchInput" v-on:keyup="filter()" placeholder=" Search by module code...">
                 </div>
                 <div id="listingview">
@@ -49,7 +55,9 @@
                             </div>
                             <br>
                             <button class="profile-button" v-bind:id="item.userId" v-on:click="toProfile($event)">{{item.name}}</button>
-                            <div v-if="item.rating==0 || item.rating==null"><p>no rating</p></div>
+                            <div v-if="item.rating==0 || item.rating==null">
+                                <p>No rating yet</p>
+                            </div>
                             <br><br>
                             <div v-if="0<item.rating&&item.rating<=1">
                                 <img class="inline" src="../../assets/goldstar.png" alt="star">
@@ -78,7 +86,7 @@
                         <div id="thirdpart">
                             <div v-if="item.userId != currentUser">
                                 <button class="chat-button" v-bind:id="item.id" v-if="item.typeOfList=='Notes'" v-on:click="buy(item)">Buy</button>
-                                <button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)">Chat</button>
+                                <button class="chat-button" v-bind:id="item.id" v-on:click="toChat($event)">Chat</button>
                             </div>
                             <div v-if="item.userId == currentUser">
                                 <button class="chat-button" v-bind:id="item.userId" v-on:click="advertise(item)">Advertise</button>
@@ -202,8 +210,8 @@ export default {
             this.$router.push({ name:'profile', params:{ uid:uid } });
         },
         toChat: function(event) {
-            let uid = event.target.getAttribute("id");
-            this.$router.push({ name:'chat', params:{ uid:uid } });
+            let id = event.target.getAttribute("id");
+            this.$router.push({ name:'chat', params:{ id:id } });
         },
         buy: function(item) {
             db.collection('users').doc(auth.currentUser.uid).get().then(
@@ -285,6 +293,7 @@ export default {
     display: flex;
     padding: 20px 30px 20px 30px;
     gap: 30px;
+    min-width: 940px;
 }
 #filter {
     flex: 1;
@@ -391,18 +400,21 @@ export default {
   height:18px;
   width:18px;
 }
+#searchdiv {
+    padding: 0px 10px;
+}
 #searchInput {
     background-image: url('../../assets/search.png');
     background-position: 10px 10px;
     background-repeat: no-repeat;
     background-size: 25px;
-    width: 95%; 
-    font-size: 16px; /* Increase font-size */
+    width: 100%;
+    font-size: 18px; /* Increase font-size */
     padding: 12px 20px 12px 40px; /* Add some padding */
     border: 1px solid #ddd; /* Add a grey border */
-    margin: 12px; /* Add some space below the input */
-    margin-left: 0px;
+    margin: 12px 0px; /* Add some space below the input */
     font-family: 'FredokaOne';
     border-radius: 25px;
+    box-sizing: border-box;
 }
 </style>

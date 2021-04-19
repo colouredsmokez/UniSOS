@@ -2,8 +2,8 @@
     <div>
         <router-link to="/listings" exact><img id="cross" src="../../assets/X.png" alt="X"></router-link>
         <div id="page">
-            <div v-if="notes">Payment for Notes</div>
-            <div v-if="!notes">Payment for Advertisement</div>
+            <div v-if="notes">Scan to make payment for Notes</div>
+            <div v-if="!notes">Scan to make payment for Advertisement</div>
             <br>
             <img src="../../assets/QR.png" alt="QR">
             <br>
@@ -37,7 +37,7 @@ export default {
                         }
                         myNotes[id] = {} 
                         myNotes[id].imageURL = item.img;
-                        myNotes[id].title = item.name + "'s " + item.module + " notes"
+                        myNotes[id].title = item.title;
                         myNotes[id].ownerid = item.userId
                         db.collection('users').doc(auth.currentUser.uid).update({myNotes:myNotes}).then(() => {
                             this.$router.push({ name:'mynotes' });

@@ -16,207 +16,275 @@
         </div>
         <br>
         <div class="body">
-            <!-- Bio -->
-            <div id="bio">
-                <p> Bio </p>
-                <span> {{ bio }} </span>
+
+            <div class="child-1">
+                <!-- Bio -->
+                <div class="bio">
+                    <h1 class="title">Bio</h1>
+                    {{ bio }}
+                </div>
+                <!-- Modules Taking-->
+                <div class="mods">
+                    <h1 class="title"> My Modules </h1>
+                    <ul>
+                        <li class="mod" v-for="mod in modules" v-bind:key="mod">
+                            {{mod}}
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <!-- Tutor Info -->
-            <div class="list">
-                <hr>
-                <h3> Modules I'm Taking </h3> 
-                <ul>
-                    <li class="list-item" v-for="mod in modules" v-bind:key="mod">
-                        <div>
-                            <span>{{mod}}</span>
-                        </div>
-                    </li>
-                </ul>
-                <hr>
-            </div>
-
-            <!-- Notes Info -->
-            <div class="list">
-                <hr>
-                <h3> Listings </h3>
-                <ul>
-                    <li class="list-item" v-for="n in listing" v-bind:key="n.id" v-on:click="n.show = !n.show" >
-                        <div>
-                            <p> <b> Type of listing : </b> {{ n.typeOfList }}</p>
-                            <p> <b> Module : </b> {{ n.module }} </p>
-                            <p> <b> Rating : </b> {{n.rating}}</p>
-                            <ul class="list-item" v-for="review in n.reviewsData" v-bind:key="review"  v-show="n.show">
+            <div class="child-2">
+                <!-- Lisitngs -->
+                <div class="listings">
+                    <h1 class="title"> Listings </h1>
+                    <ul>
+                        <li class="listing" v-for="l in listings" v-bind:key="l.id">
+                            <b> {{ l.typeOfList }} for {{ l.module }} </b><br>
+                            <div v-if="l.rating==0 || l.rating==null">
+                              <p>No rating yet</p>
+                            </div>
+                            <div v-if="0<l.rating&&l.rating<=1">
+                              <br>
+                              <img class="inline" src="../../assets/goldstar.png" alt="star">
+                              <img class="inline" src="../../assets/blackstar.png" alt="star">
+                              <img class="inline" src="../../assets/blackstar.png" alt="star">
+                              <br><br>
+                              <button class="btn" v-bind:id="l.id" v-on:click="show($event)">See Reviews</button>
+                            </div>
+                            <div v-if="1<l.rating&&l.rating<=2">
+                              <br>
+                              <img class="inline" src="../../assets/goldstar.png" alt="star">
+                              <img class="inline" src="../../assets/goldstar.png" alt="star">
+                              <img class="inline" src="../../assets/blackstar.png" alt="star">
+                              <br><br>
+                              <button class="btn" v-bind:id="l.id" v-on:click="show($event)">See Reviews</button>
+                            </div>
+                            <div v-if="2<l.rating&&l.rating<=3">
+                              <br>
+                              <img class="inline" src="../../assets/goldstar.png" alt="star">
+                              <img class="inline" src="../../assets/goldstar.png" alt="star">
+                              <img class="inline" src="../../assets/goldstar.png" alt="star">
+                              <br><br>
+                              <button class="btn" v-bind:id="l.id" v-on:click="show($event)">See Reviews</button>
+                            </div>
+                            <ul v-for="review in l.reviewsData" v-bind:key="review.name"  v-show="l.show">
                                 <li> 
-                                    <div>
-                                        <p> Name: {{review.name}}</p>
-                                        <p> Rating: {{review.rating}}/3</p>
-                                        <p> Review: {{review.review}}</p>   
-                                    </div>
+                                    <p> Name: {{review.name}}</p>
+                                    <p> Rating: {{review.rating}}</p>
+                                    <p> Review: {{review.review}}</p>
                                 </li> 
-
                             </ul>
-                        </div>
-                    </li>
-                </ul>
-                <hr>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { db } from '../../firebase';
-import { auth } from '../../firebase';
+import { db } from "../../firebase";
+import { auth } from "../../firebase";
 
 export default {
-data() {
+  data() {
     return {
-        uid: auth.currentUser.uid,
-        name: '',
-        email: '',
-        university: '',
-        profilepic: "https://firebasestorage.googleapis.com/v0/b/unisos-bcf1f.appspot.com/o/defaultpfp.jpg?alt=media&token=5fd8c012-3d56-4771-be88-fa4ae98d3d32",
-        imageData: null,
-        bio: '',
-        reviews: [],
-        modules: [],
-        notes: [],
-        listing: []
+      uid: auth.currentUser.uid,
+      name: "",
+      email: "",
+      university: "",
+      profilepic: "https://firebasestorage.googleapis.com/v0/b/unisos-bcf1f.appspot.com/o/defaultpfp.jpg?alt=media&token=5fd8c012-3d56-4771-be88-fa4ae98d3d32",
+      bio: "",
+      modules: [],
+      listings: {}
     };
-},
-methods: {
-    fetchInfo: function() {
-        db.collection('users').doc(this.uid).get().then(
-            snapshot => {
-                var data = snapshot.data();
-                this.name = data.name;
-                this.email = data.email;
-                this.university = data.university;
-                this.profilepic = data.profilepic;
-                this.bio = data.bio;
-                this.reviews = data.reviews;
-                this.modules = data.modules;
-                // this.notes = data.selling;
-            },
-            err => {
-                alert(err.message)
-            }
-        );
-        db.collection('listing').get().then((querySnapShot) => {
-                querySnapShot.forEach(doc => {
-                    var listingData = doc.data();
-                    if (listingData.userId == this.uid) {
-                        if(listingData.rating == null) {
-                            listingData.rating = "No rating yet"
-                        } else {
-                            listingData.reviewsData = listingData.reviewsData[1]
-                            // for (var key in listingData.reviewsData) {
-                            //     console.log(key)
-                            //     console.log(listingData.reviewsData)
-                            //     db.collection('users').doc(key).get().then(snapshot => {
-                            //     var userData = snapshot.data();
-                            //     console.log(listingData.reviewsData)
-                            //     listingData.reviewsData.name = userData.name;
-                                
-                                // })
-                            //}
-                        }
-                        listingData.show = false;
-                        this.listing.push(listingData)
+  },
+  methods: {
+    show(event) {
+        let id = event.target.getAttribute("id");
+        console.log(id);
+        var status = this.listings[id].show;
+        this.listings[id].show = !status;
+    },
+    fetchInfo() {
+        db.collection("users").doc(this.uid).get().then((snapshot) => {
+            var data = snapshot.data();
+            this.name = data.name;
+            this.email = data.email;
+            this.university = data.university;
+            this.profilepic = data.profilepic;
+            this.bio = data.bio;
+            this.modules = data.modules;
+            var listings = {};
+            db.collection("listing").get().then((querySnapshot) => {
+                querySnapshot.forEach(doc => {
+                    var id = doc.id;
+                    var docData = doc.data();
+                    docData["id"] = id;
+                    if(docData.userId == this.uid) {
+                        docData.show = false;
+                        listings[id] = docData;
                     }
                 });
-        })
-                    
-                
-    },
+                this.listings = listings;
+                console.log(this.listings);
+            });
+            /*
+            var notes = data.selling;
+            var lessons = data.teaching;
+            notes.forEach(note => {
+                db.collection("listing").doc(note).get().then(doc => {
+                    var noteData = doc.data();
+                    var id = doc.id;
+                    noteData["id"] = id;
+                    noteData.show = false;
+                    this.listings[id] = noteData;
+                });
+            });
+            lessons.forEach(lesson => {
+                db.collection("listing").doc(lesson).get().then(doc => {
+                    var lessonData = doc.data();
+                    var id = doc.id;
+                    lessonData["id"] = id;
+                    lessonData.show = false;
+                    this.listings[id] = lessonData;
+                });
+            });
+            */
+        });
+    }
   },
   created() {
-    this.fetchInfo();
-  }
-}
+        this.fetchInfo();
+  },
+};
 </script>
 
 <style scoped>
 @font-face {
-    font-family: 'FredokaOne';
-    src: url('/fonts/fredokaone-regular-webfont.woff2') format('woff2'),
-         url('/fonts/fredokaone-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "FredokaOne";
+  src: url("/fonts/fredokaone-regular-webfont.woff2") format("woff2"),
+    url("/fonts/fredokaone-regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
-.body{
-    flex: 9;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-color: whitesmoke;
-    border-radius: 25px;
-    box-shadow: 0 0 10px #000000;
-    display:flex;
-    padding: 20px;
-}
-
 .header {
-    overflow: hidden;
-    position: relative;
-    background: black;
-    font-family: 'FredokaOne';
-    text-align: center;
-    padding: 20px;
+  overflow: hidden;
+  position: relative;
+  background: black;
+  font-family: "FredokaOne";
+  text-align: center;
+  padding: 30px;
+  min-width: 940px;
 }
 .header-bg {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.6;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
 }
 .header-content {
-    position: relative;
-    color: white;
+  position: relative;
+  color: white;
 }
 .image-cropper {
-    width: 200px;
-    height: 200px;
-    overflow: hidden;
-    border-radius: 50%;
-    margin: auto;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin: auto;
 }
 .profile-pic {
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
 }
-.list {
-    margin: auto;
-    padding: 20px;
-    text-align: center;
-    float: right;
-    width: 100%;
-    border: none;
-    float: left;
-    margin-top: 0;
+.body {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  background-color: whitesmoke;
+  border-radius: 25px;
+  box-shadow: inset 0 0 2px #000000;
+  display: flex;
+  min-height: 500px;
+  min-width: 1000px;
 }
-.list-item {
-    list-style-type: none;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    padding: 20px;
+.child-1 {
+  flex: 2;
 }
-#btn {
-    cursor: pointer;
-    font-size: 10px;
+.child-2 {
+  flex: 3;
 }
-#bio p {
-    font-family: 'FredokaOne';
-    font-size: 24px;
+.bio {
+  white-space: pre-line;
+  margin: 30px;
+  border-radius: 5px;
+  box-shadow: 0 0 8px #000000;
+  box-sizing: border-box;
+  padding: 20px;
+  border: black solid;
+  min-height: 250px;
 }
-#bio {
-    float: left;
-    width: 45%;
-    white-space:pre-line;
-    padding: 35px;
+.title {
+  font-family: "FredokaOne";
+  font-size: 30px;
 }
-
-
-
+.mods {
+  margin: 30px;
+  border-radius: 5px;
+  box-shadow: 0 0 8px #000000;
+  box-sizing: border-box;
+  padding: 20px;
+  border: black solid;
+  min-height: 250px;
+}
+.mod {
+  list-style-type: none;
+  border: lightgrey solid;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.listings {
+  margin: 30px 30px 30px 0px;
+  border-radius: 5px;
+  box-shadow: 0 0 8px #000000;
+  box-sizing: border-box;
+  padding: 20px;
+}
+.listing {
+  list-style-type: none;
+  margin: 20px;
+  border-radius: 5px;
+  border: lightgrey solid;
+  padding: 20px;
+}
+.inline {
+  display: inline-block;
+  vertical-align: middle;
+  height:27px;
+  width:27px;
+}
+.btn {
+  font-family: 'FredokaOne';
+  font-size: 16px;
+  border-radius: 0.5em;
+  padding: 10px 20px;
+  transition-duration: 0.4s;
+  background-color:  #47E4E4;
+  color: white;
+  vertical-align: middle;
+  border: none;
+  cursor:pointer;
+  margin-right: 10px;
+}
+.btn:hover {
+  background-color: rgba(0, 0, 0, 0.63);
+  color: white;
+}
 </style>

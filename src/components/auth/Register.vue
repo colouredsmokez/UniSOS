@@ -27,7 +27,7 @@
           >
           <br><br>
           <!-- Password -->
-          <a class="icon-clickable" @click='showPassword'><i class="fa fa-lock" aria-hidden="true"></i></a>
+          <a class="icon-clickable" @click='showPassword'><i class="fa fa-lock" aria-hidden="true"></i><br><span style="font-size:12px;margin: 0 0 0 -8px">show</span></a>
           <input 
             class="input-text" 
             :type="type"
@@ -130,13 +130,12 @@ export default {
                   password: this.password,
                   university: this.university,
                   credentials: url,
-                  profilepic: "https://firebasestorage.googleapis.com/v0/b/unisos-bcf1f.appspot.com/o/defaultpfp.jpg?alt=media&token=5fd8c012-3d56-4771-be88-fa4ae98d3d32",
-                  bio: null,
+                  profilepic: "https://firebasestorage.googleapis.com/v0/b/unisos-bcf1f.appspot.com/o/defaultpfp.jpg?alt=media&token=2a8b5dbe-2f4e-48c6-baeb-9d1cf3aa243c",
+                  bio: "",
                   modules: [],
                   selling: [], //just add listing id
                   teaching: [], //just add listing id
                   myNotes: {},
-                  reviewsData: {},
                   chatUsers: {}
                 };
                 db.collection('requests').add(data).then(
@@ -177,25 +176,23 @@ export default {
 }
 .flex-container {
   display: flex;
-  margin: auto;
-  height: 80vh;
+  height: 87vh;
+  min-width: 1000px;
+  min-height: 650px;
 }
 .flex-child-banner {
   flex: 2;
   background-image: url('../../assets/Banner.png');
   background-position: center;
   background-size: cover;
-  height:107%;
 }
 .flex-child-form { 
   flex: 3;
-  margin: auto;
   padding: 20px;
   text-align: center;
   font-family: 'FredokaOne';
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   width: 80%;
-  height:100%;
 }
 .input-text {
   width:75%;
@@ -215,6 +212,9 @@ export default {
   position: absolute;
   font-size: 20px;
   cursor: pointer;
+  font-size: 16px;
+  margin-top: -6px;
+  transition-duration: 0.4s;
 }
 .icon-clickable:hover, .icon-clickable:active {
   color:#2BD7E2;

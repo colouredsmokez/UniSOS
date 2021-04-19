@@ -78,8 +78,10 @@ export default {
     text-align: center;
     font-family: 'FredokaOne';
     background-image: url('../assets/Background.png');
-    height: 80vh;
+    height: 81vh;
     color: white;
+    min-width: 960px;
+    min-height: 500px;
 }
 #emph {
     font-size: 32px;

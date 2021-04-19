@@ -2,22 +2,25 @@
     <div>
       
       <!-- Logged Out -->
-      <div v-if="isLoggedOut" class="flex-container" >
-        <!-- Logo -->
-        <div class="flex-child">
-          <router-link to="/">
-            <img class="logo" src="../../assets/UniSOSlogo.png" alt="unisos logo">
-          </router-link>
-        </div>
-        <!-- Page Links -->
-        <div class="flex-child align-right">
-          <div class="inline-block">
-            <router-link class="unauth" to="/login">Login</router-link>
+      <div v-if="isLoggedOut">
+        <div class="flex-container">
+          <!-- Logo -->
+          <div class="flex-child">
+            <router-link to="/">
+              <img class="logo" src="../../assets/UniSOSlogo.png" alt="unisos logo">
+            </router-link>
           </div>
-          <div class="inline-block">
-            <router-link class="unauth" to="/register">Register</router-link>
+          <!-- Log In -->
+          <div class="flex-child align-right">
+            <div class="inline-block">
+              <router-link class="unauth" to="/login">Login</router-link>
+            </div>
+            <div class="inline-block">
+              <router-link class="unauth" to="/register">Register</router-link>
+            </div>
           </div>
         </div>
+        <br>
       </div>
 
       <!-- Logged In -->
@@ -46,9 +49,7 @@
                       </ul>
                     </div>
                   </div> 
-                   
                 </div>
-              
             </div>
             <div class="inline-block">
               <button class="logout" v-on:click="logout">Logout</button>
@@ -87,6 +88,7 @@
             </div>
           </div>
         </div>
+        <br>
       </div>
 
     </div>
@@ -102,7 +104,7 @@ export default {
       isAdmin: false,
       isLoggedIn: false,
       isLoggedOut: false,
-      name: "",
+      name: "Administrator Account",
       profilepic: null,
       uid: null,
     };
@@ -119,12 +121,13 @@ export default {
   },
   methods: {
     logout: function() {
-      auth
-        .signOut()
-        .then(() => {
+      let cfm = confirm("Are you sure you want to log out?");
+      if (cfm) {
+        auth.signOut().then(() => {
           alert(`You are logged out of ${this.name}`);
           this.$router.go({ path: this.$router.path });
         });
+      }
     },
     fetchInfo: function() {
       db.collection('users').doc(auth.currentUser.uid).get().then(
@@ -157,6 +160,7 @@ export default {
 .flex-container {
   align-items:center;
   display: flex;
+  min-width: 1000px;
 }
 .flex-child {
   flex: 1;
@@ -172,6 +176,7 @@ export default {
 .logo {
   height: 50px;
   width: auto;
+  margin-left: 10px;
 }
 
 .flex-child-auto {
@@ -201,6 +206,7 @@ export default {
   vertical-align: middle;
   border: none;
   cursor:pointer;
+  margin-right: 10px;
 }
 .logout:hover, .unauth:hover {
   background-color: rgba(0, 0, 0, 0.63);

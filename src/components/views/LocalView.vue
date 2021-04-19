@@ -4,13 +4,28 @@
         <div id="info">
           <router-link to="/mynotes" exact><img id="cross" src="../../assets/X.png"></router-link>
           <h1>{{title}}</h1>
-          <button class="btn" v-on:click="toReview()">Review</button>
-          <div v-show="showReview">
-            <input type="radio" v-model="rating" value=1>
-            <input type="radio" v-model="rating" value=2>
+          <button v-if="!showReview" class="btn" v-on:click="toReview()">Review</button>
+          <button v-if="showReview" class="btn" v-on:click="cancel()">Cancel Review</button>
+          <br><br>
+          <div v-if="showReview">
             <input type="radio" v-model="rating" value=3>
-            <input type="text" v-model="review">
+              <img class="review-radio-desc" src="../../assets/goldstar.png" alt="star">
+              <img class="review-radio-desc" src="../../assets/goldstar.png" alt="star">
+              <img class="review-radio-desc" src="../../assets/goldstar.png" alt="star">
+            <br>
+            <input type="radio" v-model="rating" value=2>
+              <img class="review-radio-desc" src="../../assets/goldstar.png" alt="star">
+              <img class="review-radio-desc" src="../../assets/goldstar.png" alt="star">
+              <img class="review-radio-desc" src="../../assets/blackstar.png" alt="star">
+            <br>
+            <input type="radio" v-model="rating" value=1>
+              <img class="review-radio-desc" src="../../assets/goldstar.png" alt="star">
+              <img class="review-radio-desc" src="../../assets/blackstar.png" alt="star">
+              <img class="review-radio-desc" src="../../assets/blackstar.png" alt="star">
+            <br><br>
+            <textarea class="review-text" type="text" v-model="review" placeholder="Type in your review here..."/>
             <button class="btn" v-on:click="submit()">Submit</button>
+            <br><br>
           </div>
         </div>
         <div id="notes">
@@ -56,7 +71,7 @@ export default {
         snapshot => {
           var data = snapshot.data();
           if(typeof(data) === "undefined") {
-            alert('Unable to review as listing has been deleted by the seller.')
+            alert('Unable to review as the listing has been deleted by the seller.')
           } else {
             var userid = auth.currentUser.uid;
             var reviewsData = data.reviewsData;
@@ -67,6 +82,9 @@ export default {
             }
           }
         })
+    },
+    cancel() {
+      this.showReview = false;
     },
     submit() {
       var cfm = confirm("Are you sure you want to submit this review?");
@@ -125,6 +143,7 @@ export default {
   background: #47E4E4;
   overflow: auto;
   font-family: 'FredokaOne';
+  min-width: 1000px;
 }
 #cross {
     position: relative;
@@ -143,18 +162,36 @@ export default {
 .btn {
     border-radius: 8px;
     border: none;
-    padding: 10px 20px;
+    padding: 5px 20px;
     background-color:black;
     color: white;
     font-family: 'FredokaOne';
     cursor: pointer;
     transition-duration: 0.4s;
-    font-size: 20px;
-    margin:5px;
+    font-size: 18px;
+    margin:5px 5px 5px 0px;
     box-shadow: 0 0 4px #000000;
+    width: 100%;
 }
 .btn:hover {
     background-color: white;
     color: black;
+}
+.review-radio-desc {
+    display: inline-block;
+    vertical-align: middle;
+    height:18px;
+    width:18px;
+}
+.review-text {
+    white-space: pre-line;
+    width: 100%;
+    height: 100px;
+    font-size: 15px;
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    background: whitesmoke;
 }
 </style>

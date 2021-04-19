@@ -5,7 +5,7 @@
         <div class="notes">
           <p id="mynotestxt">My Notes</p>
           <div id="lastviewed">
-            <p id="lastviewedtxt">Purchased</p>
+            <!--<p id="lastviewedtxt">Purchased</p>-->
             <ul id="noteslist">
               <li class="notesli" v-for="item in notes" v-bind:key="item.id">
                 <div>
@@ -80,6 +80,8 @@ export default {
   background: #47E4E4;
   overflow: auto;
   font-family: 'FredokaOne';
+  min-width: 1000px;
+  min-height: 500px;
 }
 .flex-container {
   display: flex;

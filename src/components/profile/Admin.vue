@@ -38,10 +38,15 @@ import { auth } from "../../firebase";
         });
       },
       reject: function(event) {
-        let doc_id = event.target.getAttribute("id");
-        db.collection('requests').doc(doc_id).delete().then(() => {location.reload()});
+        let cfm = confirm("Reject Request?");
+        if (cfm) {
+          let doc_id = event.target.getAttribute("id");
+          db.collection('requests').doc(doc_id).delete().then(() => {location.reload()});
+        }
       },
       approve: function(event) {
+        let cfm = confirm("Approve Request?");
+        if (cfm) {
         let doc_id = event.target.getAttribute("id");
         db.collection('requests').doc(doc_id).get().then(
           snapshot => {
@@ -76,6 +81,7 @@ import { auth } from "../../firebase";
             alert(err.message);  
           }
         );
+        }
       }
     },
     created() {
@@ -90,6 +96,7 @@ import { auth } from "../../firebase";
     padding: 20px;
     text-align: center;
     background: #47E4E4;
+    min-width: 960px;
 }
 .request {
     list-style-type: none;

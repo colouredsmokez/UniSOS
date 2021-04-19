@@ -29,8 +29,8 @@
             <a id='modules'> or </a>
             <button v-on:click = "deleteMod()"> Remove Module </button>
             <br><br>
-            <ul>
-                <p> Your current module list:
+            <label>Your current module list:</label>
+            <ul class="list">
                 <li class="bullets" v-for="mod in modules" v-bind:key="mod" id='modules'> {{mod}} </li>
             </ul>
         </div>
@@ -174,18 +174,20 @@ export default {
 </script>
 
 <style scoped>
-    .pfp {
-        text-align: center;
-        padding: 30px;
-        float: left;
-        width: 25%;
-        height: 80vh;
-    } 
     .edit {
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         font-size: 22px;
         background-image: url('../../assets/ChatBG.png');
-        height: 80vh;
+        height: 78vh;
+        background-size: cover;
+        min-width: 1000px;
+        min-height: 590px;
+        display: flex;
+    }
+    .pfp {
+        flex: 1;
+        text-align: center;
+        padding: 30px;
     }
     .image-cropper {
         width: 200px;
@@ -193,15 +195,14 @@ export default {
         overflow: hidden;
         border-radius: 50%;
         margin: auto;
-        
     }
     .profile-pic {
         object-fit: cover;
         height: 100%;
         width: 100%;
-        
     }
     .text-edit {
+        flex:1.5;
         width: 75%;
         padding: 30px;
         height: 80vh;
@@ -222,9 +223,7 @@ export default {
         color: rgba(85, 83, 83, 0.836);
     }
     .bullets {
-        padding-left: 1em;
-        margin-right: 2em;
-        margin-left: 0;
         list-style: none;
+        margin-left:-40px;
     }
 </style>

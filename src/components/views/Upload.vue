@@ -106,43 +106,49 @@ export default {
             if ( this.module=="" || this.took_in=="" || ((this.price=="" || this.price<0 || this.picture==null) && this.type=="Notes") ) {
                 alert("Incomplete Submission")
             } else {
-                //create listing info here
-                var newListing = {}
-                newListing["typeOfList"] = this.type;
-                newListing["grade"] = this.grade;
-                newListing["module"] = this.module.toUpperCase();
-                newListing["took_in"] = this.took_in
-                newListing["addInfo"] = this.addInfo;
-                newListing["userId"] = this.user;
-                if (this.type=="Notes"){
-                    newListing["price"] = this.price;
-                    newListing["img"] = this.picture; //should be able to upload a few files
+                let cfm = confirm("Post listing?");
+                if (cfm) {
+                    //create listing info here
+                    var newListing = {}
+                    newListing["typeOfList"] = this.type;
+                    newListing["grade"] = this.grade;
+                    newListing["module"] = this.module.toUpperCase();
+                    newListing["took_in"] = this.took_in
+                    newListing["addInfo"] = this.addInfo;
+                    newListing["userId"] = this.user;
+                    if (this.type=="Notes"){
+                        newListing["price"] = this.price;
+                        newListing["img"] = this.picture; //should be able to upload a few files
+                    }
+                    db.collection("users").doc(this.user).get().then(snapshot => {
+                        var data = snapshot.data();
+                        //add user info to listing here
+                        newListing["userName"] = data.name;
+                        if (this.type=="Notes") {
+                            newListing["title"] = data.name + "'s " + this.module.toUpperCase() + " Notes";
+                        }
+                        //upload listing here
+                        db.collection("listing").add(newListing).then(docid => {
+                            //actions after uploading listing here
+                            if (this.type=="Notes") {
+                                var selling = data.selling;
+                                if (selling == null) {
+                                    selling = [];
+                                }
+                                selling.push(docid.id);
+                                db.collection("users").doc(this.user).update({selling:selling}).then(() => {this.$router.go(this.$router.path)});
+                            } else {
+                                var teaching = data.teaching;
+                                if (teaching == null) {
+                                    teaching = [];
+                                }
+                                teaching.push(docid.id);
+                                db.collection("users").doc(this.user).update({teaching:teaching}).then(() => {this.$router.go(this.$router.path)});
+                            }       
+                        });
+                    });
                 }
             }
-            db.collection("users").doc(this.user).get().then(snapshot => {
-                var data = snapshot.data();
-                //add user info to listing here
-                newListing["name"] = data.name;
-                //upload listing here
-                db.collection("listing").add(newListing).then(docid => {
-                    //actions after uploading listing here
-                    if (this.type=="Notes") {
-                        var selling = data.selling;
-                        if (selling == null) {
-                            selling = [];
-                        }
-                        selling.push(docid.id);
-                        db.collection("users").doc(this.user).update({selling:selling}).then(() => {this.$router.go(this.$router.path)});
-                    } else {
-                        var teaching = data.teaching;
-                        if (teaching == null) {
-                            teaching = [];
-                        }
-                        teaching.push(docid.id);
-                        db.collection("users").doc(this.user).update({teaching:teaching}).then(() => {this.$router.go(this.$router.path)});
-                    }
-                });
-            });
         },
         previewImage(event) {
             this.uploadValue=0;
@@ -181,6 +187,8 @@ export default {
     padding: 30px;
     font-family: "FredokaOne";
     font-size:20px;
+    min-width: 940px;
+    min-height: 500px;
 }
 #main {
     background: whitesmoke;
@@ -204,6 +212,7 @@ export default {
     font-size: 20px;
     vertical-align: middle;
     font-family: "FredokaOne";
+    cursor: pointer;
 }
 #display {
     display: flex;
@@ -215,7 +224,6 @@ export default {
     flex: 4.5;
     height: 100%;
     width: 100%;
-    border: black solid thin;
     text-align: left;
 }
 #upload-file {
@@ -226,6 +234,7 @@ export default {
     padding: 50px;
     width: 100%;
     height: 375px;
+    border: black solid thin;
 }
 #upload-file:hover {
     background: rgba(0, 0, 0, 0.432);
@@ -284,6 +293,7 @@ export default {
     padding: 5px;
     border-radius: 25px;
     font-size: 20px;
+    cursor: pointer;
 }
 #took_in {
     flex: 4;
@@ -293,6 +303,7 @@ export default {
     padding: 5px;
     border-radius: 25px;
     font-size: 20px;
+    cursor: pointer;
 }
 #secondpart {
     display: flex;
