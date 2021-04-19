@@ -89,6 +89,8 @@ export default {
   },
   methods: {
     register: function() {
+      let cfm = confirm("Are you sure the fields are filled up properly?");
+      if (cfm) {
       var nameFormat = /^([a-zA-Z]+\s)*[a-zA-Z]+$/;
       var emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
       var pwFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/;
@@ -149,6 +151,7 @@ export default {
             );
           }
         );
+      }
       }
     },
     previewImage: function(event) {

@@ -4,17 +4,17 @@
             <div style="height:15vh"></div>
             <div id="msg">
                 <h1 id="title">Online Uni Resources</h1>
-                <br>
+                
                 <h3 id="emph">Academic guidance can be difficult to come by in University. 
                     <br> <u> We understand. </u>
                 </h3>
                 <h3>Therefore, we created UniSOS as a platform for seniors to sell juniors</h3>
                 <h3>their resources for the modules they have completed.</h3>
-                
+                <br><br>
                 <div v-if="isLoggedOut">
                     <router-link class="unauth" to="/login"><h2 class="inline" id="login">Log in</h2></router-link>
                     <h2 class="inline">or</h2>
-                    <router-link class="unauth" to="/register"><h2 class="inline" id="signup">Sign up</h2></router-link>
+                    <router-link class="unauth" to="/register"><h2 class="inline" id="signup">Register</h2></router-link>
                     <h2 class="inline">now!</h2>
                 </div>
             </div>
@@ -69,7 +69,7 @@ export default {
     min-height: 500px;
 }
 #emph {
-    font-size: 32px;
+    font-size: 28px;
     text-shadow: 2px 2px rgba(47, 79, 79, 0.568);
 }
 #uds {
@@ -77,6 +77,7 @@ export default {
 }
 #title {
     color: #fff;
+    font-size: 45px;
     text-shadow: -2px 2px #000000,
                -3px 3px #2196f3,
                -4px 4px #26c6da,
@@ -98,7 +99,7 @@ h3 {
 }
 #login, #signup {
     border-radius: 16px;
-    font-size: 16px;
+    font-size: 23px;
     padding: 10px 20px;
     transition-duration: 0.4s;
     vertical-align: middle;
