@@ -78,7 +78,6 @@ export default {
         fetchItems:function() {
             db.collection('users').doc(auth.currentUser.uid).get().then(snapshot => {
                 this.modulesTaking = snapshot.data().modules
-                console.log(this.modulesTaking)
             });
             db.collection('listing').get().then((querySnapShot) => {
                 querySnapShot.forEach(doc => {
@@ -91,7 +90,7 @@ export default {
                         listingData.profilepic = userData.profilepic;
                         listingData.bio = userData.bio;
                         listingData.id = doc.id;
-                        console.log(listingData)
+                        // console.log(listingData)
                         this.listing.push(listingData);                      
                     },
                     err => {
@@ -108,18 +107,13 @@ export default {
             
         },
         compare:function(a,b){
-            console.log("testing between")
-            console.log(a)
-            console.log(b)
             if (a.userId == this.currentUser && !(b.userId == this.currentUser)) {
                 return 1
             } else if (b.userId == this.currentUser && !(a.userId == this.currentUser)) {
                 return -1
             } else if (this.modulesTaking.includes(a.module) && !(this.modulesTaking.includes(b.module))) {
-                console.log("This is tested 1")
                 return -1
             } else if (this.modulesTaking.includes(b.module) && !(this.modulesTaking.includes(a.module))) {
-                console.log("This is tested 2")
                 return 1
             } else if (a.advertise != null && b.advertise ==null) {
                 return -1 
@@ -130,7 +124,6 @@ export default {
             } else if (b.rating > a.rating || (b.rating!=null && a.rating == null)) {
                 return 1
             } else {
-                console.log("This is tested 0")
                 return 0
             }
         },
@@ -140,12 +133,10 @@ export default {
         },
         toProfile: function(event) {
             let uid = event.target.getAttribute("id");
-            console.log(uid);
             this.$router.push({ name:'profile', params:{ uid:uid } });
         },
         toChat: function(event) {
             let id = event.target.getAttribute("id");
-            console.log(id);
             this.$router.push({ name:'chat', params:{ id:id } });
         },
         buy: function(item) {
