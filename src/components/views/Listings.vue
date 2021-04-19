@@ -319,7 +319,7 @@ export default {
     border-bottom: black solid;
     list-style-type: none;
 }
-#listing:last-child {
+.listing:last-child {
     border-bottom: none;
 }
 #firstpart{
