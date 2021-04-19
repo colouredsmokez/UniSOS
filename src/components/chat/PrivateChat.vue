@@ -146,8 +146,7 @@
                         <textarea class="input-text-field" @keyup.enter="saveMessage()" v-model="message" type="text" placeholder="Type a message"/>
                     </div>
                     <div class="input-right">
-                        <button class="input-msg-btn fa fa-paper-plane" v-on:click="saveMessage()"></button><br>
-                        <b style="color:white">Send</b>
+                        <button class="input-msg-btn" v-on:click="saveMessage()"><i class="fa fa-paper-plane"></i><b style="color:white;font-size:15px">Send</b></button>
                     </div>
                 </div>
             </div>
@@ -198,7 +197,7 @@ export default {
                 alert("No Message Entered");
             } else {
                 let data = {
-                type: "text",
+                    type: "text",
                     message: this.message,
                     author: this.thisData.name,
                     createdAt: new Date()
@@ -239,10 +238,12 @@ export default {
                         let newData = {
                             type: "review",
                             reviewed: false,
-                            item: oldData.item,
+                            itemid: oldData.itemid,
+                            itemname: oldData.itemname,
                             author: this.otherData.name,
                             createdAt: new Date()
                         };
+                        console.log(newData);
                         db.collection('chat').doc(this.thisUser).collection(this.otherUser).add(newData).then(() => {
                             db.collection('chat').doc(this.otherUser).collection(this.thisUser).add(newData)
                         });
@@ -259,7 +260,7 @@ export default {
             if (cfm) {
                 db.collection('chat').doc(this.thisUser).collection(this.otherUser).doc(docid).get().then(snapshot1 => {
                     var data1 = snapshot1.data();
-                    db.collection('listing').doc(data1.item).get().then(snapshot2 => {
+                    db.collection('listing').doc(data1.itemid).get().then(snapshot2 => {
                         var data2 = snapshot2.data();
                         var rating = data2.rating;
                         var reviewsData = data2.reviewsData;
@@ -280,7 +281,7 @@ export default {
                         });
                         rating = pair[1]/pair[0];
                         console.log(rating);
-                        db.collection('listing').doc(data1.item).update({rating:rating,reviewsData:reviewsData}).then(()=> {
+                        db.collection('listing').doc(data1.itemid).update({rating:rating,reviewsData:reviewsData}).then(()=> {
                             db.collection('chat').doc(this.thisUser).collection(this.otherUser).doc(docid).update({reviewed:true}).then(()=> {
                                 alert("Review Submitted!");
                             });
@@ -506,9 +507,11 @@ export default {
         cursor: pointer;
         background: none;
         border: none;
-        font-size: 25px;
+        font-size: 30px;
         text-align: left;
         color: white;
+        text-align: center;
+        line-height: 15px;
     }
     .input-msg-btn:hover {
         color: black;
