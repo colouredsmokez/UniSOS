@@ -5,8 +5,9 @@
         </div>
         <div id="display">
             <h1 id="rectxt">Recommended for you</h1>
+            <button v-show="reccomended" class="buy-button" v-on:click="sortList">Get Reccomendation</button>
             <ul id="reclist">
-                <li id="reclisting" v-for="item in listingFiltered.sort(compare).slice(0,4)" v-bind:key="item.id" v-on:click="item.show = !item.show">
+                <li id="reclisting" v-for="item in listingFiltered.slice(0,4)" v-bind:key="item.id" v-on:click="item.show = !item.show">
                     <div id="firstpart">
                         <h1>{{item.typeOfList}}</h1>
                         <div class="pfp" v-if="item.profilepic">
@@ -68,7 +69,8 @@ export default {
             listing:[],
             listingFiltered:[],
             users:[],
-            modulesTaking:[]
+            modulesTaking:[],
+            reccomended: true
         }
     },
     methods:{
@@ -104,7 +106,7 @@ export default {
             err => {
                 alert(err.message)
             });
-            this.listingFiltered = this.listing;
+            
         },
         compare:function(a,b){
             // console.log("testing between")
@@ -124,10 +126,18 @@ export default {
                 return -1 
             } else if (b.advertise != null && a.advertise ==null){
                 return 1
+            } else if (a.rating > b.rating || (a.rating!=null && b.rating == null)){
+                return -1
+            } else if (b.rating > a.rating || (b.rating!=null && a.rating == null)) {
+                return 1
             } else {
                 // console.log("This is tested 0")
                 return 0
             }
+        },
+        sortList: function(){
+            this.listingFiltered = this.listing.sort(this.compare);
+            this.reccomended = false;
         },
         toProfile: function(event) {
             let uid = event.target.getAttribute("id");
