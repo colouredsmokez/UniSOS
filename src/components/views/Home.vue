@@ -10,17 +10,11 @@
                     <div id="firstpart">
                         <h1>{{item.typeOfList}}</h1>
                         <div class="pfp" v-if="item.profilepic">
-                            <!--<button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)"><div class="image-cropper">
-                                <img :src="item.profilepic" alt="profilepic" class="profile-pic">
-                            </div></button>-->
                             <div class="image-cropper">
                                 <img :src="item.profilepic" v-bind:id="item.id" v-on:click="toChat($event)" alt="profilepic" class="profile-pic">
                             </div>
                         </div>
                         <div class="pfp" v-else>
-                            <!--<button class="chat-button" v-bind:id="item.userId" v-on:click="toChat($event)"><div class="image-cropper">
-                                <img src="../../assets/defaultpfp.jpg" alt="profilepic" class="profile-pic">
-                            </div></button>-->
                             <div class="image-cropper">
                                 <img src= "../../assets/defaultpfp.jpg" v-bind:id="item.id" v-on:click="toChat($event)" alt="profilepic" class="profile-pic">
                             </div>
@@ -81,7 +75,7 @@ export default {
         fetchItems:function() {
             db.collection('users').doc(auth.currentUser.uid).get().then(snapshot => {
                 this.modulesTaking = snapshot.data().modules
-                console.log(this.modulesTaking)
+                // console.log(this.modulesTaking)
             });
             var listOfData = new Array();
             db.collection('listing').get().then((querySnapShot) => {
@@ -89,18 +83,13 @@ export default {
                     var listingData = doc.data();
                     db.collection('users').doc(listingData.userId).get().then(snapshot => {
                         var userData = snapshot.data();
-                        // if (modulesTaking.include(listingData.module)) {
-                        //     listingData.weight = 5;
-                        // } else {
-                        //     listingData.weight = 0;
-                        // }
                         listingData.name = userData.name;
                         listingData.email = userData.email;
                         listingData.university = userData.university;
                         listingData.profilepic = userData.profilepic;
                         listingData.bio = userData.bio;
                         listingData.id = doc.id;
-                        console.log(listingData)
+                        // console.log(listingData)
                         this.listing.push(listingData);
                         listOfData.push(listingData)                        
                     },
@@ -110,9 +99,7 @@ export default {
                 },
                 err => {
                     alert(err.message)
-                }).then(
-                    ()=> {}
-                );
+                });
             },
             err => {
                 alert(err.message)
@@ -120,36 +107,36 @@ export default {
             this.listingFiltered = this.listing;
         },
         compare:function(a,b){
-            console.log("testing between")
-            console.log(a)
-            console.log(b)
+            // console.log("testing between")
+            // console.log(a)
+            // console.log(b)
             if (a.userId == this.currentUser && !(b.userId == this.currentUser)) {
                 return 1
             } else if (b.userId == this.currentUser && !(a.userId == this.currentUser)) {
                 return -1
             } else if (this.modulesTaking.includes(a.module) && !(this.modulesTaking.includes(b.module))) {
-                console.log("This is tested 1")
+                // console.log("This is tested 1")
                 return -1
             } else if (this.modulesTaking.includes(b.module) && !(this.modulesTaking.includes(a.module))) {
-                console.log("This is tested 2")
+                // console.log("This is tested 2")
                 return 1
             } else if (a.advertise != null && b.advertise ==null) {
                 return -1 
             } else if (b.advertise != null && a.advertise ==null){
                 return 1
             } else {
-                console.log("This is tested 0")
+                // console.log("This is tested 0")
                 return 0
             }
         },
         toProfile: function(event) {
             let uid = event.target.getAttribute("id");
-            console.log(uid);
+            // console.log(uid);
             this.$router.push({ name:'profile', params:{ uid:uid } });
         },
         toChat: function(event) {
             let id = event.target.getAttribute("id");
-            console.log(id);
+            // console.log(id);
             this.$router.push({ name:'chat', params:{ id:id } });
         },
         buy: function(item) {

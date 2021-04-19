@@ -59,7 +59,7 @@ import { auth } from "../../firebase";
                   () => {
                     db.collection('requests').doc(doc_id).delete().then(
                       () => {
-                        alert(`Account created for ${user.email}`);
+                        alert(`Verification email sent to ${user.email}.`);
                         location.reload();
                       },
                       err => {
