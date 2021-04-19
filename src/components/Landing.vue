@@ -6,7 +6,7 @@
             <!-- Main -->
             <div id="msg">
                 <h1 id="title">Online Uni Resources</h1>
-                <br>
+                
                 <h3 id="emph">Academic guidance can be difficult to come by in University. 
                     <br> <u> We understand. </u>
                 </h3>
@@ -84,7 +84,7 @@ export default {
     min-height: 500px;
 }
 #emph {
-    font-size: 32px;
+    font-size: 28px;
     text-shadow: 2px 2px rgba(47, 79, 79, 0.568);
 }
 #uds {
@@ -105,6 +105,7 @@ export default {
 }*/
 #title {
     color: #fff;
+    font-size: 45px;
     text-shadow: -2px 2px #000000,
                -3px 3px #2196f3,
                -4px 4px #26c6da,
