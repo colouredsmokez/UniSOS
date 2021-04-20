@@ -6,10 +6,10 @@
         <br><br><br><br>      
         <form>
           <i class="fa fa-envelope icon" aria-hidden="true"></i>
-          <input class="input-text" type="text" placeholder="Email" v-model="email" required>
+          <input class="input-text" type="text" placeholder="Email" v-model.trim="email" required>
           <br><br>
           <a class="icon-clickable" @click='showPassword'><i class="fa fa-lock" aria-hidden="true"></i><br><span style="font-size:12px;margin: 0 0 0 -8px">show</span></a>
-          <input class="input-text" :type='type' placeholder="Password" v-model="password" required><br>
+          <input class="input-text" :type='type' placeholder="Password" v-model.trim="password" required><br>
           <div style="height:23vh"></div>
           <br><br>
           <button class="btn" v-on:click="login">Sign In</button>
