@@ -5,7 +5,7 @@
         </div>
         <div id="display">
             <h1>Recommended for you</h1>
-            <button v-show="recommended" class="recbutton" v-on:click="sortList">Get Recomendation</button>
+            <button v-show="recommended" class="recbutton" v-on:click="sortList">Get Recommendation</button>
             <div id="overflow">
                 <ul class="reclist">
                     <li class="reclisting" v-for="item in listingFiltered.slice(0,5)" v-bind:key="item.id" v-on:click="item.show = !item.show">
